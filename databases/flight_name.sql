@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2020 at 06:11 AM
+-- Generation Time: Mar 10, 2020 at 08:10 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `flight` (
   `deptTime` timestamp NOT NULL,
   `arrivalTime` timestamp NOT NULL,
   `basePrice` double NOT NULL,
+  `type` varchar(1) NOT NULL,
   PRIMARY KEY (`flightNo`,`deptTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 COMMIT;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2020 at 06:04 AM
+-- Generation Time: Mar 10, 2020 at 08:10 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -37,24 +37,24 @@ CREATE TABLE IF NOT EXISTS `baggage` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `class`
+--
+
+DROP TABLE IF EXISTS `class`;
+CREATE TABLE IF NOT EXISTS `class` (
+  `class` int(11) NOT NULL,
+  `percentage` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `meal`
 --
 
 DROP TABLE IF EXISTS `meal`;
 CREATE TABLE IF NOT EXISTS `meal` (
   `meal` int(11) NOT NULL,
-  `price` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tier`
---
-
-DROP TABLE IF EXISTS `tier`;
-CREATE TABLE IF NOT EXISTS `tier` (
-  `tier` int(11) NOT NULL,
   `price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 COMMIT;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2020 at 06:04 AM
+-- Generation Time: Mar 10, 2020 at 08:10 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `passenger`;
 CREATE TABLE IF NOT EXISTS `passenger` (
-  `PID` int(11) NOT NULL,
+  `PID` varchar(20) NOT NULL,
   `lastName` varchar(10) NOT NULL,
   `firstName` varchar(30) NOT NULL,
   `email` varchar(30) NOT NULL,
