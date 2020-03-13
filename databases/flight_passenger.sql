@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2020 at 08:10 AM
+-- Generation Time: Mar 13, 2020 at 01:28 PM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -18,9 +18,9 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-drop database if exists flight_passenger;
-create database flight_passenger;
-use flight_passenger;
+drop database if exists flight_pricing;
+create database flight_pricing;
+use flight_pricing;
 --
 -- Database: `flight_passenger`
 --
@@ -34,6 +34,7 @@ use flight_passenger;
 DROP TABLE IF EXISTS `passenger`;
 CREATE TABLE IF NOT EXISTS `passenger` (
   `PID` varchar(20) NOT NULL,
+  `password` varchar(30) NOT NULL,
   `lastName` varchar(10) NOT NULL,
   `firstName` varchar(30) NOT NULL,
   `email` varchar(30) NOT NULL,
