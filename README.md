@@ -9,3 +9,6 @@ recommended way to import database structure:
 	flight_pricing
 	flight_passenger
 	flight_booking
+
+
+	
