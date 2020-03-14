@@ -1,16 +1,8 @@
-'''
-Created by Jia Cheng
-2020/03/14 
-
-Purpose: 
-    - passenger micro service
-'''
-
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from os import environ
-from passlib.hash import sha256_crypt
+from passlib.hash import sha256_crypt, pbkdf2_sha256
 import json,sys,os,datetime
 # Communication patterns:
 # Use HTTP calls to enable interaction
@@ -60,6 +52,8 @@ class Passenger(db.Model):
             "contactNo": self.contactNo
         }
 
+    def get_password(self):
+        return self.password
 
 @app.route("/passenger")
 def get_all():
@@ -94,7 +88,7 @@ def create_passenger(email):
     dateOfBirth = data["dateOfBirth"]
     contactNo = data["contactNo"]
     
-    password_hashed = sha256_crypt.hash(pwd) #if want to verify use pbkdf2_sha256.verify(pwd, password_hashed)
+    password_hashed = sha256_crypt.hash(pwd) 
     passenger = Passenger(email, password_hashed, pid, firstName, lastName, dateOfBirth, contactNo)
 
     try:
@@ -104,6 +98,27 @@ def create_passenger(email):
         return jsonify({"message": "An error occurred creating your account."}), 500
 
     return jsonify(passenger.json()), 201
+
+@app.route("/passenger/login", methods=['POST'])
+def check():
+    data = request.get_json()
+    if data:
+        email = data['email']
+        passenger = Passenger.query.filter_by(email=email).first()
+        if passenger:
+            password_hashed = passenger.get_password()
+            entered_pwd = data['password']
+            if sha256_crypt.verify(entered_pwd, password_hashed):
+                return jsonify({"message": "Login success"}), 200
+            else:
+                return jsonify({"message": "Wrong password"}), 400
+        else:
+            return jsonify({"message": "Wrong username"}), 400
+
+
+
+
+
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
