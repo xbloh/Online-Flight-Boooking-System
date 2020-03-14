@@ -18,6 +18,9 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+drop database if exists flight_name;
+create database flight_name;
+use flight_name;
 --
 -- Database: `flight_name`
 --
