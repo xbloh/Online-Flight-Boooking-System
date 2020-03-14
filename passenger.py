@@ -40,7 +40,10 @@ class Passenger(db.Model):
             "pid": self.pid,
             "firstName": self.firstName,
             "lastName": self.lastName,
-            "email": self.email
+            "email": self.email,
+            "dateOfBirth": self.dateOfBirth,
+            "contactNo": self.contactNo 
+
         }
 
 
