@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 13, 2020 at 01:28 PM
+-- Generation Time: Mar 14, 2020 at 07:50 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -18,9 +18,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-drop database if exists flight_passenger;
-create database flight_passenger;
-use flight_passenger;
 --
 -- Database: `flight_passenger`
 --

@@ -1,13 +1,11 @@
-
 -- phpMyAdmin SQL Dump
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2020 at 08:10 AM
+-- Generation Time: Mar 14, 2020 at 07:49 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
-
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -20,10 +18,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-
-drop database if exists flight_booking;
-create database flight_booking;
-use flight_booking;
 --
 -- Database: `flight_booking`
 --
