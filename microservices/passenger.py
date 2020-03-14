@@ -21,15 +21,17 @@ class Passenger(db.Model):
     __tablename__ = 'passenger'
 
     pid = db.Column(db.String(20), primary_key=True)
+    password = db.Column(db.String(20), nullable=False)
     firstName = db.Column(db.String(10), nullable=False)
     lastName = db.Column(db.String(30), nullable=False)
     email = db.Column(db.String(30), nullable=False)
     dateOfBirth = db.Column(db.String(30), nullable=False)
     contactNo = db.Column(db.Integer)
 
-    def __init__(self, pid, firstName, lastName, email, dateOfBirth, contactNo):
+    def __init__(self, pid, password, firstName, lastName, email, dateOfBirth, contactNo):
         self.pid = pid
         self.firstName = firstName
+        self.password = password
         self.lastName = lastName
         self.email = email
         self.dateOfBirth = dateOfBirth
@@ -42,8 +44,7 @@ class Passenger(db.Model):
             "lastName": self.lastName,
             "email": self.email,
             "dateOfBirth": self.dateOfBirth,
-            "contactNo": self.contactNo 
-
+            "contactNo": self.contactNo
         }
 
 
