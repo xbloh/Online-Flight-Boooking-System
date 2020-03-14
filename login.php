@@ -1,12 +1,12 @@
 <?php
-require_once 'include/common.php';
+// require_once 'include/common.php';
 ?>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
 
-    <title>Welcome to BIOS</title>
+    <title>Welcome to Flight Booking System</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -23,7 +23,7 @@ require_once 'include/common.php';
 
 <body class="text-center">
     <form class="form-signin" action="process.php" method="POST">
-        <img class="mb-4" src="img/merlion_uni_logo.PNG" alt="" width="300" height="200">
+        <!-- <img class="mb-4" src="img/merlion_uni_logo.PNG" alt="" width="300" height="200"> -->
         
         <h1 class="h3 mb-3 font-weight-normal">Login Page</h1>
 
@@ -43,6 +43,9 @@ require_once 'include/common.php';
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <?php
+            //let the button go to welcome page which should call authentication
+        ?>
 
     </form>
 </body>
