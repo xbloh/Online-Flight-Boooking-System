@@ -37,17 +37,19 @@ class Booking(db.Model):
     meal = db.Column(db.Integer)
 
     # (pid, flightNo, departDate, price, class_type, baggage, meal)
-    def __init__(self, pid, flightNo, departDate, price, class_type, baggage, meal):
-        self.pid = pid
-        self.flightNo = flightNo
-        self.departDate = departDate
-        self.price = price
-        self.class_type = class_type
-        self.baggage = baggage
-        self.meal = meal
+    # def __init__(self, refCode, pid, flightNo, departDate, price, class_type, baggage, meal):
+    #     self.refCode = refCode
+    #     self.pid = pid
+    #     self.flightNo = flightNo
+    #     self.departDate = departDate
+    #     self.price = price
+    #     self.class_type = class_type
+    #     self.baggage = baggage
+    #     self.meal = meal
 
     def json(self):
         return {
+            "refCode": self.refCode,
             "pid": self.pid,
             "flightNo": self.flightNo,
             "departDate": self.departDate,
@@ -73,11 +75,51 @@ def get_booking_by_pid(pid):
     all_booking = Booking.query.filter_by(pid=pid).all()
     # Translates to Select... WHERE>... LIMIT 1
     
-    # return jsonify({'jesus': 'take the wheel'})
     if all_booking:
         return jsonify([booking.json() for booking in all_booking])
 
     return jsonify({"message": "Book not found."}), 404
+
+
+@app.route("/booking/create/", methods=['POST'])
+def create_booking():
+    # if (Book.query.filter_by(isbn13=isbn13).first()):
+    #     return jsonify({"message": "A book with isbn13 '{}' already exists.".format(isbn13)}), 400
+    '''
+    SQL Statement:
+    INSERT INTO `flight_booking`.`booking` (`pid`, `flightNo`, `departDate`, `price`, `class_type`, `baggage`, `meal`) VALUES ('pid_0001', '200', '2020-03-15', '128', 'short_economy', '2', '1');
+
+    '''
+    data = request.get_json()
+    # It comes in as a <class 'dict'>
+    # for k, v in data.items():
+    #     print(f'{k} : {v}')
+    # pid : pid_0001
+    # flightNo : 200
+    # departDate : 2020-03-15
+    # price : 128
+    # class_type : short_economy
+    # baggage : 2
+    # meal : 1
+    # print(data)
+    # print(jsonify(data))
+    booking = Booking(
+        pid=data['pid'],
+        flightNo=data['flightNo'],
+        departDate=data['departDate'],
+        price=data['price'],
+        class_type=data['class_type'],
+        baggage=data['baggage'],
+        meal=data['meal']
+    )
+
+    try:
+        db.session.add(booking)
+        db.session.commit()
+    except:
+        return jsonify({"message": "An error occurred creating the book."}), 500
+
+    return jsonify(booking.json()), 201
 
 
 if __name__ == "__main__":
