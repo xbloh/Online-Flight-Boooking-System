@@ -1,3 +1,11 @@
+'''
+Created by Jia Cheng
+2020/03/14 
+
+Purpose: 
+    - passenger micro service
+'''
+
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
