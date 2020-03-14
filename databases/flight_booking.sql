@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 14, 2020 at 07:49 AM
+-- Generation Time: Mar 14, 2020 at 08:47 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -36,13 +36,12 @@ CREATE TABLE IF NOT EXISTS `booking` (
   `refCode` varchar(10) NOT NULL,
   `PID` varchar(20) NOT NULL,
   `flightNo` varchar(8) NOT NULL,
-  `deptTime` timestamp NOT NULL,
   `departDate` date NOT NULL,
   `price` double NOT NULL,
   `class` int(11) NOT NULL,
   `add-on` varchar(50) NOT NULL,
   PRIMARY KEY (`refCode`),
-  KEY `booking_fk2` (`flightNo`,`deptTime`),
+  KEY `booking_fk2` (`flightNo`),
   KEY `booking_fk1` (`PID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -55,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `booking` (
 --
 ALTER TABLE `booking`
   ADD CONSTRAINT `booking_fk1` FOREIGN KEY (`PID`) REFERENCES `flight_passenger`.`passenger` (`PID`),
-  ADD CONSTRAINT `booking_fk2` FOREIGN KEY (`flightNo`,`deptTime`) REFERENCES `flight_name`.`flight` (`flightNo`, `deptTime`);
+  ADD CONSTRAINT `booking_fk2` FOREIGN KEY (`flightNo`) REFERENCES `flight_name`.`flight` (`flightNo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
