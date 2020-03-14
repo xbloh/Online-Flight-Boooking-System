@@ -2,6 +2,10 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from os import environ
+import json,sys,os,datetime
+# Communication patterns:
+# Use HTTP calls to enable interaction
+import requests
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
@@ -61,6 +65,37 @@ def get_all():
     # print([book.json() for book in Book.query.all()])
     return jsonify({"passengers": [passenger.json() for passenger in Passenger.query.all()]})
 
+
+@app.route("/passenger/email/<string:email>")
+def get_passenger_by_email(email):
+    passenger = Passenger.query.filter_by(email=email).first()
+    if passenger:
+        return jsonify(passenger.json())
+    return jsonify({"message": "Passenger not found"}), 404
+
+@app.route("/passenger/<string:pid>")
+def get_passenger_by_pid(pid):
+    passenger = Passenger.query.filter_by(pid=pid).first()
+    if passenger:
+        return jsonify(passenger.json())
+    return jsonify({"message": "Passenger not found"}), 404
+
+# @app.route("/passenger/<string:email>", methods=['POST'])
+# # create_passenger(pid, password, lastName, firstname, email, dob, contactNo)
+# def create_passenger(pid, password, lastName, firstname, email, dob, contactNo):
+#     if(passenger.query.filter_by(email=email).first()):
+#         return jsonify({"message": "A passenger account with '{}' already exists.".format(email)}), 400
+
+#     data = request.get_json()
+#     passenger = passenger(pid, password, lastName, firstname, email, dob, contactNo, data**)
+#                                                                                       # ^ this is everything else
+#     try:
+#         db.session.add(passenger)
+#         db.session.commit() #SQL insert statement
+#     except:
+#         return jsonify({"message": "An error occurred creating your account."}), 500
+
+#     return jsonify(passenger.json()), 201
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
