@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from os import environ
+from passlib.hash import sha256_crypt
 import json,sys,os,datetime
 # Communication patterns:
 # Use HTTP calls to enable interaction
@@ -32,7 +33,7 @@ class Passenger(db.Model):
     dateOfBirth = db.Column(db.String(30), nullable=False)
     contactNo = db.Column(db.Integer)
 
-    def __init__(self, pid, password, firstName, lastName, email, dateOfBirth, contactNo):
+    def __init__(self, email, password, pid, firstName, lastName, dateOfBirth, contactNo):
         self.pid = pid
         self.firstName = firstName
         self.password = password
@@ -54,15 +55,6 @@ class Passenger(db.Model):
 
 @app.route("/passenger")
 def get_all():
-    '''
-    Returns GET
-    # 127.0.0.1 - - [16/Jan/2020 14:27:52] "GET /book HTTP/1.1" 200 -
-    '''
-
-    # print('get all books')
-    # return 'get all books'
-
-    # print([book.json() for book in Book.query.all()])
     return jsonify({"passengers": [passenger.json() for passenger in Passenger.query.all()]})
 
 
@@ -80,22 +72,30 @@ def get_passenger_by_pid(pid):
         return jsonify(passenger.json())
     return jsonify({"message": "Passenger not found"}), 404
 
-# @app.route("/passenger/<string:email>", methods=['POST'])
-# # create_passenger(pid, password, lastName, firstname, email, dob, contactNo)
-# def create_passenger(pid, password, lastName, firstname, email, dob, contactNo):
-#     if(passenger.query.filter_by(email=email).first()):
-#         return jsonify({"message": "A passenger account with '{}' already exists.".format(email)}), 400
+@app.route("/passenger/register/<string:email>", methods=['POST'])
+# create_passenger(pid, password, lastName, firstname, email, dob, contactNo)
+def create_passenger(email):
+    if(Passenger.query.filter_by(email=email).first()):
+        return jsonify({"message": "A passenger account with '{}' already exists.".format(email)}), 400
 
-#     data = request.get_json()
-#     passenger = passenger(pid, password, lastName, firstname, email, dob, contactNo, data**)
-#                                                                                       # ^ this is everything else
-#     try:
-#         db.session.add(passenger)
-#         db.session.commit() #SQL insert statement
-#     except:
-#         return jsonify({"message": "An error occurred creating your account."}), 500
+    data = request.get_json()
+    pwd = data["password"]
+    pid = data["pid"]
+    firstName = data["firstName"]
+    lastName = data["lastName"]
+    dateOfBirth = data["dateOfBirth"]
+    contactNo = data["contactNo"]
+    
+    password_hashed = sha256_crypt.hash(pwd) #if want to verify use pbkdf2_sha256.verify(pwd, password_hashed)
+    passenger = Passenger(email, password_hashed, pid, firstName, lastName, dateOfBirth, contactNo)
 
-#     return jsonify(passenger.json()), 201
+    try:
+        db.session.add(passenger)
+        db.session.commit()
+    except:
+        return jsonify({"message": "An error occurred creating your account."}), 500
+
+    return jsonify(passenger.json()), 201
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
