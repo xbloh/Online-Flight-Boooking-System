@@ -43,8 +43,8 @@ class Flight(db.Model):
             "flightNo" : self.flightNo,
             "departDest" : self.departDest,
             "arrivalDest" : self.arrivalDest,
-            "deptTime" : json.dumps(self.deptTime, default=str),
-            "arrivalTime" : json.dumps(self.arrivalTime, default=str),
+            "deptTime" : str(self.deptTime),
+            "arrivalTime" : str(self.arrivalTime),
             "basePrice" : self.basePrice,
             "type" : self.type
         }
