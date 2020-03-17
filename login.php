@@ -31,7 +31,7 @@
             // Check if there are any errors
             // Display error messages (if any)
             //Is there a session variable 'error'?
-            printErrors();
+            // printErrors();
                 // echo "<p style='color: red'>$msg</p>";
             
         ?>
