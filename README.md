@@ -11,6 +11,6 @@ recommended way to import database structure:
 	flight_booking
 
 
-python libraries for programme to work:
+python libraries required for programme to work:
 	- pip install passlib (password hashing library)
 
