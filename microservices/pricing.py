@@ -37,6 +37,7 @@ class Baggage(db.Model):
             "price": self.price
         }
 
+
 class Class_type(db.Model):
     __tablename__ = 'class_type'
 
@@ -73,87 +74,6 @@ class Meal(db.Model):
         }
 
 
-# Setting up for Communication AMQP Direct
-hostname = "localhost" # default hostname
-port = 5672 # default port
-# connect to the broker and set up a communication channel in the connection
-connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
-    # Note: various network firewalls, filters, gateways (e.g., SMU VPN on wifi), may hinder the connections;
-    # If "pika.exceptions.AMQPConnectionError" happens, may try again after disconnecting the wifi and/or disabling firewalls
-channel = connection.channel()
-# set up the exchange if the exchange doesn't exist
-exchangename="booking_direct"
-channel.exchange_declare(exchange=exchangename, exchange_type='direct')
-
-def receiveBooking():
-    print('receiving  booking')
-    # prepare a queue for receiving messages
-    channelqueue = channel.queue_declare(queue="pricing", durable=True) # 'durable' makes the queue survive broker restarts so that the messages in it survive broker restarts too
-    queue_name = channelqueue.method.queue
-    channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='pricing.booking') # bind the queue to the exchange via the key
-
-    # set up a consumer and start to wait for coming messages
-    channel.basic_qos(prefetch_count=1) # The "Quality of Service" setting makes the broker distribute only one message to a consumer if the consumer is available (i.e., having finished processing and acknowledged all previous messages that it receives)
-    channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True) # 'auto_ack=True' acknowledges the reception of a message to the broker automatically, so that the broker can assume the message is received and processed and remove it from the queue
-    channel.start_consuming() # an implicit loop waiting to receive messages; it doesn't exit by default. Use Ctrl+C in the command window to terminate it.
-
-def callback(channel, method, properties, body): # required signature for the callback; no return
-    print("Received an order by " + __file__)
-    result = processBooking(json.loads(body))
-    # print processing result; not really needed
-    json.dump(result, sys.stdout, default=str) # convert the JSON object to a string and print out on screen
-    print() # print a new line feed to the previous json dump
-    print() # print another new line as a separator
-
-    # prepare the reply message and send it out
-    replymessage = json.dumps(result, default=str) # convert the JSON object to a string
-    replyqueuename="pricing.reply"
-    # A general note about AMQP queues: If a queue or an exchange doesn't exist before a message is sent,
-    # - the broker by default silently drops the message;
-    # - So, if really need a 'durable' message that can survive broker restarts, need to
-    #  + declare the exchange before sending a message, and
-    #  + declare the 'durable' queue and bind it to the exchange before sending a message, and
-    #  + send the message with a persistent mode (delivery_mode=2).
-    channel.queue_declare(queue=replyqueuename, durable=True) # make sure the queue used for "reply_to" is durable for reply messages
-    channel.queue_bind(exchange=exchangename, queue=replyqueuename, routing_key=replyqueuename) # make sure the reply_to queue is bound to the exchange
-    channel.basic_publish(exchange=exchangename,
-            routing_key=properties.reply_to, # use the reply queue set in the request message as the routing key for reply messages
-            body=replymessage, 
-            properties=pika.BasicProperties(delivery_mode = 2, # make message persistent (stored to disk, not just memory) within the matching queues; default is 1 (only store in memory)
-                correlation_id = properties.correlation_id, # use the correlation id set in the request message
-            )
-    )
-    channel.basic_ack(delivery_tag=method.delivery_tag) # acknowledge to the broker that the processing of the request message is completed
-
-def processBooking(booking): 
-
-    # booking now is a json object, turn it into a dictionary:
-    booking_dict = json.loads(booking)
-    print("Processing booking:")
-    print(booking)
-    print(booking_dict)
-
-    meal = booking_dict['meal']
-    baggage = booking_dict['baggage']
-    class_type = booking_dict['class_type']
-
-     #get meal, baggage, class price
-    meal_price = get_meal_price(meal)
-    baggage_price = get_baggage_price(baggage)
-    class_price = get_class_price(class_type)
-
-    #compute total price for add-ons
-    total_addon_price = meal_price + baggage_price 
-
-    channel.queue_declare(queue='pricing', durable=True) # make sure the queue used by the error handler exist and durable
-    channel.queue_bind(exchange=exchangename, queue='pricing', routing_key='pricing.booking') # make sure the queue is bound to the exchange
-    channel.basic_publish(exchange=exchangename, routing_key="pricing.booking", body=total_addon_price,
-        properties=pika.BasicProperties(delivery_mode = 2) # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange)
-    )
-
-# End of communication setting
-
-
 @app.route("/pricing")
 def get_all():
     return jsonify({
@@ -166,27 +86,39 @@ def get_all():
 def get_baggage_price(baggage_id):
     baggage = Baggage.query.filter_by(baggage_id=baggage_id).first()
     if baggage:
-        return jsonify(baggage.json())
+        return {"baggage_price": baggage.price, "status": 200}
     return jsonify({"message": "Couldn't find baggage"}), 404
 
 @app.route("/pricing/meal/<int:meal_id>")
 def get_meal_price(meal_id):
     meal = Meal.query.filter_by(meal_id=meal_id).first()
     if meal:
-        return jsonify(meal.json())
+        return {"meal_price": meal.price, "status": 200}
     return jsonify({"message": "Couldn't find meal"}), 404
 
 @app.route("/pricing/class/<string:class_name>")
-def get_class_price(class_name):
+def get_class_percentage(class_name):
     class_name = Class_type.query.filter_by(class_name=class_name).first()
     if class_name:
-        return jsonify(class_name.json())
+        return {"class_type_percentage": class_name.percentage, "status": 200}
     return jsonify({"message": "Couldn't find class type"}), 404
 
-
+@app.route("/pricing/receive", methods=['POST'])
+def receive_info():
+    details = request.get_json()
+    meal_price = get_meal_price(details['meal_id'])
+    baggage_price = get_baggage_price(details['baggage_id'])
+    class_type_percentage = get_class_percentage(details['class_type'])
+    if meal_price['status'] == 200 and baggage_price['status'] == 200 and class_type_percentage['status'] == 200:
+        result = {"meal_price" : meal_price['meal_price'], "baggage_price" : baggage_price['baggage_price'], "class_type_percentage" : class_type_percentage['class_type_percentage'], "status" : 200}
+    replymessage = json.dumps(result)
+    if result['status'] == 200:
+        return replymessage, 200
+    else:
+        return replymessage, 502
 
 
 
 if __name__ == "__main__":
-    app.run(port=5001, debug=True)
+    app.run(port=5003, debug=True)
     

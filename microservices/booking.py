@@ -1,11 +1,3 @@
-'''
-Created by Jia Cheng
-2020/03/14 
-
-Purpose: 
-    - flight bookings - micro service
-'''
-
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -26,6 +18,12 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 1800}
 db = SQLAlchemy(app)
 CORS(app)
 
+flightURL = 'http://localhost:5001/flight/receive_choice'
+passengerURL = 'http://localhost:5002'
+pricingURL = 'http://localhost:5003/pricing/receive'
+
+# TODO communication between Booking microservice and Booking UI
+# TODO communication between Booking microservice and Paypal API
 
 class Booking(db.Model):
 
@@ -77,11 +75,6 @@ class Booking(db.Model):
 
 @app.route("/booking")
 def get_all():
-    '''
-    Returns GET
-    # 127.0.0.1 - - [16/Jan/2020 14:27:52] "GET /book HTTP/1.1" 200 -
-    '''
-
     return jsonify({"bookings": [booking.json() for booking in Booking.query.all()]})
 
 
@@ -96,42 +89,42 @@ def get_booking_by_pid(pid):
     return jsonify({"message": "Book not found."}), 404
 
 
-@app.route("/booking/create/", methods=['POST'])
+@app.route("/booking/create", methods=['POST'])
 def create_booking():
-    # if (Book.query.filter_by(isbn13=isbn13).first()):
-    #     return jsonify({"message": "A book with isbn13 '{}' already exists.".format(isbn13)}), 400
-    '''
-    SQL Statement:
-    INSERT INTO `flight_booking`.`booking` (`pid`, `flightNo`, `departDate`, `price`, `class_type`, `baggage`, `meal`) VALUES ('pid_0001', '200', '2020-03-15', '128', 'short_economy', '2', '1');
-
-    '''
     data = request.get_json()
-    # It comes in as a <class 'dict'>
-    # for k, v in data.items():
-    #     print(f'{k} : {v}')
-    # pid : pid_0001
-    # flightNo : 200
-    # departDate : 2020-03-15
-    # price : 128
-    # class_type : short_economy
-    # baggage : 2
-    # meal : 1
-    # print(data)
-    # print(jsonify(data))
+    
+    pid = data['pid']
+    flightNo = data['flightNo']
+    departDate = data['departDate']
+    class_type = data['class_type']
+    baggage = data['baggage']
+    meal = data['meal']
+
+    base_price = choose_flight(flightNo)['basePrice']
+
+    add_on_price = get_price(meal, baggage, class_type)
+    meal_price = add_on_price['meal_price']
+    baggage_price = add_on_price['baggage_price']
+    class_type_percentage = add_on_price['class_type_percentage']
+
+    total_price = (base_price + meal_price + baggage_price) * class_type_percentage
+
     booking = Booking(
-        pid=data['pid'],
-        flightNo=data['flightNo'],
-        departDate=data['departDate'],
-        price=data['price'],
-        class_type=data['class_type'],
-        baggage=data['baggage'],
-        meal=data['meal']
+        pid = data['pid'],
+        flightNo = data['flightNo'],
+        departDate = data['departDate'],
+        price = total_price,
+        class_type = data['class_type'],
+        baggage = data['baggage'],
+        meal = data['meal']
     )
 
     try:
         db.session.add(booking)
         db.session.commit()
+        print('a')
     except:
+        print('a2')
         return jsonify({"message": "An error occurred creating the book."}), 500
 
     return jsonify(booking.json()), 201
@@ -139,64 +132,33 @@ def create_booking():
 
 @app.route("/booking/send/<string:pid>")
 def send_booking(pid):
-    booking = get_booking_by_pid(pid)
-    print('send booking')
-    print(booking)
-    # default username / password to the borker are both 'guest'
-    hostname = "localhost" # default broker hostname. Web management interface default at http://localhost:15672
-    port = 5672 # default messaging port.
-    # connect to the broker and set up a communication channel in the connection
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
-        # Note: various network firewalls, filters, gateways (e.g., SMU VPN on wifi), may hinder the connections;
-        # If "pika.exceptions.AMQPConnectionError" happens, may try again after disconnecting the wifi and/or disabling firewalls
-    channel = connection.channel()
-
-    # set up the exchange if the exchange doesn't exist
-    exchangename="booking_direct"
-    channel.exchange_declare(exchange=exchangename, exchange_type='direct')
-
-    # prepare the message body content
-    message = json.dumps(booking, default=str) # convert a JSON object to a string
-
-    # send the message
-    # always inform Monitoring for logging no matter if successful or not
-    # channel.basic_publish(exchange=exchangename, routing_key="shipping.info", body=message)
-        # By default, the message is "transient" within the broker;
-        #  i.e., if the monitoring is offline or the broker cannot match the routing key for the message, the message is lost.
-        # If need durability of a message, need to declare the queue in the sender (see sample code below).
-
-    # if "status" in order: # if some error happened in order creation
-    #     # inform Error handler
-    #     channel.queue_declare(queue='errorhandler', durable=True) # make sure the queue used by the error handler exist and durable
-    #     channel.queue_bind(exchange=exchangename, queue='errorhandler', routing_key='shipping.error') # make sure the queue is bound to the exchange
-    #     channel.basic_publish(exchange=exchangename, routing_key="shipping.error", body=message,
-    #         properties=pika.BasicProperties(delivery_mode = 2) # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange)
-    #     )
-    #     print("Order status ({:d}) sent to error handler.".format(order["status"]))
-    # else: # inform Shipping and exit, leaving it to order_reply to handle replies
-    #     # Prepare the correlation id and reply_to queue and do some record keeping
-    #     corrid = str(uuid.uuid4())
-    #     row = {"order_id": order["order_id"], "correlation_id": corrid}
-    #     csvheaders = ["order_id", "correlation_id", "status"]
-    #     with open("corrids.csv", "a+", newline='') as corrid_file: # 'with' statement in python auto-closes the file when the block of code finishes, even if some exception happens in the middle
-    #         csvwriter = csv.DictWriter(corrid_file, csvheaders)
-    #         csvwriter.writerow(row)
-    #     replyqueuename = "shipping.reply"
-    #     # prepare the channel and send a message to Shipping
-    # channel.queue_declare(queue='pricing', durable=True) # make sure the queue used by Shipping exist and durable
-    # channel.queue_bind(exchange=exchangename, queue='pricing', routing_key='pricing.booking') # make sure the queue is bound to the exchange
-    # channel.basic_publish(exchange=exchangename, routing_key="pricing.booking", body=message,
-    #     properties=pika.BasicProperties(delivery_mode = 2, # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange, which are ensured by the previous two api calls)
-    #         # reply_to=replyqueuename, # set the reply queue which will be used as the routing key for reply messages
-    #         # correlation_id=corrid # set the correlation id for easier matching of replies
-    #     )
-    # )
-    # # print("Order sent to shipping.")
-    # # close the connection to the broker
-    # connection.close()
-    # print('close')
+    return
 
 
+def get_flight_detail(departDest, arrivalDest):
+    details = json.loads(json.dumps({"departDest" : departDest, "arrivalDest" : arrivalDest}, default = str))
+    r = requests.post(flightURL, json = details)
+    result = json.loads(r.text)
+    if result['status'] == 200:
+        print(result['flight'])
+        return result['flight']
+
+def choose_flight(flightNo):
+    details = json.loads(json.dumps({"flightNo" : flightNo}, default = str))
+    r = requests.post(flightURL, json = details)
+    result = json.loads(r.text)
+    if result['status'] == 200:
+        print(result['flight'])
+        return result['flight']
+    
+
+def get_price(meal_id, baggage_id, class_type):
+    details = json.loads(json.dumps({"meal_id" : meal_id, "baggage_id" : baggage_id, "class_type" : class_type}, default = str))
+    r = requests.post(pricingURL, json = details)
+    result = json.loads(r.text)
+    if result['status'] == 200:
+        print(result)
+        return result
 
 '''
 
@@ -214,7 +176,9 @@ def get_booking_by_refCode(refCode):
     return jsonify({"message": "Passenger not found"}), 404
 
 # create content (boarding pass details) to be sent to email
-def create_booking():
+# TODO i change function name here, please update your code accordingly 
+# so that it's not hardcoded like this
+def create_booking_for_notification():
 
     # call passenger microservice api to get passenger details 
     passenger_url = 'http://127.0.0.1:5002/passenger/pid_0004'
@@ -276,6 +240,6 @@ def send_booking(booking):
     connection.close()
 
 if __name__ == "__main__":
-    booking = create_booking()
-    send_booking(booking)
+    # booking = create_booking()
+    # send_booking(booking)
     app.run(port=5000, debug=True)
