@@ -19,9 +19,9 @@ channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
 def receive_booking():
     # prepare a queue for receiving messages
-    channelqueue = channel.queue_declare(queue="notification", durable=True) # 'durable' makes the queue survive broker restarts so that the messages in it survive broker restarts too
+    channelqueue = channel.queue_declare(queue="notification", durable=True) 
     queue_name = channelqueue.method.queue
-    channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='notification.booking') # bind the queue to the exchange via the key
+    channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='notification.booking')
 
     # set up a consumer and start to wait for coming messages
     channel.basic_qos(prefetch_count=1) # The "Quality of Service" setting makes the broker distribute only one message to a consumer if the consumer is available (i.e., having finished processing and acknowledged all previous messages that it receives)

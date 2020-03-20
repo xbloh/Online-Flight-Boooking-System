@@ -70,6 +70,7 @@ def get_flight_by_dept_arr(departDest, arrivalDest):
         return {"flight": [flight.json() for flight in flights]}
     return jsonify({"message": "Flight not found."}), 404
 
+# get flight details by flight number
 @app.route("/flight/<string:flightNo>")
 def get_flight_by_flight_no(flightNo):
     flight = Flight.query.filter_by(flightNo=flightNo).first()

@@ -205,6 +205,7 @@ COMMUNICATION TECHNOLOGIES AMQP
 
 '''
 
+# get booking details by booking reference code
 @app.route("/booking/<int:refCode>")
 def get_booking_by_refCode(refCode):
     booking = Booking.query.filter_by(refCode=refCode).first()
@@ -214,7 +215,7 @@ def get_booking_by_refCode(refCode):
 
 # create content (boarding pass details) to be sent to email
 def create_booking():
-    
+
     # call passenger microservice api to get passenger details 
     passenger_url = 'http://127.0.0.1:5002/passenger/pid_0004'
     passenger = requests.get(passenger_url).json()
@@ -246,7 +247,7 @@ def create_booking():
     return booking
 
 
-# send Booking to Notification
+# send Booking to Notification through AMQP
 def send_booking(booking):
     """send booking, flight and passenger details to Notification """
     hostname = "localhost"
@@ -264,13 +265,13 @@ def send_booking(booking):
 
     # send message to Notifications
     # prepare the channel and send a message to Notifications
-    channel.queue_declare(queue='notification', durable=True) # make sure the queue used by Shipping exist and durable
-    channel.queue_bind(exchange=exchangename, queue='notification', routing_key='notification.booking') # make sure the queue is bound to the exchange
+    channel.queue_declare(queue='notification', durable=True)
+    # make sure the queue is bound to the exchange
+    channel.queue_bind(exchange=exchangename, queue='notification', routing_key='notification.booking')
     channel.basic_publish(exchange=exchangename, routing_key="notification.booking", body=message,
-        properties=pika.BasicProperties(delivery_mode = 2, # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange, which are ensured by the previous two api calls)
+        properties=pika.BasicProperties(delivery_mode = 2, 
         )
     )
-        # print("Order sent to shipping.")
     # close the connection to the broker
     connection.close()
 
