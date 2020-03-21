@@ -51,8 +51,8 @@ def send_email(booking):
         },
         "To": [
             {
-            # "Email": email,
-            "Email": 'ingsin.bak.2017@sis.smu.edu.sg',
+            "Email": email,
+            # "Email": 'ingsin.bak.2017@sis.smu.edu.sg',
             "Name": name
             }
         ],
