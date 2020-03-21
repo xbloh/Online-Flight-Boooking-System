@@ -36,8 +36,8 @@
             
         ?>
         
-        <label for="inputEmail" class="sr-only">Username</label>
-        <input type = 'text' name = 'userid' id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputEmail" class="sr-only">Email</label>
+        <input type = 'text' name = 'email' id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>

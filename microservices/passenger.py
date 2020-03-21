@@ -74,6 +74,15 @@ def get_passenger_by_pid(pid):
         return jsonify(passenger.json())
     return jsonify({"message": "Passenger not found"}), 404
 
+def get_pid_by_email(email):
+    passenger = Passenger.query.filter_by(email=email).first()
+    pid = passenger["pid"]
+    if pid:
+        #store
+        return jsonify(pid.json())
+    return jsonify({"message": "Email not registered. Please create an account!"}), 404
+    
+
 @app.route("/passenger/register/<string:email>", methods=['POST'])
 # create_passenger(pid, password, lastName, firstname, email, dob, contactNo)
 def create_passenger(email):
