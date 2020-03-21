@@ -178,10 +178,10 @@ def get_booking_by_refCode(refCode):
 # create content (boarding pass details) to be sent to email
 # TODO i change function name here, please update your code accordingly 
 # so that it's not hardcoded like this
-def create_booking_for_notification():
-
+def create_booking_for_notification(pid):
+    
     # call passenger microservice api to get passenger details 
-    passenger_url = 'http://127.0.0.1:5002/passenger/pid_0004'
+    passenger_url = 'http://127.0.0.1:5002/passenger/' + pid
     passenger = requests.get(passenger_url).json()
     json_dump = json.dumps(passenger)
     passenger_data = json.loads(json_dump)
@@ -189,23 +189,21 @@ def create_booking_for_notification():
     last_name = passenger_data['lastName']
     email = passenger_data['email']
 
-    # call flight microservice api to get flight details 
-    flight_url = 'http://127.0.0.1:5001/flight/200'
-    flight = requests.get(flight_url).json()
-    json_dump = json.dumps(flight)
-    flight_data = json.loads(json_dump)
-    arrival_dest  = flight_data['arrivalDest']
-    dept_dest  = flight_data['departDest']
-    dept_time = flight_data['deptTime']
-    flight_no = flight_data['flightNo']
+    # get latest booking in Booking database
+    latest_booking = Booking.query.order_by(Booking.refCode.desc()).first()
+    refCode = latest_booking.refCode
+    flightNo = latest_booking.flightNo
+    departDate = latest_booking.departDate
+    class_type = latest_booking.class_type
 
     booking = {
         'first name': first_name,
+        'refCode': refCode,
+        'class_type':class_type,
+        'first name': first_name,
         'last name': last_name,
-        'flight no': flight_no,
-        "depart time": dept_time,
-        'depart destination': dept_dest ,
-        'arrival destination':arrival_dest,
+        'flight no': flightNo,
+        "depart time": departDate,
         'email': email
     }
     return booking
@@ -240,6 +238,7 @@ def send_booking(booking):
     connection.close()
 
 if __name__ == "__main__":
-    # booking = create_booking()
-    # send_booking(booking)
+    # this part i still hardcoded bc need to get passenger id when logged in from frontend but frontend not up yet
+    booking = create_booking_for_notification('pid_0004')
+    send_booking(booking)
     app.run(port=5000, debug=True)
