@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Adventure - Free Bootstrap 4 Template by Colorlib</title>
+    <title>My Bookings</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -31,18 +31,19 @@
     
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="index.html">Adventure</a>
+	      <a class="navbar-brand" href="index.html">Fly Like T6</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+	          
 	          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-	          <li class="nav-item"><a href="places.html" class="nav-link">My Bookings</a></li>
-	          <li class="nav-item"><a href="hotel.html" class="nav-link">Online Check In</a></li>
-	          <li class="nav-item"><a href="blog.html" class="nav-link">My Boarding Pass</a></li>
+			  <li class="nav-item"><a href="index.html" class="nav-link">Search Flights</a></li>
+	          <li class="nav-item"><a href="manage booking.html" class="nav-link">My Bookings</a></li>
+			  <li class="nav-item"><a href="logout.html" class="nav-link">Logout</a></li>
+	        
 	        </ul>
 	      </div>
 	    </div>
@@ -54,91 +55,98 @@
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
           <div class="col-md-9 ftco-animate mb-5 pb-5 text-center text-md-left" data-scrollax=" properties: { translateY: '70%' }">
-            <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Above All, <br> We Care</h1>
-            <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Search and book flights to travel around the world</p>
+            <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">My Bookings</h1>
+            <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Manage your bookings & Check in!</p>
           </div>
         </div>
       </div>
     </div>
 
-    <section class="ftco-section justify-content-end ftco-search">
-    	<div class="container-wrap ml-auto">
-    		<div class="row no-gutters">
-          <div class="col-md-12 nav-link-wrap">
-            <div class="nav nav-pills justify-content-center text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Book Now</a>
+    <section class="ftco-section ftco-cart">
+			<div class="container">
+				<div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div class="cart-list">
+	    				<table class="table">
+						    <thead class="thead-primary">
+						      <tr class="text-center">
+						        <th>Flight</th>
+                                <!--
+                                    <th>Departure Date</th>
+                                    <th>Return Date</th>
+                                -->
+						        <th>Price</th>
+						        <!-- <th>Quantity</th> -->
+								<th>Total</th>
+								<th>&nbsp;</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+						      <tr class="text-center">
+						        <!-- <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+						        
+						        <td class="image-prod"><div class="img" style="background-image:url(images/product-3.jpg);"></div></td>
+								 -->
+								 <td class="product-name">
+						        	<h3>Singapore to Japan · SQ240</h3>
+									<p>Dept. Date: 16 Apr 2020 <br>
+									Arr. Date: 17 Apr 2020</p>
+						        </td>
+								 
+						        
+						        <td class="price">
+									Flight Ticket: $2567.50 <br>
+									20kg Baggage: $200 <br>
+									Japanese Cuisine: $20.29 <br>
 
-            </div>
-          </div>
-          <div class="col-md-12 tab-wrap">
-            
-            <div class="tab-content p-4 px-5" id="v-pills-tabContent">
+								</td>
+						        
+						        <!-- <td class="quantity">
+						        	<div class="input-group mb-3">
+					             	<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
+					          	</div> -->
+					          </td>
+						        
+								<td class="total">$4.90</td>
+								<td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>delete</i> &nbsp;&nbsp;&nbsp;
+									<i class='material-icons' onclick='deleteRow(" + rowID + ")'>edit</i> </td>
+						      </tr><!-- END TR-->
 
-              <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-              	<form action="hotel-single.html" class="search-destination" method='POST'>
-              		<div class="row">
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">From</label>
-	              				<div class="form-field">
-	              					<div class="icon"><span class="icon-my_location"></span></div>
-					                <input type="text" class="form-control" placeholder="From">
-					              </div>
-				              </div>
-              			</div>
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">Where</label>
-              					<div class="form-field">
-	              					<div class="icon"><span class="icon-map-marker"></span></div>
-					                <input type="text" class="form-control" placeholder="Where">
-					              </div>
-				              </div>
-              			</div>
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">Dept. Date</label>
-              					<div class="form-field">
-	              					<div class="icon"><span class="icon-map-marker"></span></div>
-					                <input type="date" class="form-control checkin_date" placeholder="Check In">
-					              </div>
-				              </div>
-              			</div>
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">Arr. Date</label>
-              					<div class="form-field">
-	              					<div class="icon"><span class="icon-map-marker"></span></div>
-					                <input type=date class="form-control checkout_date" placeholder="From">
-					              </div>
-				              </div>
-              			</div>
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">Class</label>
-              					<div class="form-field">
-	              					<div class="select-wrap">
-			                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-			                      <select name="" id="" class="form-control">
-			                      	<option value="">Economy</option>
-			                        <option value="">Premium Economy</option>
-			                        <option value="">Business</option>
-			                        <option value="">First Class</option>
-			                      </select>
-			                    </div>
-					              </div>
-				              </div>
-              			</div>
-              			<div class="col-md align-self-end">
-              				<div class="form-group">
-              					<div class="form-field">
-					                <input type="submit" value="Search" class="form-control btn btn-primary">
-					              </div>
-				              </div>
-              			</div>
-              		</div>
-              	</form>
-              </div>
+						      <tr class="text-center">
+						        <!-- <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+						        
+						        <td class="image-prod"><div class="img" style="background-image:url(images/product-4.jpg);"></div></td>
+						         -->
+								 <td class="product-name">
+									<h3>Japan to Singapore · SQ240</h3>
+									<p>Dept. Date: 20 Apr 2020 <br>
+									Arr. Date: 21 Apr 2020</p>
+								</td>
+						        
+						        <td class="price">
+									Flight Ticket: $2567.50 <br>
+									20kg Baggage: $200 <br>
+									Japanese Cuisine: $20.29 <br>
+	
+								</td>
+						        
+						        <!-- <td class="quantity">
+						        	<div class="input-group mb-3">
+					             	<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
+					          	</div>
+					          </td> -->
+						        
+								<td class="total">$15.70</td>
+								
+								<td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>delete</i> &nbsp;&nbsp;&nbsp;
+									<i class='material-icons' onclick='deleteRow(" + rowID + ")'>edit</i> </td>
+						      </tr><!-- END TR-->
+						    </tbody>
+						  </table>
+					  </div>
+    			</div>
+    		</div>
+    	
 
               <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
               	<form action="#" class="search-destination">
