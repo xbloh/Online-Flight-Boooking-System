@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<head>
+    <!-- Add meta tags for mobile and IE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+
+<body>
+    <!-- Set up a container element for the button -->
+    <div id="paypal-button-container"></div>
+
+    <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AfdIsAzYVP3EzeS6PWGIlAobdqrBDR3sgibqvOW1L8hyx54GLvxRQ7uMujWJKraqRO8L1Wrxp1_HtFEx&currency=SGD"></script>
+
+    <script>
+        var statusURL = 'http://localhost:5000/booking/status/'
+        
+
+        function showError(message) {
+            alert(message)
+        }
+        // async function send_status(statusURL) {
+
+        //     try {
+        //         const response =
+        //             await fetch(
+        //                 statusURL, { method: 'GET' }
+        //             );
+        //         const data = await response.json();
+                
+        //         if (response.ok) {
+        //             if (data['status'] == 'yes') {
+        //                 window.location.replace('http://www.google.com/');
+        //             }
+        //             if (data['status'] == 'no') {
+        //                 window.location.replace('http://www.youtube.com/');
+        //             }
+        //         }
+        //     }
+        //     catch (error) {
+        //         showError(error);
+        //     }
+        // }
+
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: SESSION
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                send_status(statusURL + "yes")
+            },
+
+            onCancel: function (data) {
+                send_status(statusURL + "no")
+            }
+
+        }).render('#paypal-button-container');
+    </script>
+</body>
+    
+    
