@@ -70,12 +70,15 @@
 				<div class="container-contact100-form-btn">
 					<div class="wrap-contact100-form-btn">
 						<div class="contact100-form-bgbtn"></div>
-						<button class="contact100-form-btn">
-							<span>
-								Submit
-								<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
-							</span>
-						</button>
+						<form id="login_form"> 
+						<input class="contact100-form-btn" type="submit" value="login">
+							<!-- <button class="contact100-form-btn">
+								<span>
+									Submit
+									<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+								</span>
+							</button>   -->
+						</form>
 					</div>
 				</div>
 			</form>
@@ -119,5 +122,44 @@
   gtag('config', 'UA-23581568-13');
 </script>
 
+<script>
+    // Helper function to display error message
+    function showError(message) {
+        // Hide the table and button in the event of error
+        $('#booksTable').hide();
+        $('#addBookBtn').hide();
+
+        // Display an error under the main container
+        $('#main-container')
+            .append("<label>" + message + "</label>");
+    }
+
+    // anonymous async function
+    // - using await requires the function that calls it to be async
+    $(async () => {
+        // Change serviceURL to your own
+        var serviceURL = "http://127.0.0.1:5000/passenger/login";
+
+        try {
+            const response =
+                await fetch(
+                    serviceURL, {method: 'POST'}
+                );
+            const data = await response.json();
+            // var passenger = data.books; //the arr is in data.books of the JSON data
+
+            console.log(data);
+
+        } catch (error) {
+            // Errors when calling the service; such as network error,
+            // service offline, etc
+            showError
+            ('There is a problem retrieving books data, please try again later.<br />' + error);
+
+        } // error
+    });
+</script>
+
 </body>
+
 </html>
