@@ -40,10 +40,12 @@
 	        <ul class="navbar-nav ml-auto">
 	          
 	          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-			  <li class="nav-item"><a href="index.html" class="nav-link">Search Flights</a></li>
+			  <li class="nav-item"><a href="search_flights.html" class="nav-link">Search Flights</a></li>
 	          <li class="nav-item"><a href="manage_booking.html" class="nav-link">My Bookings</a></li>
-			  <li class="nav-item"><a href="logout.html" class="nav-link">Logout</a></li>
-	        
+			  <li class="nav-item"><a href="login/login.html" class="nav-link">Login</a></li>
+			  <li class="nav-item"><a href="login/create_account.html" class="nav-link">Login</a></li>
+
+	          
 	        </ul>
 	      </div>
 	    </div>
@@ -76,7 +78,7 @@
             <div class="tab-content p-4 px-5" id="v-pills-tabContent">
 
               <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-              	<form action="hotel-single.html" class="search-destination" method='POST'>
+              	<form action="flight_search_results.html" class="search-destination" method='POST'>
               		<div class="row">
               			<div class="col-md align-items-end">
               				<div class="form-group">
@@ -89,16 +91,16 @@
               			</div>
               			<div class="col-md align-items-end">
               				<div class="form-group">
-              					<label for="#">Where</label>
+              					<label for="#">To</label>
               					<div class="form-field">
 	              					<div class="icon"><span class="icon-map-marker"></span></div>
-					                <input type="text" class="form-control" placeholder="Where">
+					                <input type="text" class="form-control" placeholder="To">
 					              </div>
 				              </div>
               			</div>
               			<div class="col-md align-items-end">
               				<div class="form-group">
-              					<label for="#">Dept. Date</label>
+              					<label for="#">Deptarture Date</label>
               					<div class="form-field">
 	              					<div class="icon"><span class="icon-map-marker"></span></div>
 					                <input type="date" class="form-control checkin_date" placeholder="Check In">
@@ -107,7 +109,7 @@
               			</div>
               			<div class="col-md align-items-end">
               				<div class="form-group">
-              					<label for="#">Arr. Date</label>
+              					<label for="#">Arrival Date</label>
               					<div class="form-field">
 	              					<div class="icon"><span class="icon-map-marker"></span></div>
 					                <input type=date class="form-control checkout_date" placeholder="From">
@@ -122,7 +124,6 @@
 			                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
 			                      <select name="" id="" class="form-control">
 			                      	<option value="">Economy</option>
-			                        <option value="">Premium Economy</option>
 			                        <option value="">Business</option>
 			                        <option value="">First Class</option>
 			                      </select>
