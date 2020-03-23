@@ -99,6 +99,7 @@ def create_passenger(email):
     
     password_hashed = sha256_crypt.hash(pwd) 
     passenger = Passenger(email, password_hashed, pid, firstName, lastName, dateOfBirth, contactNo)
+    # passenger = Passenger(email, password_hashed, firstName, lastName, dateOfBirth, contactNo)
 
     try:
         db.session.add(passenger)
