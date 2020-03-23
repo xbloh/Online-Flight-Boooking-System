@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html>
 <head>
     <!-- Add meta tags for mobile and IE -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,34 +14,35 @@
     <script src="https://www.paypal.com/sdk/js?client-id=AfdIsAzYVP3EzeS6PWGIlAobdqrBDR3sgibqvOW1L8hyx54GLvxRQ7uMujWJKraqRO8L1Wrxp1_HtFEx&currency=SGD"></script>
 
     <script>
-        var statusURL = 'http://localhost:5000/booking/status/'
-        
+        var statusURL = 'http://localhost:5004/billing/status/'
+        var price = {{ price }}
+        var refCode = {{refCode}}
 
         function showError(message) {
             alert(message)
         }
-        // async function send_status(statusURL) {
+        async function send_status(statusURL) {
 
-        //     try {
-        //         const response =
-        //             await fetch(
-        //                 statusURL, { method: 'GET' }
-        //             );
-        //         const data = await response.json();
+            try {
+                const response =
+                    await fetch(
+                        statusURL, { method: 'GET' }
+                    );
+                const data = await response.json();
                 
-        //         if (response.ok) {
-        //             if (data['status'] == 'yes') {
-        //                 window.location.replace('http://www.google.com/');
-        //             }
-        //             if (data['status'] == 'no') {
-        //                 window.location.replace('http://www.youtube.com/');
-        //             }
-        //         }
-        //     }
-        //     catch (error) {
-        //         showError(error);
-        //     }
-        // }
+                if (response.ok) {
+                    if (data['status'] == 'yes') {
+                        window.location.replace('http://www.google.com/');
+                    }
+                    if (data['status'] == 'no') {
+                        window.location.replace('http://www.youtube.com/');
+                    }
+                }
+            }
+            catch (error) {
+                showError(error);
+            }
+        }
 
         // Render the PayPal button into #paypal-button-container
         paypal.Buttons({
@@ -51,7 +52,7 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: SESSION
+                            value: {{price}}
                         }
                     }]
                 });
@@ -59,15 +60,15 @@
 
             // Finalize the transaction
             onApprove: function(data, actions) {
-                send_status(statusURL + "yes")
+                send_status(statusURL + "yes/" + refCode)
             },
 
             onCancel: function (data) {
-                send_status(statusURL + "no")
+                send_status(statusURL + "no/" + refCode)
             }
 
         }).render('#paypal-button-container');
     </script>
 </body>
     
-    
+</html>   
