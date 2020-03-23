@@ -21,7 +21,7 @@ CORS(app)
 flightURL = 'http://localhost:5001/flight/receive_choice'
 passengerURL = 'http://localhost:5002'
 pricingURL = 'http://localhost:5003/pricing/receive'
-paypalURL = ''
+billingURL = 'http://localhost:5004/billing'
 
 # TODO communication between Booking microservice and Booking UI
 # TODO communication between Booking microservice and Paypal API
@@ -160,25 +160,40 @@ def get_price(meal_id, baggage_id, class_type):
         print(result)
         return result
 
-@app.route('/booking/status/<string:stt>/<int:refCode>')
-def receive_status(stt, refCode):
-#    <body onload="myFunction()">
+# @app.route('/booking/status/<string:stt>/<int:refCode>')
+# def receive_status(stt, refCode):
+# #    <body onload="myFunction()">
 
-# <h1>Hello World!</h1>
+# # <h1>Hello World!</h1>
 
-# <script>
-# function myFunction() {
-#   alert("Page is loaded");
-# }
-# </script>
-    if stt == 'no': # payment not success -> delete booking from db
+# # <script>
+# # function myFunction() {
+# #   alert("Page is loaded");
+# # }
+# # </script>
+#     if stt == 'no': # payment not success -> delete booking from db
+#         Booking.query.filter_by(refCode = refCode).delete()
+
+#     return {"status": stt, "refCode": refCode}
+
+@app.route("/booking/confirm/<string:price>/<string:refCode>", methods=['GET'])
+def booking_confirm(price, refCode):
+    send_price = json.loads(json.dumps({"price" : price, "refCode":refCode} , default = str))
+    r = requests.post(billingURL, json = send_price)
+    return r.text
+ 
+
+@app.route("/booking/status", methods=['POST'])
+def get_status():
+    data = request.get_json()
+    status = data['status']
+    refCode = data['refCode']
+    if status == "no":
         Booking.query.filter_by(refCode = refCode).delete()
+    return status, refCode
 
-    return {"status": stt, "refCode": refCode}
 
-@app.route()
-def send_paypal(total_price):
-    return total_price
+
 '''
 
 BOOKING TO NOTIFICATION
