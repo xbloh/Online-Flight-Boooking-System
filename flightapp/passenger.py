@@ -74,12 +74,13 @@ def get_passenger_by_pid(pid):
         return jsonify(passenger.json())
     return jsonify({"message": "Passenger not found"}), 404
 
+@app.route("/getpassengerpid/<string:email>")
 def get_pid_by_email(email):
     passenger = Passenger.query.filter_by(email=email).first()
-    pid = passenger["pid"]
+    pid = passenger.pid
     if pid:
         #store
-        return jsonify(pid.json())
+        return jsonify(pid)
     return jsonify({"message": "Email not registered. Please create an account!"}), 404
     
 
@@ -99,6 +100,7 @@ def create_passenger(email):
     
     password_hashed = sha256_crypt.hash(pwd) 
     passenger = Passenger(email, password_hashed, pid, firstName, lastName, dateOfBirth, contactNo)
+    # passenger = Passenger(email, password_hashed, firstName, lastName, dateOfBirth, contactNo)
 
     try:
         db.session.add(passenger)

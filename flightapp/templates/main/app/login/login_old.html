@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!--===============================================================================================-->
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Fly Like T6</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="search_flights.html" class="nav-link">Search Flights</a></li>
+                    <li class="nav-item"><a href="manage booking.html" class="nav-link">My Bookings</a></li>
+                    <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+                    <li class="nav-item"><a href="create_account.html" class="nav-link">Create Account</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container-contact100">
+        <div class="wrap-contact100">
+            <form class="contact100-form validate-form">
+                <span class="contact100-form-title">
+                    Login
+                </span>
+
+                
+
+                <div class="container-contact100-form-btn">
+                    <div class="wrap-contact100-form-btn">
+                        <div class="contact100-form-bgbtn"></div>
+                        <!-- <form id="login_form"> -->
+                            <!-- <button class="contact100-form-btn">
+								<span>
+									Submit
+									<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+								</span>
+                            </button>   -->
+                            
+                            <!-- <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                                <span class="label-input100">Email</span>
+                                <input class="input100" type="text" name="email" id="email">
+                                <span class="focus-input100"></span>
+                            </div>
+            
+                            <div class="wrap-input100 validate-input" data-validate="Password is required">
+                                <span class="label-input100">Password</span>
+                                <input class="input100" type="password" name="password" id="password">
+                                <span class="focus-input100"></span>
+                            </div>
+
+                            <input class="contact100-form-btn" type="submit" value="login"> -->
+
+                            <div class="form-group">
+                                <label for="email">email</label>
+                                <input type="text" class="form-control" id="email" aria-describedby="emailHelp"
+                                    >
+                            </div>
+        
+                    
+                            <div class="form-group">
+                                <label for="password">password</label><br />
+                                <input type="text" class="form-control" id="password" >
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                        </form>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <div id="dropDownSelect1"></div>
+</body>
+
+    <!--===============================================================================================-->
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/select2/select2.min.js"></script>
+    <script>
+        $(".selection-2").select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $('#dropDownSelect1')
+        });
+    </script>
+    <!--===============================================================================================-->
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="vendor/daterangepicker/daterangepicker.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="js/main.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+    </script>
+
+    <script>
+        // Helper function to display error message
+        // function showError(message) {
+        //     // Hide the table and button in the event of error
+        //     $('#booksTable').hide();
+        //     $('#addBookBtn').hide();
+
+        //     // Display an error under the main container
+        //     $('#main-container')
+        //         .append("<label>" + message + "</label>");
+        // }
+
+        // anonymous async function
+        // - using await requires the function that calls it to be async
+        $("#login_form").submit(async (event) => {
+            event.preventDefault();
+
+            // Change serviceURL to your own
+
+
+            var serviceURL = "http://127.0.0.1:5002/passenger/login";
+
+            var email = $('#email').val();
+            var password = $('#password').val();
+            console.log(password);
+
+            try {
+                const response =
+                    await fetch(
+                        serviceURL, {
+                        method: 'POST',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: email, password: password})
+                });
+                const data = await response.json();
+                
+                // var passenger = data.books; 
+                //the arr is in data.books of the JSON data
+
+                if (response.ok) {
+                // relocate to home page
+                // window.location.replace(homeURL);
+                document.location.href="../about.html";
+                return false;
+            } else {
+                console.log(data);
+                // showError(data.message);
+            }
+
+            } catch (error) {
+                // Errors when calling the service; such as network error,
+                // service offline, etc
+                showError('There is a problem retrieving books data, please try again later.<br />' + error);
+
+            } // error
+        });
+    </script>
+
+
+</html>

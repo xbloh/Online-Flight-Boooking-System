@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+	
   <head>
     <title>Homepage</title>
     <meta charset="utf-8">
@@ -78,14 +79,14 @@
             <div class="tab-content p-4 px-5" id="v-pills-tabContent">
 
               <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-              	<form action="flight_search_results.html" class="search-destination" method='POST'>
+				  <form action="flight_search_results.html" id="searchFlightForm" class="search-destination" method='POST'>
               		<div class="row">
               			<div class="col-md align-items-end">
               				<div class="form-group">
               					<label for="#">From</label>
 	              				<div class="form-field">
 	              					<div class="icon"><span class="icon-my_location"></span></div>
-					                <input type="text" class="form-control" placeholder="From">
+					                <input type="text" id = "departDest" class="form-control" placeholder="From">
 					              </div>
 				              </div>
               			</div>
@@ -94,43 +95,11 @@
               					<label for="#">To</label>
               					<div class="form-field">
 	              					<div class="icon"><span class="icon-map-marker"></span></div>
-					                <input type="text" class="form-control" placeholder="To">
+					                <input type="text" id = "arrivalDest" class="form-control" placeholder="To">
 					              </div>
 				              </div>
               			</div>
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">Deptarture Date</label>
-              					<div class="form-field">
-	              					<div class="icon"><span class="icon-map-marker"></span></div>
-					                <input type="date" class="form-control checkin_date" placeholder="Check In">
-					              </div>
-				              </div>
-              			</div>
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">Arrival Date</label>
-              					<div class="form-field">
-	              					<div class="icon"><span class="icon-map-marker"></span></div>
-					                <input type=date class="form-control checkout_date" placeholder="From">
-					              </div>
-				              </div>
-              			</div>
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">Class</label>
-              					<div class="form-field">
-	              					<div class="select-wrap">
-			                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-			                      <select name="" id="" class="form-control">
-			                      	<option value="">Economy</option>
-			                        <option value="">Business</option>
-			                        <option value="">First Class</option>
-			                      </select>
-			                    </div>
-					              </div>
-				              </div>
-              			</div>
+              			
               			<div class="col-md align-self-end">
               				<div class="form-group">
               					<div class="form-field">
@@ -228,6 +197,10 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="js/google-map.js"></script>
   <script src="js/main.js"></script>
+
+  <script>
+	var pid = window.location.hash.substring(pid).substring(1);
+  </script>
     
   </body>
 </html>

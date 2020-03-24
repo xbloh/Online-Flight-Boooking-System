@@ -13,4 +13,5 @@ recommended way to import database structure:
 
 python libraries required for programme to work:
 	- pip install passlib (password hashing library)
+	- pip install mailjet_rest
 

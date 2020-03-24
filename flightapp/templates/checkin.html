@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script 
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+    
+    <script 
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+</head>
+<style>
+    body {
+      background-image: url('https://store-images.s-microsoft.com/image/apps.14723.14101798733668136.93dc91f9-8a45-4a62-a839-a1ea11b6ee8b.148530a4-6ef5-406b-966e-f78757f4a9b9');
+    }
+
+    #center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 1920px;    }
+</style>
+
+<body>
+    <div id="center"></div>
+    <script>
+        var status = {{ status|tojson}};
+        var refCode = {{refCode|tojson}};
+        if (status == "no"){
+            var msg = "<h1 style='font-size:100px'>Sorry we cannot proceed your boarding. Please proceed to our counter for more information</h1>";
+            $('#center').append(msg);
+        }else{
+            var url = `<a href=http://localhost:5000/booking/boarding/${refCode}><img src=https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:5000/booking/boarding/${refCode} size=300x300></a>`;
+            $('#center').append(url);
+        }
+
+    </script>
+    
+</body>
+</html>
