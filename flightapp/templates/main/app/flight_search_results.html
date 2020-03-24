@@ -169,8 +169,8 @@
 							<div class="select-wrap one-third">
 							<div class="icon"><span class="ion-ios-arrow-down"></span></div>
 							<select name="" id="flight_length" class="form-control" placeholder="Length">
-								<option value="short">Short</option>
-								<option value="long">Long</option>
+								<option value="short">Short-Haul</option>
+								<option value="long">Long-Haul</option>
 							</select>
 						  </div>
 						  </div>
@@ -263,7 +263,6 @@
         event.preventDefault();
 
         var flightURL = "http://127.0.0.1:5001/flight/";
-        // var homeURL = "http://127.0.0.1/bookstore/";
 
         //Get form data 
         var arrivalDest = $('#arrivalDest').val();
@@ -346,11 +345,12 @@
 
         var bookingURL = "http://127.0.0.1:5000/booking/create";
 		var pricingURL = "http://127.0.0.1:5003/pricing/getbaggageid/";
+		var flightURL = "http://127.0.0.1:5001/flight/";
 
         //Get form data 
 
 		var outbound_flightNo = $(".outbound_flight").val();
-		var inbound_flightNo = $(".inbound_flight").val();
+		// var inbound_flightNo = $(".inbound_flight").val();
 		var class_name = $('#class_name').val();
 		var flight_length = $('#flight_length').val();
 		var meal_desc = $('#meal_desc').val();
@@ -362,9 +362,23 @@
 		
 
 		pricingURL += baggage_desc;
+		flightURL +=  outbound_flightNo;
+		console.log(flightURL);
 		
         try {
 
+			// get flight base price
+			const flightbaseprice_response =
+                await fetch(
+                	flightURL, {
+                    method: 'GET'  });
+            const flightbaseprice_data = await flightbaseprice_response.json();
+            if (flightbaseprice_response.ok) {
+            	var flightbaseprice = flightbaseprice_data.flight['basePrice'];
+                
+            } else {
+                showError(flightbaseprice_data.message);
+            }
 			// get baggage id
 			const baggageid_response =
                 await fetch(
@@ -391,7 +405,7 @@
                     bookingURL, {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ pid:pid, flightNo:outbound_flightNo, departDate:departDate, class_type:class_type, baggage:baggageid, meal: meal_desc})
+                    body: JSON.stringify({ pid:pid, flightNo:outbound_flightNo, base_price:flightbaseprice, departDate:departDate, class_type:class_type, baggage:baggageid, meal: meal_desc})
 					
 				});
 			console.log(response_booking);
