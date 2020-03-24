@@ -51,7 +51,7 @@ class Flight(db.Model):
 def get_all():
     return {"flight": [flight.json() for flight in Flight.query.all()]}
 
-# @app.route("/flight/<string:departDest>/<string:arrivalDest>")
+@app.route("/flight/<string:departDest>/<string:arrivalDest>")
 def get_flight_by_dept_arr(departDest, arrivalDest):
     flights = Flight.query.filter_by(departDest=departDest, arrivalDest=arrivalDest)
     if len(flights.all()) != 0:
