@@ -117,6 +117,13 @@ def receive_info():
     else:
         return replymessage, 502
 
+@app.route("/pricing/getbaggageid/<string:baggage_desc>")
+def get_baggage_id(baggage_desc):
+    baggage = Baggage.query.filter_by(baggage_desc=baggage_desc).first()
+    if baggage:
+        return {"baggage_id": baggage.baggage_id, "status": 200}
+    return jsonify({"message": "Couldn't find baggage"}), 404
+
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
 
-    <title>Add a Book </title>
+    <title>Login </title>
 
     <link rel="stylesheet" href="">
     <!--[if lt IE 9]>
@@ -39,7 +39,7 @@
                 >
         </div>
         <div class="form-group">
-            <label for="password">ISBN13</label>
+            <label for="password">password</label>
             <input type="password" class="form-control" id="password" placeholder="Enter password">
         </div>
         
@@ -59,27 +59,38 @@
         event.preventDefault();
 
         var serviceURL = "http://127.0.0.1:5002/passenger/login";
+        var getpidURL = "http://127.0.0.1:5002/getpassengerpid/";
         // var homeURL = "http://127.0.0.1/bookstore/";
 
         //Get form data 
         var email = $('#email').val();
         var password = $('#password').val();
 
+        var getpidURL = getpidURL + email;
 
+        
         try {
             const response =
                 await fetch(
                     serviceURL, {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: email, password: password})
+                    body: JSON.stringify({email: email, password: password})
                 });
             const data = await response.json();
 
-            if (response.ok) {
-                document.location.href="../about.html";
-                console.log("hihi");
-                // // relocate to home page
+            const pid_response =
+                await fetch(
+                    getpidURL, {
+                    method: 'GET'  });
+            const pid_data = await pid_response.json();
+            if (pid_response.ok) {
+                pid = pid_data;
+                // document.location.href="../flight_search_results.html?pid="+pid;
+                
+                window.location.href = '../flight_search_results.html' + '#' + pid;
+                // console.log("hihi");
+                // relocate to home page
                 // window.location.replace(homeURL);
                 return false;
             } else {
