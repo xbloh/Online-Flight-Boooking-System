@@ -30,35 +30,36 @@ def receive_booking():
 
 def callback(channel, method, properties, body): # required signature for the callback; no return
     print("Received an booking by " + __file__)
-    result = send_email(body)
+    result = send_email(json.loads(body))
     # print processing result; not really needed
     json.dump(result, sys.stdout, default=str) # convert the JSON object to a string and print out on screen
     print() # print a new line feed to the previous json dump
     print() # print another new line as a separator
 
 
-def send_email(booking):
-    json_obj = json.loads(booking)
-    email = json_obj['email']
-    name = json_obj['first name']
-    msg = json.dumps(json_obj)
+def send_email(message):
+    email = message['email']
+    name = message['name']
+    flightNo = message['flightNo']
+    deptTime = message['deptTime']
+    departDate = message['departDate']
+    refCode = message['refCode']
+    msg = 'Thank you for choosing our service. Your flight number is ' + flightNo + " will take part on " + departDate + " at " + deptTime + " .Please show your reference code:" +refCode + " upon checking in."
     data = {
     'Messages': [
         {
         "From": {
             "Email": "ingsin.bak.2017@sis.smu.edu.sg",
-            "Name": "ESD TRAVEL ASIA"
+            "Name": "Travel Like T6"
         },
         "To": [
             {
             "Email": email,
-            # "Email": 'ingsin.bak.2017@sis.smu.edu.sg',
             "Name": name
             }
         ],
-        "Subject": "Greetings from Mailjet.",
-        "TextPart": "My first Mailjet email",
-        # "HTMLPart": "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!",
+        "Subject": "Booking Confirmation. REF CODE: " + refCode ,
+        "TextPart": msg,
         "HTMLPart": msg,
         "CustomID": "AppGettingStartedTest"
         }
@@ -67,7 +68,7 @@ def send_email(booking):
     result = mailjet.send.create(data=data)
     print(result.status_code)
     print(result.json())
-    return
+    return result.json()
 
 if __name__ == "__main__": 
     print("This is " + os.path.basename(__file__) + ": sending an email...")
