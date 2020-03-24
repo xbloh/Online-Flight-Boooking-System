@@ -4,19 +4,28 @@
     <!-- Add meta tags for mobile and IE -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- <meta id='price' data-name="{{price}}"> -->
+    <script>
+        var price = {{ price | tojson }};
+        var refCode = {{ refCode | safe }};
+    </script>
 </head>
 
 <body>
+    
+    <!-- <input type="hidden" id="hiddenVar" value="{{ price }}"/> -->
     <!-- Set up a container element for the button -->
     <div id="paypal-button-container"></div>
 
     <!-- Include the PayPal JavaScript SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AfdIsAzYVP3EzeS6PWGIlAobdqrBDR3sgibqvOW1L8hyx54GLvxRQ7uMujWJKraqRO8L1Wrxp1_HtFEx&currency=SGD"></script>
-
+    <!-- <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=SGD&debug=true"></script> -->
     <script>
-        var statusURL = 'http://localhost:5004/billing/status/'
-        var price = {{ price }}
-        var refCode = {{ refCode }}
+        statusURL = 'http://localhost:5004/billing/status';
+
+        price2 = 2
+
+        // price1 = document.getElementById('hiddenVar').value;
 
         function showError(message) {
             alert(message)
@@ -26,9 +35,10 @@
             try {
                 const response =
                     await fetch(
-                        statusURL, { method: 'GET' }
+                        statusURL, { method: 'GET', mode: 'no-cors' }
                     );
                 const data = await response.json();
+                console.log(response)
                 
                 if (response.ok) {
                     if (data['status'] == 'yes') {
@@ -52,19 +62,21 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: {{price}}
+                            // value: 10
+                            value: price
                         }
                     }]
+                    
                 });
             },
 
             // Finalize the transaction
             onApprove: function(data, actions) {
-                send_status(statusURL + "yes/" + refCode)
+                send_status(statusURL + "/yes/" + refCode)
             },
 
             onCancel: function (data) {
-                send_status(statusURL + "no/" + refCode)
+                send_status(statusURL + "/no/" + refCode)
             }
 
         }).render('#paypal-button-container');

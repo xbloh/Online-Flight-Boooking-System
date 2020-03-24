@@ -67,6 +67,11 @@ def get_flight_by_flight_no(flightNo):
     return jsonify({"message": "Flight not found"}), 404
 
 # Flight microservice interact with Booking UI
+# test script
+# {
+# 	"departDest": "SIN",
+# 	"arrivalDest": "KUL"
+# }
 @app.route("/flight/receive_flights", methods=['POST'])
 def receive_flights():
     details = request.get_json()

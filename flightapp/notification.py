@@ -1,3 +1,4 @@
+# run 'pip install mailjet_rest'
 from mailjet_rest import Client
 import json
 import sys
