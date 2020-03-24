@@ -3,13 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import os
 import random
-from os import environ
 import requests
 
 import pika
 import json
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://flight_admin:6kKVm7C2PHtVtgGT@esd-g7t6-rds.cs2kfkrucphj.ap-southeast-1.rds.amazonaws.com:3306/flight_booking'
 
@@ -95,21 +94,22 @@ def get_booking_by_pid(pid):
 def create_booking():
     data = request.get_json()
     
-    pid = data['pid']
-    flightNo = data['flightNo']
+    pid = data['pid'] # SESSION
+    flightNo = data['flightNo'] 
     departDate = data['departDate']
+    base_price = data['base_price'] 
     class_type = data['class_type']
     baggage = data['baggage']
     meal = data['meal']
 
-    base_price = choose_flight(flightNo)['basePrice']
+    # base_price = choose_flight(flightNo)['basePrice']
 
     add_on_price = get_price(meal, baggage, class_type)
     meal_price = add_on_price['meal_price']
     baggage_price = add_on_price['baggage_price']
     class_type_percentage = add_on_price['class_type_percentage']
 
-    total_price = (base_price + meal_price + baggage_price) * class_type_percentage
+    total_price = (base_price + meal_price + baggage_price) * class_type_percentage/100
 
     booking = Booking(
         pid = data['pid'],
@@ -128,24 +128,12 @@ def create_booking():
     except:
         return jsonify({"message": "An error occurred creating the booking."}), 500
 
-    return jsonify(booking.json()), 201
+    return jsonify(booking.json()), 201 # send to Booking UI (confirm page)
 
 
-@app.route("/booking/send/<string:pid>")
-def send_booking(pid):
-    return
-
-
+# this function currently not in use (based on new diagram)
 def get_flight_detail(departDest, arrivalDest):
     details = json.loads(json.dumps({"departDest" : departDest, "arrivalDest" : arrivalDest}, default = str))
-    r = requests.post(flightURL, json = details)
-    result = json.loads(r.text)
-    if result['status'] == 200:
-        print(result['flight'])
-        return result['flight']
-
-def choose_flight(flightNo):
-    details = json.loads(json.dumps({"flightNo" : flightNo}, default = str))
     r = requests.post(flightURL, json = details)
     result = json.loads(r.text)
     if result['status'] == 200:
@@ -177,6 +165,29 @@ def get_price(meal_id, baggage_id, class_type):
 
 #     return {"status": stt, "refCode": refCode}
 
+
+# @app.route("/booking/confirm", methods=['POST'])
+# def booking_confirm():
+#     data = request.get_json()
+    
+#     refCode = data['refCode']
+#     pid = data['pid']
+#     flightNo = data['flightNo']
+#     departDate = data['departDate']
+#     class_type = data['class_type']
+#     baggage = data['baggage']
+#     meal = data['meal']
+#     price = data['price']
+
+#     send_price = json.loads(json.dumps(
+#         {"refCode":refCode, "pid":pid, 
+#         "flightNo":flightNo, "departDate":departDate,
+#         "price":price, "class_type":class_type, 
+#         "baggage":baggage,"meal":meal}, 
+#         default = str))
+#     r = requests.post(billingURL, json = send_price)
+#     return r.text
+
 @app.route("/booking/confirm/<string:price>/<string:refCode>", methods=['GET'])
 def booking_confirm(price, refCode):
     send_price = json.loads(json.dumps({"price" : price, "refCode":refCode} , default = str))
@@ -189,9 +200,15 @@ def get_status():
     data = request.get_json()
     status = data['status']
     refCode = data['refCode']
+    
+    if status == "yes":
+        return jsonify({"message": "Successful payment. Booking confirm!"}), 201
+
     if status == "no":
-        Booking.query.filter_by(refCode = refCode).delete()
-    return status, refCode
+        Booking.query.filter_by(refCode = 1).delete()
+        db.session.commit()
+        return jsonify({"message": "Unable to proceed your request, please check again!"}), 500
+    
 
 
 @app.route("/booking/checkin/<string:refCode>", methods=['GET'])
@@ -263,33 +280,33 @@ def get_booking_by_refCode(refCode):
 #     return booking
 
 
-# # send Booking to Notification through AMQP
-# def send_booking(booking):
-#     """send booking, flight and passenger details to Notification """
-#     hostname = "localhost"
-#     port = 5672
-#     # connect to the broker and set up a communication channel in the connection
-#     connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
-#     channel = connection.channel()
+# send Booking to Notification through AMQP
+def send_booking(booking):
+    """send booking, flight and passenger details to Notification """
+    hostname = "localhost"
+    port = 5672
+    # connect to the broker and set up a communication channel in the connection
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
+    channel = connection.channel()
  
-#     # set up the exchange if the exchange doesn't exist
-#     exchangename="booking_direct"
-#     channel.exchange_declare(exchange=exchangename, exchange_type='direct')
+    # set up the exchange if the exchange doesn't exist
+    exchangename="booking_direct"
+    channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
-#     # prepare the message body content
-#     message = json.dumps(booking, default=str) # convert a JSON object to a string
+    # prepare the message body content
+    message = json.dumps(booking, default=str) # convert a JSON object to a string
 
-#     # send message to Notifications
-#     # prepare the channel and send a message to Notifications
-#     channel.queue_declare(queue='notification', durable=True)
-#     # make sure the queue is bound to the exchange
-#     channel.queue_bind(exchange=exchangename, queue='notification', routing_key='notification.booking')
-#     channel.basic_publish(exchange=exchangename, routing_key="notification.booking", body=message,
-#         properties=pika.BasicProperties(delivery_mode = 2, 
-#         )
-#     )
-#     # close the connection to the broker
-#     connection.close()
+    # send message to Notifications
+    # prepare the channel and send a message to Notifications
+    channel.queue_declare(queue='notification', durable=True)
+    # make sure the queue is bound to the exchange
+    channel.queue_bind(exchange=exchangename, queue='notification', routing_key='notification.booking')
+    channel.basic_publish(exchange=exchangename, routing_key="notification.booking", body=message,
+        properties=pika.BasicProperties(delivery_mode = 2, 
+        )
+    )
+    # close the connection to the broker
+    connection.close()
 
 if __name__ == "__main__":
     # this part i still hardcoded bc need to get passenger id when logged in from frontend but frontend not up yet

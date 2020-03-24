@@ -51,7 +51,7 @@ class Flight(db.Model):
 def get_all():
     return {"flight": [flight.json() for flight in Flight.query.all()]}
 
-@app.route("/flight/<string:departDest>/<string:arrivalDest>")
+# @app.route("/flight/<string:departDest>/<string:arrivalDest>")
 def get_flight_by_dept_arr(departDest, arrivalDest):
     flights = Flight.query.filter_by(departDest=departDest, arrivalDest=arrivalDest)
     if len(flights.all()) != 0:
@@ -67,6 +67,11 @@ def get_flight_by_flight_no(flightNo):
     return jsonify({"message": "Flight not found"}), 404
 
 # Flight microservice interact with Booking UI
+# test script
+# {
+# 	"departDest": "SIN",
+# 	"arrivalDest": "KUL"
+# }
 @app.route("/flight/receive_flights", methods=['POST'])
 def receive_flights():
     details = request.get_json()
