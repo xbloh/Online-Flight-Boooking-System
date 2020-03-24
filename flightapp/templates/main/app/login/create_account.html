@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
 
-    <title>Add a Book </title>
+    <title>Create an Account</title>
 
     <link rel="stylesheet" href="">
     <!--[if lt IE 9]>
@@ -31,8 +31,8 @@
 </head>
 
 <body>
-    <h1 class="display-4">Login</h1>
-    <form id='addBookForm'>
+    <h1 class="display-4">Create an Account</h1>
+    <form id='create_accountForm'>
         <div class="form-group">
             <label for="firstName">firstName</label>
             <input type="text" class="form-control" id="firstName" aria-describedby="emailHelp" placeholder="Enter email"
@@ -69,7 +69,7 @@
         $('#error').text(message);
     }
 
-    $("#addBookForm").submit(async (event) => {
+    $("#create_accountForm").submit(async (event) => {
         //Prevents screen from refreshing when submitting
         event.preventDefault();
 

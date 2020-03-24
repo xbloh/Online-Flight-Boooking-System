@@ -205,10 +205,12 @@ def get_status():
         return jsonify({"message": "Successful payment. Booking confirm!"}), 201
 
     if status == "no":
-        Booking.query.filter_by(refCode = 1).delete()
+        Booking.query.filter_by(refCode = refCode).delete()
         db.session.commit()
-        return jsonify({"message": "Unable to proceed your request, please check again!"}), 500
-    
+    else:
+        message = get_booking_by_refCode(refCode)
+        send_booking(message)
+    return status, refCode
 
 
 @app.route("/booking/checkin/<string:refCode>", methods=['GET'])
@@ -243,45 +245,19 @@ COMMUNICATION TECHNOLOGIES AMQP
 def get_booking_by_refCode(refCode):
     booking = Booking.query.filter_by(refCode=refCode).first()
     if booking:
-        return jsonify(booking.json())
+        url1 = passengerURL + "/passenger/" + str(booking.pid)
+        r1 = requests.get(url1)
+        result1 = json.loads(r1.text)
+        url2 = 'http://localhost:5001/flight/' +str(booking.flightNo)
+        r2 = requests.get(url2)
+        result2 = json.loads(r2.text)
+        return_json = {"name": result1['firstName'] + " " + result1['lastName'], "email" : result1['email'], "refCode" : refCode, "flightNo": booking.flightNo, "departDate" :booking.departDate, "deptTime": result2['flight']['deptTime'] }
+        return return_json
     return jsonify({"message": "Passenger not found"}), 404
-
-# create content (boarding pass details) to be sent to email
-# TODO i change function name here, please update your code accordingly 
-# so that it's not hardcoded like this
-# def create_booking_for_notification(pid):
-    
-#     # call passenger microservice api to get passenger details 
-#     passenger_url = 'http://127.0.0.1:5002/passenger/' + pid
-#     passenger = requests.get(passenger_url).json()
-#     json_dump = json.dumps(passenger)
-#     passenger_data = json.loads(json_dump)
-#     first_name = passenger_data['firstName']
-#     last_name = passenger_data['lastName']
-#     email = passenger_data['email']
-
-#     # get latest booking in Booking database
-#     latest_booking = Booking.query.order_by(Booking.refCode.desc()).first()
-#     refCode = latest_booking.refCode
-#     flightNo = latest_booking.flightNo
-#     departDate = latest_booking.departDate
-#     class_type = latest_booking.class_type
-
-#     booking = {
-#         'first name': first_name,
-#         'refCode': refCode,
-#         'class_type':class_type,
-#         'first name': first_name,
-#         'last name': last_name,
-#         'flight no': flightNo,
-#         "depart time": departDate,
-#         'email': email
-#     }
-#     return booking
 
 
 # send Booking to Notification through AMQP
-def send_booking(booking):
+def send_booking(message):
     """send booking, flight and passenger details to Notification """
     hostname = "localhost"
     port = 5672
@@ -294,7 +270,7 @@ def send_booking(booking):
     channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
     # prepare the message body content
-    message = json.dumps(booking, default=str) # convert a JSON object to a string
+    message = json.dumps(message, default=str) # convert a JSON object to a string
 
     # send message to Notifications
     # prepare the channel and send a message to Notifications
