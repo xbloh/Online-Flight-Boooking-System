@@ -67,7 +67,7 @@
 				<div class="row">
     			<div class="col-md-12 ftco-animate">
     				<div class="cart-list">
-	    				<table class="table">
+	    				<table class="table" id="cartTable">
 						    <thead class="thead-primary">
 						      <tr class="text-center">
 						        <th>Flight Details</th>
@@ -145,6 +145,15 @@
 						    </tbody>
 						  </table>
 					  </div>
+					  <form action="#"  id='confirmBookingForm'>
+        				<div class="fields">
+
+
+		              <div class="form-group">
+		                <input type="submit" value="confirm" class="btn btn-primary py-3 px-5">
+		              </div>
+		            </div>
+	            </form>
     			</div>
     		</div>
     	
@@ -230,11 +239,90 @@
   <script src="js/aos.js"></script>
   <script src="js/jquery.animateNumber.min.js"></script>
   <script src="js/bootstrap-datepicker.js"></script>
-  <script src="js/jquery.timepicker.min.js"></script>
+  <!-- <script src="js/jquery.timepicker.min.js"></script> -->
   <script src="js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="js/google-map.js"></script>
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script> -->
+  <!-- <script src="js/google-map.js"></script> -->
   <script src="js/main.js"></script>
+
+  <script>
+	  function showError(message) {
+        // Display an error under the the predefined label with error as the id
+        $('#error').text(message);
+    }
+	  
+	  $("#confirmBookingForm").submit(async (event) => {
+	  outbound_flightNo=localStorage.getItem('outbound_flightNo');
+	  pid=localStorage.getItem('pid');
+	  class_name=localStorage.getItem('class_name');
+	  meal_desc=localStorage.getItem('meal_desc');
+	  baggage=localStorage.getItem('baggage');
+	  class_type=localStorage.getItem('class_type');
+	  departDate=localStorage.getItem('departDate');
+	  baggage_desc=localStorage.getItem('baggage_desc');
+	  flightbaseprice=localStorage.getItem('flightbaseprice');
+	  baggageid=localStorage.getItem('baggageid');
+	  pricenumber = +flightbaseprice;
+
+	  console.log(pid)
+	  console.log(outbound_flightNo);
+	  console.log(departDate);
+	  console.log(class_type);
+	  console.log(baggageid);
+	  //   console.log(class_name);
+	  console.log(meal_desc);
+	  //   console.log(baggage);
+	  
+	  
+	//   console.log(baggage_desc);
+	//   console.log(flightbaseprice);
+
+
+
+
+	 
+	  var bookingURL = "http://127.0.0.1:5000/booking/create";
+
+	  
+		  
+		event.preventDefault();
+	  		try {
+            const response_booking =
+                await fetch(
+                    bookingURL, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ pid:pid, flightNo:outbound_flightNo, base_price:pricenumber, departDate:departDate, class_type:class_type, baggage:baggageid, meal: meal_desc})
+					
+				});
+			console.log(response_booking);
+			const data_booking = await response.json();
+            if (response_booking.ok) {
+				console.log(data_booking);
+				
+
+				return False
+                
+            } else {
+                
+                showError(data_booking.message);
+            }
+        } catch (error) {
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            showError
+                ("There is a problem adding this book, please try again later. " + error);
+
+        } // error
+    });
+
+
+	  
+
+
+
+
+  </script>
     
   </body>
 </html>

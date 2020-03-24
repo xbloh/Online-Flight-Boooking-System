@@ -359,76 +359,100 @@
 		var today = new Date();
 		var departDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 		var baggage_desc = flight_length + '_' + baggage;
+	
+		
+		localStorage.setItem('outbound_flightNo', outbound_flightNo);
+		localStorage.setItem('class_name', class_name);
+		localStorage.setItem('meal_desc', meal_desc);
+		localStorage.setItem('baggage', baggage);
+		localStorage.setItem('class_type', class_type);
+		localStorage.setItem('departDate', departDate);
+		localStorage.setItem('baggage_desc', baggage_desc);
+
+		window.location.href = './cart.html';
+
+
+
+
 		
 
-		pricingURL += baggage_desc;
-		flightURL +=  outbound_flightNo;
-		console.log(flightURL);
-		
-        try {
 
-			// get flight base price
-			const flightbaseprice_response =
-                await fetch(
-                	flightURL, {
-                    method: 'GET'  });
-            const flightbaseprice_data = await flightbaseprice_response.json();
-            if (flightbaseprice_response.ok) {
-            	var flightbaseprice = flightbaseprice_data.flight['basePrice'];
+
+
+		// create booking
+
+
+
+		// pricingURL += baggage_desc;
+		// flightURL +=  outbound_flightNo;
+		// console.log(flightURL);
+		
+    //     try {
+
+	// 		// get flight base price
+	// 		const flightbaseprice_response =
+    //             await fetch(
+    //             	flightURL, {
+    //                 method: 'GET'  });
+    //         const flightbaseprice_data = await flightbaseprice_response.json();
+    //         if (flightbaseprice_response.ok) {
+	// 			var flightbaseprice = flightbaseprice_data.flight['basePrice'];
+	// 			localStorage.setItem('flightbaseprice', flightbaseprice);
                 
-            } else {
-                showError(flightbaseprice_data.message);
-            }
-			// get baggage id
-			const baggageid_response =
-                await fetch(
-                    pricingURL, {
-                    method: 'GET'  });
-            const baggageid_data = await baggageid_response.json();
-            if (baggageid_response.ok) {
-            	var baggageid = baggageid_data.baggage_id;
-                // console.log(baggageid);
-            } else {
-                showError(baggageid_data.message);
-            }
+    //         } else {
+    //             showError(flightbaseprice_data.message);
+    //         }
+	// 		// get baggage id
+	// 		const baggageid_response =
+    //             await fetch(
+    //                 pricingURL, {
+    //                 method: 'GET'  });
+    //         const baggageid_data = await baggageid_response.json();
+    //         if (baggageid_response.ok) {
+	// 			var baggageid = baggageid_data.baggage_id;
+	// 			localStorage.setItem('baggageid', baggageid);
+    //             // console.log(baggageid);
+    //         } else {
+    //             showError(baggageid_data.message);
+    //         }
 
-			// console.log(pid);
-			// console.log(outbound_flightNo);
-			// console.log(departDate);
-			// console.log(class_type);
-			// console.log(baggageid);
-			// console.log(meal_desc);
+	// 		// console.log(pid);
+	// 		// console.log(outbound_flightNo);
+	// 		// console.log(departDate);
+	// 		// console.log(class_type);
+	// 		// console.log(baggageid);
+	// 		// console.log(meal_desc);
 
 			
-            const response_booking =
-                await fetch(
-                    bookingURL, {
-                    method: 'POST',
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ pid:pid, flightNo:outbound_flightNo, base_price:flightbaseprice, departDate:departDate, class_type:class_type, baggage:baggageid, meal: meal_desc})
+    //         const response_booking =
+    //             await fetch(
+    //                 bookingURL, {
+    //                 method: 'POST',
+    //                 headers: { "Content-Type": "application/json" },
+    //                 body: JSON.stringify({ pid:pid, flightNo:outbound_flightNo, base_price:flightbaseprice, departDate:departDate, class_type:class_type, baggage:baggageid, meal: meal_desc})
 					
-				});
-			console.log(response_booking);
-			const data_booking = await response.json();
-            if (response_booking.ok) {
-				window.location.href = 'cart.html';
-				// console.log(data_booking);
+	// 			});
+	// 		console.log(response_booking);
+	// 		const data_booking = await response.json();
+    //         if (response_booking.ok) {
+	// 			window.location.href = 'cart.html';
+	// 			// console.log(data_booking);
 				
-                // // relocate to home page
-                // window.location.replace(homeURL);
-				return False
+    //             // // relocate to home page
+    //             // window.location.replace(homeURL);
+	// 			return False
                 
-            } else {
+    //         } else {
                 
-                showError(data_booking.message);
-            }
-        } catch (error) {
-            // Errors when calling the service; such as network error, 
-            // service offline, etc
-            showError
-                ("There is a problem adding this book, please try again later. " + error);
+    //             showError(data_booking.message);
+    //         }
+    //     } catch (error) {
+    //         // Errors when calling the service; such as network error, 
+    //         // service offline, etc
+    //         showError
+    //             ("There is a problem adding this book, please try again later. " + error);
 
-        } // error
+    //     } // error
     });
 
 
