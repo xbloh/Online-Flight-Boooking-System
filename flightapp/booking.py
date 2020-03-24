@@ -1,7 +1,8 @@
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import os
+import random
 from os import environ
 import requests
 
@@ -191,6 +192,25 @@ def get_status():
     if status == "no":
         Booking.query.filter_by(refCode = refCode).delete()
     return status, refCode
+
+
+@app.route("/booking/checkin/<string:refCode>", methods=['GET'])
+def create_status(refCode):
+    # data = request.get_json()
+    # refCode = data['refCode']
+    ls =['yes', 'no']
+    status = random.choice(ls)
+
+    return render_template("checkin.html", refCode = refCode, status = status)
+
+@app.route("/booking/boarding/<string:refCode>", methods=['GET'])
+def get_boarding(refCode):
+    return render_template("boarding.html", refCode = refCode)
+
+
+
+
+
 
 
 
