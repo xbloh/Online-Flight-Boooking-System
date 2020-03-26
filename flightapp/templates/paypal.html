@@ -7,7 +7,7 @@
     <!-- <meta id='price' data-name="{{price}}"> -->
     <script>
         var price = {{ price | tojson }};
-        var refCode = {{ refCode | safe }};
+        var refCode = {{ refCode | tojson }};
     </script>
 </head>
 
@@ -23,40 +23,38 @@
     <script>
         statusURL = 'http://localhost:5004/billing/status';
 
-        price2 = 2
-
-        // price1 = document.getElementById('hiddenVar').value;
-
         function showError(message) {
             alert(message)
         }
+
         async function send_status(statusURL) {
 
             try {
-                const response =
+                var response =
                     await fetch(
-                        statusURL, { method: 'GET', mode: 'no-cors' }
+                        statusURL, 
+                        { method: 'GET', headers: { "Content-Type": "application/json" }}
                     );
-                const data = await response.json();
-                console.log(response)
+                var data = await response.json();
+                // console.log(response)
                 
                 if (response.ok) {
                     if (data['status'] == 'yes') {
-                        window.location.replace('http://www.google.com/');
+                        window.location.replace('http://www.google.com/'); 
                     }
-                    if (data['status'] == 'no') {
-                        window.location.replace('http://www.youtube.com/');
-                    }
+                    // if (data['status'] == 'no') {
+                    //     window.location.replace('http://www.facebook.com/');
+                    // }
                 }
-            }
-            catch (error) {
-                showError(error);
+            } // TypeError: Failed to fetch
+            catch {
+                // send_status(statusURL + "/no/" + refCode)
+                window.location.replace('http://www.youtube.com/');
             }
         }
 
         // Render the PayPal button into #paypal-button-container
         paypal.Buttons({
-
             // Set up the transaction
             createOrder: function(data, actions) {
                 return actions.order.create({
