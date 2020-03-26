@@ -8,7 +8,7 @@ import requests
 import pika
 import json
 app = Flask(__name__)
-
+CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://flight_admin:6kKVm7C2PHtVtgGT@esd-g7t6-rds.cs2kfkrucphj.ap-southeast-1.rds.amazonaws.com:3306/flight_booking'
 
@@ -16,7 +16,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 1800}
 
 db = SQLAlchemy(app)
-CORS(app)
+
 
 flightURL = 'http://localhost:5001/flight/receive_choice'
 passengerURL = 'http://localhost:5002'
@@ -137,7 +137,7 @@ def get_flight_detail(departDest, arrivalDest):
     r = requests.post(flightURL, json = details)
     result = json.loads(r.text)
     if result['status'] == 200:
-        print(result['flight'])
+        # print(result['flight'])
         return result['flight']
     
 

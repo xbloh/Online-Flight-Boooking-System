@@ -23,7 +23,7 @@ def index():
 def receive_status(stt, refCode):
     status = json.loads(json.dumps({"status" : stt, "refCode": refCode}, default = str))
     r = requests.post(bookingURL, json = status)
-    return {"status" : stt, "refCode": refCode}
+    return jsonify({"status" : stt, "refCode": refCode})
 
 
 if __name__ == "__main__":
