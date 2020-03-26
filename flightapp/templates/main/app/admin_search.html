@@ -22,13 +22,17 @@
 
   <link href="css/bootstrap-datepicker.css" rel="stylesheet">
   <link href="css/jquery.timepicker.css" rel="stylesheet">
-
-
   <link href="css/flaticon.css" rel="stylesheet">
   <link href="css/icomoon.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 
   <script>
+    function dateToYMD(date) {
+      var d = date.getDate();
+      var m = date.getMonth() + 1; //Month from 0 to 11
+      var y = date.getFullYear();
+      return '' + y + '-' + (m <= 9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
+    }
     async function displayFlightDownMenu() {
       var flightURL = "http://localhost:5001/getFlightNo";
 
@@ -238,20 +242,22 @@
               flightURL, { method: 'GET' }
             );
           const booking_data = await response_dep.json();
-          // console.log(booking_data);
+          console.log(booking_data);
 
           var out_flights = booking_data.bookings;
           if (response_dep.ok) {
             var rows = "";
             for (const flight of out_flights) {
-              console.log(flight.departDate)
-              var departDate = dateFormat(flight.departDate, "yyyy-mm-dd");
+              // console.log(dateToYMD(new Date(flight.departDate)));
+
+              var departDate = dateToYMD(new Date(flight.departDate));
               // console.log(departDate);
               eachRow =
                 "<td>" + flight.refCode + "</td>" +
                 "<td>" + flight.pid + "</td>" +
                 "<td>" + flight.flightNo + "</td>" +
-                "<td>" + flight.departDate + "</td>" +
+                // "<td>" + dateToYMD(flight.departDate) + "</td>" +
+                "<td>" + departDate + "</td>" +
                 "<td>" + flight.price + "</td>" +
                 "<td>" + flight.class_type + "</td>" +
                 "<td>" + flight.baggage + "</td>" +
