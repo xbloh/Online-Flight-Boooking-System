@@ -24,7 +24,7 @@ class Flight(db.Model):
     deptTime = db.Column(db.DateTime, nullable=False)
     arrivalTime = db.Column(db.DateTime, nullable=False)
     basePrice = db.Column(db.String(30), nullable=False)
-    type = db.Column(db.String(1), nullable=False)
+    # type = db.Column(db.String(1), nullable=False)
 
     def __init__(self, flightNo, departDest, arrivalDest, deptTime, arrivalTime, basePrice, type):
         self.flightNo = flightNo
@@ -33,7 +33,7 @@ class Flight(db.Model):
         self.deptTime = deptTime
         self.arrivalTime = arrivalTime
         self.basePrice = basePrice
-        self.type = type
+        # self.type = type
 
     def json(self):
         return {
@@ -43,7 +43,7 @@ class Flight(db.Model):
             "deptTime" : str(self.deptTime),
             "arrivalTime" : str(self.arrivalTime),
             "basePrice" : self.basePrice,
-            "type" : self.type
+            # "type" : self.type
         }
 
 
