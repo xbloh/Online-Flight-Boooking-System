@@ -51,6 +51,11 @@ class Flight(db.Model):
 def get_all():
     return {"flight": [flight.json() for flight in Flight.query.all()]}
 
+@app.route("/getFlightNo")
+def get_all_flight_no():
+    # return {"all_flight_no": ["MH123", "MH124"]}
+    return {"all_flight_no": [flightNo[0] for flightNo in Flight.query.with_entities(Flight.flightNo).all()]}
+
 @app.route("/flight/<string:departDest>/<string:arrivalDest>")
 def get_flight_by_dept_arr(departDest, arrivalDest):
     flights = Flight.query.filter_by(departDest=departDest, arrivalDest=arrivalDest)
