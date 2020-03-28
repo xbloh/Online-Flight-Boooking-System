@@ -38,6 +38,7 @@ class Booking(db.Model):
     class_type = db.Column(db.String(20), nullable=False)
     baggage = db.Column(db.Integer)
     meal = db.Column(db.Integer)
+    seat_number = db.Column(db.String(5))
 
     # (pid, flightNo, departDate, price, class_type, baggage, meal)
     # def __init__(self, refCode, pid, flightNo, departDate, price, class_type, baggage, meal):
@@ -59,7 +60,8 @@ class Booking(db.Model):
             "price": self.price,
             "class_type": self.class_type,
             "baggage": self.baggage,
-            "meal": self.meal
+            "meal": self.meal,
+            "seatNumber": self.seat_number
         }
 
 # booking = {
