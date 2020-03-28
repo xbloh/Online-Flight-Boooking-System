@@ -246,36 +246,76 @@
   <script src="js/main.js"></script>
 
   <script>
+
+	refCode=localStorage.getItem('refCode');
+	console.log(refCode);
+
+	async function getBookingData(getBookingURL) {
+		try {
+
+			const booking_response =
+                await fetch(
+                	getBookingURL, {
+                    method: 'GET'  });
+
+            const booking_data = await booking_response.json();
+            if (booking_response.ok) {
+				var booking = booking_data;
+				console.log(booking);
+                
+            } else {
+                showError(booking_data.message);
+            }
+	} catch (error) {
+		console.error(error);
+	}
+	}
+
+	
+
+
+
+
+	$(function() { 
+		var getBookingURL = "http://127.0.0.1:5000/booking/" + refCode;
+		getBookingData(getBookingURL);
+
+	});
+
+
+
 	  function showError(message) {
         // Display an error under the the predefined label with error as the id
         $('#error').text(message);
     }
 	  
 	  $("#confirmBookingForm").submit(async (event) => {
-	  outbound_flightNo=localStorage.getItem('outbound_flightNo');
-	  pid=localStorage.getItem('pid');
-	  class_name=localStorage.getItem('class_name');
-	  meal_desc=localStorage.getItem('meal_desc');
-	  baggage=localStorage.getItem('baggage');
-	  class_type=localStorage.getItem('class_type');
-	  departDate=localStorage.getItem('departDate');
-	  baggage_desc=localStorage.getItem('baggage_desc');
-	  flightbaseprice=localStorage.getItem('flightbaseprice');
-	  baggageid=localStorage.getItem('baggageid');
-	  pricenumber = +flightbaseprice;
+	//   outbound_flightNo=localStorage.getItem('outbound_flightNo');
+	//   pid=localStorage.getItem('pid');
+	//   class_name=localStorage.getItem('class_name');
+	//   meal_desc=localStorage.getItem('meal_desc');
+	//   baggage=localStorage.getItem('baggage');
+	//   class_type=localStorage.getItem('class_type');
+	//   departDate=localStorage.getItem('departDate');
+	//   baggage_desc=localStorage.getItem('baggage_desc');
+	//   flightbaseprice=localStorage.getItem('flightbaseprice');
+	//   baggageid=localStorage.getItem('baggageid');
+	//   pricenumber = +flightbaseprice;
 
-	  console.log(pid)
-	  console.log(outbound_flightNo);
-	  console.log(departDate);
-	  console.log(class_type);
-	  console.log(baggageid);
-	  //   console.log(class_name);
-	  console.log(meal_desc);
-	  //   console.log(baggage);
+	//   console.log(pid)
+	//   console.log(outbound_flightNo);
+	//   console.log(departDate);
+	//   console.log(class_type);
+	//   console.log(baggageid);
+	//   console.log(class_name);
+	//   console.log(meal_desc);
+	//   console.log(baggage);
 	  
 	  
 	//   console.log(baggage_desc);
 	//   console.log(flightbaseprice);
+
+
 
 
 
