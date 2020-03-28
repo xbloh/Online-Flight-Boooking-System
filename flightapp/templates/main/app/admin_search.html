@@ -69,6 +69,7 @@
     }
     displayFlightDownMenu();
 
+
   </script>
 
 </head>
@@ -122,19 +123,22 @@
                   <!-- <div class="col-md-6"> -->
                   <!-- <div class="form-group"> -->
                   <span class="form-label">Select Date:</span>
-                  <input class="form-control" type="date" required>
+                  <input class="form-control" type="date" id="dateDDL">
+                  <!-- required -->
                   <!-- </div> -->
                 </div>
 
                 <div class="form-group">
-                  <input type="submit" value="Search Passenger" class="btn btn-primary py-3">
+                  <!-- <form id="searchForm"> -->
+                  <input type="submit" value="Search Bookings" class="btn btn-primary py-3" id="searchButton">
+                  <!-- </form> -->
                 </div>
               </div>
             </form>
           </div>
-          <div class="sidebar-wrap ftco-animate">
+          <!-- <div class="sidebar-wrap ftco-animate">
 
-          </div>
+          </div> -->
         </div>
 
 
@@ -277,6 +281,22 @@
         }
       }
       displayBooking();
+      
+      document.getElementById("dateDDL").value = "2020-03-28"
+
+      $("#searchFlightForm").submit(async (event) => {
+        event.preventDefault();
+        // console.log("HELLO WORLD");
+        
+        var flightCode = document.getElementById("flightCodeDDL").value;
+        
+        var dateDDL = document.getElementById("dateDDL").value;
+        var date = dateToYMD(new Date(dateDDL));
+        console.log(`search by flightCode(${flightCode}) and date(${date})`)
+        
+          
+      });
+      
 
     </script>
 
