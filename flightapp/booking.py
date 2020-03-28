@@ -105,13 +105,16 @@ def get_booking_by_flightCode_date():
     print(data)
     flightCode = data["flightCode"]
     date = data["date"]
-    #this line causes an error
-    selected_booking = Booking.query.filter_by(flightNo = flightCode, departDate=date ).all()
-    # Translates to Select... WHERE>... LIMIT 1
+    # print(f'flightCode: {flightCode}')
+    # print(f'date: {date}')
+    
+    selected_booking = Booking.query.filter_by(flightNo=flightCode, departDate=date).all()
+    # for b in selected_booking:
+    #     print(b.departDate)
+    #     print(type(b.departDate)) # <class 'datetime.date'>
     
     if selected_booking:
-        return jsonify([booking.json() for booking in selected_booking])
-        return jsonify({"message": "Success"}), 200 
+        return jsonify([booking.json() for booking in selected_booking]), 200
 
     return jsonify({"message": "Bookings not found."}), 404
     
