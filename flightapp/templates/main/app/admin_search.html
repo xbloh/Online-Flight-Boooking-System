@@ -281,26 +281,73 @@
         }
       }
       displayBooking();
-      
+
       document.getElementById("dateDDL").value = "2020-03-28"
 
       $("#searchFlightForm").submit(async (event) => {
         event.preventDefault();
         // console.log("HELLO WORLD");
-        
+
         var flightCode = document.getElementById("flightCodeDDL").value;
-        
+
         var dateDDL = document.getElementById("dateDDL").value;
         var date = dateToYMD(new Date(dateDDL));
         console.log(`search by flightCode(${flightCode}) and date(${date})`)
-        
-          
+
+        // people?q={"name": "Joe", "age": 17}
+        var flightURL = `http://127.0.0.1:5000/booking/filter`;
+        // ?q={"flightCode": "${flightCode}", "date": "${date}"}  
+
+        const response_dep =
+          await fetch(flightURL, {
+            method: 'POST'
+            , headers: { "Content-Type": "application/json" }
+            , body: JSON.stringify({
+              "flightCode": flightCode,
+              "date": date
+            })
+          });
+        const booking_data = await response_dep.json();
+        console.log(booking_data);
+
+        // try {
+        //   // get flight details of departure flight
+
+
+        //   var out_flights = booking_data.bookings;
+        //   if (response_dep.ok) {
+        //     var rows = "";
+        //     for (const flight of out_flights) {
+        //       // console.log(dateToYMD(new Date(flight.departDate)));
+
+        //       var departDate = dateToYMD(new Date(flight.departDate));
+        //       // console.log(departDate);
+        //       eachRow =
+        //         "<td>" + flight.refCode + "</td>" +
+        //         "<td>" + flight.pid + "</td>" +
+        //         "<td>" + flight.flightNo + "</td>" +
+        //         // "<td>" + dateToYMD(flight.departDate) + "</td>" +
+        //         "<td>" + departDate + "</td>" +
+        //         "<td>" + flight.price + "</td>" +
+        //         "<td>" + flight.class_type + "</td>" +
+        //         "<td>" + flight.baggage + "</td>" +
+        //         "<td>" + flight.meal + "</td>";
+        //       rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+        //     }
+        //     // $('#outFlightsTable tbody').empty();
+        //     $('#outFlightsTable').append(rows);
+        //   } else {
+        //     showError(data_dep.message);
+        //   }
+        // } catch (error) {
+        //   // Errors when calling the service; such as network error, 
+        //   // service offline, etc
+        //   showError
+        //     ('There is a problem retrieving books data, please try again later.<br />' + error);
+        // }
       });
-      
 
-    </script>
 
-    <script>
     </script>
 
 </body>

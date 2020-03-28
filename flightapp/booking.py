@@ -90,6 +90,23 @@ def get_booking_by_pid(pid):
     return jsonify({"message": "Book not found."}), 404
 
 
+@app.route("/booking/filter", methods=['POST'])
+def get_booking_by_flightCode_date():
+    
+    data = request.get_json()
+    print(data)
+    
+    return jsonify({"message": "Success"}), 200
+
+    all_booking = Booking.query.filter_by(pid=pid).all()
+    # Translates to Select... WHERE>... LIMIT 1
+    
+    if all_booking:
+        return jsonify([booking.json() for booking in all_booking])
+
+    return jsonify({"message": "Book not found."}), 404
+
+
 @app.route("/booking/create", methods=['POST'])
 def create_booking():
     data = request.get_json()
