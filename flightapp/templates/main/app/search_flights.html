@@ -59,7 +59,8 @@
           <div class="col-md-9 ftco-animate mb-5 pb-5 text-center text-md-left" data-scrollax=" properties: { translateY: '70%' }">
             <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Make a Booking</h1>
             <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Search and book flights to travel around the world</p>
-          </div>
+		  
+		</div>
         </div>
       </div>
     </div>
@@ -78,7 +79,7 @@
             <div class="tab-content p-4 px-5" id="v-pills-tabContent">
 
               <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-				  <form action="flight_search_results.html" id="searchFlightForm" class="search-destination" method='POST'>
+				  <form id="searchFlightForm" class="search-destination" >
               		<div class="row">
               			<div class="col-md align-items-end">
               				<div class="form-group">
@@ -91,7 +92,7 @@
               			</div>
               			<div class="col-md align-items-end">
               				<div class="form-group">
-              					<label for="#">To</label>
+              					<label for="#">To</label> 
               					<div class="form-field">
 	              					<div class="icon"><span class="icon-map-marker"></span></div>
 					                <input type="text" id = "arrivalDest" class="form-control" placeholder="To">
@@ -110,7 +111,7 @@
               	</form>
               </div>
 
-              <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
+              <!-- <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
               	<form action="#" class="search-destination">
               		<div class="row">
               			<div class="col-md align-items-end">
@@ -130,8 +131,8 @@
 					                <input type="text" class="form-control checkout_date" placeholder="From">
 					              </div>
 				              </div>
-              			</div>
-              			<div class="col-md align-items-end">
+              			</div> -->
+              			<!-- <div class="col-md align-items-end">
               				<div class="form-group">
               					<label for="#">Guest</label>
               					<div class="form-field">
@@ -147,9 +148,9 @@
 			                    </div>
 					              </div>
 				              </div>
-              			</div>
+              			</div> -->
 
-          <div class="col-md">
+          <!-- <div class="col-md">
             <div class="ftco-footer-widget mb-4">
             	<h2 class="ftco-heading-2">Have a Questions?</h2>
             	<div class="block-23 mb-3">
@@ -163,10 +164,10 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12 text-center">
+          <div class="col-md-12 text-center"> -->
 
             <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  <!-- Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> -->
   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
           </div>
         </div>
@@ -191,14 +192,31 @@
   <script src="js/aos.js"></script>
   <script src="js/jquery.animateNumber.min.js"></script>
   <script src="js/bootstrap-datepicker.js"></script>
-  <script src="js/jquery.timepicker.min.js"></script>
+  <!-- <script src="js/jquery.timepicker.min.js"></script> -->
   <script src="js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="js/google-map.js"></script>
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script> -->
+  <!-- <script src="js/google-map.js"></script> -->
   <script src="js/main.js"></script>
 
   <script>
-	var pid = window.location.hash.substring(pid).substring(1);
+	  $("#searchFlightForm").submit(async (event) => {
+		event.preventDefault();
+            
+            //Get depart and arrival destination
+            var departDest = $('#departDest').val();
+			var arrivalDest = $('#arrivalDest').val();
+
+			sessionStorage.setItem('departDest', departDest);
+			sessionStorage.setItem('arrivalDest', arrivalDest);
+			console.log(departDest);
+
+			window.location.href = 'flight_search_results.html';
+
+			
+
+
+    });
+	
   </script>
     
   </body>

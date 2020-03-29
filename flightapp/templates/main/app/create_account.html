@@ -69,7 +69,11 @@
 		<div class="form-group">
             <label for="email">email</label>
             <input type="email" class="form-control" id="email" placeholder="Enter password">
-		</div>
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="pid" placeholder="Enter a username">
+        </div>
 		<div class="form-group">
             <label for="dateOfBirth">dateOfBirth</label>
             <input type="text" class="form-control" id="dateOfBirth" placeholder="Enter password">
@@ -103,7 +107,7 @@
 		var lastName = $('#lastName').val();
 		var dateOfBirth = $('#dateOfBirth').val();
 		var contactNo = $('#contactNo').val();
-		var pid = $('#email').val();
+		var pid = $('#pid').val();
 
 		
 		serviceURL += email;
@@ -119,7 +123,7 @@
 			const data = await response.json();
 
             if (response.ok) {
-                document.location.href="../about.html";
+                document.location.href="search_flights.html";
                 
                 // // relocate to home page
                 // window.location.replace(homeURL);
