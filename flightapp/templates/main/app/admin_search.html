@@ -67,7 +67,6 @@
         ('There is a problem retrieving books data, please try again later.<br />' + error);
       }
     }
-
     displayFlightDownMenu();
 
 
@@ -88,7 +87,7 @@
     <div class="collapse navbar-collapse" id="ftco-nav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a class="nav-link" href="about.html" style="color:black">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="search_flights.html.html" style="color:black">Search
+        <li class="nav-item"><a class="nav-link" href="search_flights.html" style="color:black">Search
           Flights</a>
         </li>
         <li class="nav-item"><a class="nav-link" href="manage_booking.html" style="color:black">My Bookings</a></li>
@@ -289,11 +288,10 @@
 
     // document.getElementById("dateDDL").value = "2020-03-15";
     document.getElementById("dateDDL").valueAsDate = new Date();
-    // console.log(Date.now().toLocaleString('en-CA'));
+    // console.log(new Date());
 
     $("#searchFlightForm").submit(async (event) => {
       event.preventDefault();
-      // console.log("HELLO WORLD");
 
       var flightCode = document.getElementById("flightCodeDDL").value;
 

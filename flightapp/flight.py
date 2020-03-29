@@ -37,13 +37,26 @@ class Flight(db.Model):
 
     def json(self):
         return {
-            "flightNo" : self.flightNo,
-            "departDest" : self.departDest,
-            "arrivalDest" : self.arrivalDest,
-            "deptTime" : str(self.deptTime),
-            "arrivalTime" : str(self.arrivalTime),
-            "basePrice" : self.basePrice,
+            "flightNo": self.flightNo,
+            "departDest": self.departDest,
+            "arrivalDest": self.arrivalDest,
+            "deptTime": str(self.deptTime),
+            "arrivalTime": str(self.arrivalTime),
+            "basePrice": self.basePrice,
             # "type" : self.type
+        }
+
+
+class FlightCode(db.Model):
+    __tablename__ = 'code'
+
+    code = db.Column(db.String(3), primary_key=True)
+    name = db.Column(db.String(45))  # , nullable=False
+
+    def json(self):
+        return {
+            "code": self.code,
+            "name": self.name
         }
 
 
@@ -51,19 +64,24 @@ class Flight(db.Model):
 def get_all():
     return {"flight": [flight.json() for flight in Flight.query.all()]}
 
+
 @app.route("/getFlightNo")
 def get_all_flight_no():
     # return {"all_flight_no": ["MH123", "MH124"]}
     return {"all_flight_no": [flightNo[0] for flightNo in Flight.query.with_entities(Flight.flightNo).all()]}
 
+
 @app.route("/flight/<string:departDest>/<string:arrivalDest>")
 def get_flight_by_dept_arr(departDest, arrivalDest):
-    flights = Flight.query.filter_by(departDest=departDest, arrivalDest=arrivalDest)
+    flights = Flight.query.filter_by(
+        departDest=departDest, arrivalDest=arrivalDest)
     if len(flights.all()) != 0:
-        return {"flight": [flight.json() for flight in flights], "status": 200}
+        return {"flight": [flight.json() for flight in flights], "status": 200} 
     return jsonify({"message": "Flight not found."}), 404
 
 # get flight details by flight number
+
+
 @app.route("/flight/<string:flightNo>")
 def get_flight_by_flight_no(flightNo):
     flight = Flight.query.filter_by(flightNo=flightNo).first()
@@ -77,10 +95,13 @@ def get_flight_by_flight_no(flightNo):
 # 	"departDest": "SIN",
 # 	"arrivalDest": "KUL"
 # }
+
+
 @app.route("/flight/receive_flights", methods=['POST'])
 def receive_flights():
     details = request.get_json()
-    result = get_flight_by_dept_arr(details['departDest'], details['arrivalDest'])
+    result = get_flight_by_dept_arr(
+        details['departDest'], details['arrivalDest'])
     replymessage = json.dumps(result)
     if result['status'] == 200:
         return replymessage, 200
@@ -88,6 +109,8 @@ def receive_flights():
         return replymessage, 502
 
 # Booking microservice interact with Flight microservice
+
+
 @app.route("/flight/receive_choice", methods=['POST'])
 def receive_choice():
     details = request.get_json()
@@ -99,6 +122,11 @@ def receive_choice():
     else:
         return replymessage, 502
 
+
+@app.route("/getFlightCode")
+def getAllFlightCode():
+    return jsonify([flightCode.json() for flightCode in FlightCode.query.all()]), 200
+
+
 if __name__ == "__main__":
     app.run(port=5001, debug=True)
-
