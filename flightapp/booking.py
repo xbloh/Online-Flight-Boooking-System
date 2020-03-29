@@ -92,15 +92,47 @@ def get_booking_by_pid(pid):
     return jsonify({"message": "Book not found."}), 404
 
 
+@app.route("/booking/assignSeat/<string:refCode>")
+def assign_seat_for_booking(refCode):
+    print(f'refCode: {refCode}')
+    booking = Booking.query.filter_by(refCode=refCode).first()
+    # booking = session.query(Booking).filter(Booking.refCode==refCode).one()
+
+    print(booking.json())
+
+    # Translates to Select... WHERE>... LIMIT 1
+    seat_columns = ['A', 'B', 'C', 'D', 'E', 'F']
+    seat_rows = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30']
+    all_seats = []
+    for one_num in seat_rows: # 1, 2, 3
+        for one_letter in seat_columns: # A, B, C
+            all_seats.append(one_letter + one_num)
+    # all_seats = ['A1', 'B2' .... ]
+    # all_seats -= [all assigned seats]
+    
+    
+    flightCode = booking.flightNo
+    flightDate = booking.departDate # '2020-03-15'
+    print(f'flightCode : {flightCode}')
+    print(f'flightDate : {flightDate}')
+
+    assigned_seats = [booking.seat_number for booking in Booking.query.filter_by(flightNo=flightCode, departDate=flightDate).all() if booking.seat_number != '']
+    print(assigned_seats)
+
+    for one_seat in assigned_seats:
+        all_seats.remove(one_seat)
+    # print(all_seats[:80])
+    booking.seat_number = all_seats[0]
+    
+    try: 
+        db.session.commit()
+    except:
+        return jsonify({"message": "An error occurred when assigning seats."}), 500
+
+    return jsonify(booking.json()), 200 
+
+
 @app.route("/booking/filter", methods=['POST'])
-# def get_booking_by_flightCode_date(flightCode, date):
-#     details = json.loads(json.dumps({"flightCode" : flightCode, "date" : date}, default = str))
-#     #not sure how to implement this function from here as it goes to flightURL but this should call booking (aka this)
-#     r = requests.post(flightURL, json = details)
-#     result = json.loads(r.text)
-#     if result['status'] == 200:
-#         # print(result['flight'])
-#         return result['flight']
 def get_booking_by_flightCode_date():
     
     data = request.get_json()

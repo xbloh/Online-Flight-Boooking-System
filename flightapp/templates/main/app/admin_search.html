@@ -266,7 +266,7 @@
             if (!seatNumber) {
               // <form></form>
             // <form id="assignForm">
-              seatNumber = `<input type='button' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn'/>`;
+              seatNumber = `<form><input type='button' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn'/></form>`;
               // onClick='redirect_to_assignSeats(${flight.refCode})'
             }
             eachRow =
@@ -335,7 +335,7 @@
             // console.log("seat_number null : "+ !flight.seatNumber);
             seatNumber = flight.seatNumber;
             if (!seatNumber) {
-              seatNumber = `<input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn'/>`;
+              seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn'/></form>`;
             }
             eachRow =
               "<td>" + flight.refCode + "</td>" +
@@ -383,7 +383,8 @@
     // })
 
     function redirect_to_assignSeats(refCode) {
-      window.location.assign("admin_assignSeats.html");
+      // window.location.assign("admin_assignSeats.html");
+      console.log('ASDSDS');
       // $(location).attr('href', 'admin_assignSeats.html');
     }
 
