@@ -25,6 +25,7 @@
   <link href="css/flaticon.css" rel="stylesheet">
   <link href="css/icomoon.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 
   <script>
     function dateToYMD(date) {
@@ -101,6 +102,7 @@
 
       <div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
         <!-- <h4 class="mb-5">Flight Details</h4> -->
+        
         <table class='table table-striped' id="outFlightsTable">
           <thead>
           <th>Row</th>
@@ -179,7 +181,7 @@
 
     async function displayFlightSeats() {
       var rows = "";
-      available_display_text = "Available"
+      available_display_text = "<input type="radio" id='regular' name="optradio">";
       for (let i = 1; i <= 30; i++) {
         eachRow =
           "<td>" + i + "</td>" +

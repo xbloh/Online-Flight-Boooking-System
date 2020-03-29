@@ -70,87 +70,28 @@
 	    				<table class="table" id="cartTable">
 						    <thead class="thead-primary">
 						      <tr class="text-center">
-						        <th>Flight Details</th>
-                                <!--
-                                    <th>Departure Date</th>
-                                    <th>Return Date</th>
-                                -->
-						        <th>Price</th>
-						        <!-- <th>Quantity</th> -->
-								<th>Total</th>
-								<th>&nbsp;</th>
+								<th>Depart Date</th>
+								<th>Depart Time</th>
+								<th>Flight Number</th>
+								<th>Reference Code</th>
+								<th>Price</th>
 						      </tr>
 						    </thead>
 						    <tbody>
 						      <tr class="text-center">
-						        <!-- <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-						        
-						        <td class="image-prod"><div class="img" style="background-image:url(images/product-3.jpg);"></div></td>
-								 -->
-								 <!-- <td class="product-name">
-						        	<h3>Singapore to Japan · SQ240</h3>
-									<p>Dept. Date: 16 Apr 2020 <br>
-									Arr. Date: 17 Apr 2020</p>
-						        </td>
-								 
-						        
-						        <td class="price">
-									Flight Ticket: $2567.50 <br>
-									20kg Baggage: $200 <br>
-									Japanese Cuisine: $20.29 <br>
 
-								</td> -->
-						        
-						        <!-- <td class="quantity">
-						        	<div class="input-group mb-3">
-					             	<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-					          	</div> -->
-					          <!-- </td>
-						        
-								<td class="total">$4.90</td>
-								<td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>Cancel</i> &nbsp;&nbsp;&nbsp;
-									<i class='material-icons' onclick='deleteRow(" + rowID + ")'>Edit</i> &nbsp;&nbsp;&nbsp;
-									<i class='material-icons' onclick='deleteRow(" + rowID + ")'>Check In</i> </td>
-						      </tr>END TR -->
+						      </tr>
 
 						      <tr class="text-center">
-						        <!-- <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-						        
-						        <td class="image-prod"><div class="img" style="background-image:url(images/product-4.jpg);"></div></td>
-						         -->
-								 <!-- <td class="product-name">
-									<h3>Japan to Singapore · SQ240</h3>
-									<p>Dept. Date: 20 Apr 2020 <br>
-									Arr. Date: 21 Apr 2020</p>
-								</td>
-						        
-						        <td class="price">
-									Flight Ticket: $2567.50 <br>
-									20kg Baggage: $200 <br>
-									Japanese Cuisine: $20.29 <br>
-	
-								</td> -->
-						        
-						        <!-- <td class="quantity">
-						        	<div class="input-group mb-3">
-					             	<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-					          	</div>
-					          </td> -->
-						        
-								<!-- <td class="total">$15.70</td>
-								
-								<td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>delete</i> &nbsp;&nbsp;&nbsp;
-									<i class='material-icons' onclick='deleteRow(" + rowID + ")'>edit</i> </td> -->
-						      </tr><!-- END TR-->
+
+						      </tr>
 						    </tbody>
 						  </table>
 					  </div>
-					  <form action="#"  id='confirmBookingForm'>
+					  <form action="../../paypal.html"  id='confirmBookingForm'>
         				<div class="fields">
-
-
 		              <div class="form-group">
-		                <input type="submit" value="confirm" class="btn btn-primary py-3 px-5">
+		                <input type="submit" value="Confirm and Pay" class="btn btn-primary py-3 px-5"  style="margin:auto;display:block">
 		              </div>
 		            </div>
 	            </form>
@@ -158,7 +99,7 @@
     		</div>
     	
 
-              <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
+              <!-- <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
               	<form action="#" class="search-destination">
               		<div class="row">
               			<div class="col-md align-items-end">
@@ -211,10 +152,10 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12 text-center">
+          <div class="col-md-12 text-center"> -->
 
             <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  <!-- Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> -->
   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
           </div>
         </div>
@@ -247,7 +188,7 @@
 
   <script>
 
-	refCode=localStorage.getItem('refCode');
+	refCode=sessionStorage.getItem('refCode');
 	console.log(refCode);
 
 	async function getBookingData(getBookingURL) {
@@ -260,8 +201,27 @@
 
             const booking_data = await booking_response.json();
             if (booking_response.ok) {
-				var booking = booking_data;
-				console.log(booking);
+				var booking = booking_data; 
+				var date = new Date(booking.departDate);
+				var day = date.getDate();
+				var month = date.getMonth();
+				var year = date.getFullYear();
+				var departDate = day + '-' + month + '-' + year
+
+				foundBooking =
+                        "<tbody>" +
+                        "<tr class='text-center'>" +
+                        "<td>" + departDate + "</td>" +
+                        "<td>" + booking.deptTime + "</td>" +
+                        "<td>" + booking.flightNo + "</td>" +
+                        "<td>" + booking.refCode + "</td>" +
+						"<td>" + booking.price + "</td>" +
+                        "</tr>" +
+                        "<tbody>";
+
+				$('#cartTable tbody').empty();
+				$('#cartTable').append(foundBooking);
+
                 
             } else {
                 showError(booking_data.message);
@@ -271,98 +231,27 @@
 	}
 	}
 
+	$(function() { 
+		var getBookingURL = "http://127.0.0.1:5000/booking/" + refCode;
+		getBookingData(getBookingURL).refCode;
+	});
+
+
+	
 	
 
 
 
-
-	$(function() { 
-		var getBookingURL = "http://127.0.0.1:5000/booking/" + refCode;
-		getBookingData(getBookingURL);
-
-	});
-
-
-
-	  function showError(message) {
-        // Display an error under the the predefined label with error as the id
-        $('#error').text(message);
-    }
-	  
-	  $("#confirmBookingForm").submit(async (event) => {
-	//   outbound_flightNo=localStorage.getItem('outbound_flightNo');
-	//   pid=localStorage.getItem('pid');
-	//   class_name=localStorage.getItem('class_name');
-	//   meal_desc=localStorage.getItem('meal_desc');
-	//   baggage=localStorage.getItem('baggage');
-	//   class_type=localStorage.getItem('class_type');
-	//   departDate=localStorage.getItem('departDate');
-	//   baggage_desc=localStorage.getItem('baggage_desc');
-	//   flightbaseprice=localStorage.getItem('flightbaseprice');
-	//   baggageid=localStorage.getItem('baggageid');
-	//   pricenumber = +flightbaseprice;
-
-	//   console.log(pid)
-	//   console.log(outbound_flightNo);
-	//   console.log(departDate);
-	//   console.log(class_type);
-	//   console.log(baggageid);
-	//   console.log(class_name);
-	//   console.log(meal_desc);
-	//   console.log(baggage);
-	  
-	  
-	//   console.log(baggage_desc);
-	//   console.log(flightbaseprice);
-
-
-
-
-
-
-	 
-	  var bookingURL = "http://127.0.0.1:5000/booking/create";
-
-	  
-		  
-		event.preventDefault();
-	  		try {
-            const response_booking =
-                await fetch(
-                    bookingURL, {
-                    method: 'POST',
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ pid:pid, flightNo:outbound_flightNo, base_price:pricenumber, departDate:departDate, class_type:class_type, baggage:baggageid, meal: meal_desc})
-					
-				});
-			console.log(response_booking);
-			const data_booking = await response.json();
-            if (response_booking.ok) {
-				console.log(data_booking);
-				
-
-				return False
-                
-            } else {
-                
-                showError(data_booking.message);
-            }
-        } catch (error) {
-            // Errors when calling the service; such as network error, 
-            // service offline, etc
-            showError
-                ("There is a problem adding this book, please try again later. " + error);
-
-        } // error
-    });
-
-
-	  
-
-
-
-
   </script>
+
+	
+
+
+
+	<script>
+
+
+	</script>
     
   </body>
 </html>

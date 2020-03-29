@@ -106,10 +106,11 @@
             const pid_data = await pid_response.json();
             if (pid_response.ok) {
                 pid = pid_data;
-                localStorage.setItem('pid', pid);
+                // localStorage.setItem('pid', pid);
+                sessionStorage.setItem('pid', pid);
                 // document.location.href="../flight_search_results.html?pid="+pid;
                 
-                window.location.href = './flight_search_results.html';
+                window.location.href = './search_flights.html';
                 // console.log("hihi");
                 // relocate to home page
                 // window.location.replace(homeURL);

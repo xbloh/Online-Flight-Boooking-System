@@ -30,19 +30,105 @@
 </style>
 
 <body>
-    <div id="center"></div>
+    
+
+
+    <section class="ftco-section ftco-cart">
+        <div class="container">
+            <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table" id="cartTable">
+                        <thead class="thead-primary">
+                          <tr class="text-center">
+                            <th>Depart Date</th>
+                            <th>Depart Time</th>
+                            <th>Flight Number</th>
+                            <th>Reference Code</th>
+                            <th>Price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                  </div>
+                  <form action="../../paypal.html"  id='confirmBookingForm'>
+                    <div class="fields">
+                  <div class="form-group">
+                    <input type="submit" value="Confirm and Pay" class="btn btn-primary py-3 px-5"  style="margin:auto;display:block">
+                  </div>
+                </div>
+            </form>
+            </div>
+        </div>
+
+
+
+
     <script>
-        var status = {{ status|tojson}};
-        var refCode = {{refCode|tojson}};
-        if (status == "no"){
-            var msg = "<h1 style='font-size:100px'>Sorry we cannot proceed your boarding. Please proceed to our counter for more information</h1>";
-            $('#center').append(msg);
-        }else{
-            var url = `<a href=http://localhost:5000/booking/boarding/${refCode}><img src=https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:5000/booking/boarding/${refCode} size=300x300></a>`;
-            $('#center').append(url);
-        }
+        // var status = {{ status|tojson}};
+        // var refCode = {{refCode|tojson}};
+        // if (status == "no"){
+        //     var msg = "<h1 style='font-size:100px'>Sorry we cannot proceed your boarding. Please proceed to our counter for more information</h1>";
+        //     $('#center').append(msg);
+        // }else{
+        //     var url = `<a href=http://localhost:5000/booking/boarding/${refCode}><img src=https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:5000/booking/boarding/${refCode} size=300x300></a>`;
+        //     $('#center').append(url);
+        // }
 
         // include table for boarding pass and qr code
+
+        // replace hardcode refCode here
+        var refCode = 44;
+
+        async function getBookingData(getBookingURL) {
+		try {
+
+			const booking_response =
+                await fetch(
+                	getBookingURL, {
+                    method: 'GET'  });
+
+            const booking_data = await booking_response.json();
+            if (booking_response.ok) {
+                console.log(booking_data);
+				var booking = booking_data; 
+				var date = new Date(booking.departDate);
+				var day = date.getDate();
+				var month = date.getMonth();
+				var year = date.getFullYear();
+				var departDate = day + '-' + month + '-' + year
+
+				foundBooking =
+                        "<tbody>" +
+                        "<tr class='text-center'>" +
+                        "<td>" + departDate + "</td>" +
+                        "<td>" + booking.deptTime + "</td>" +
+                        "<td>" + booking.flightNo + "</td>" +
+                        "<td>" + booking.refCode + "</td>" +
+						"<td>" + booking.price + "</td>" +
+                        "</tr>" +
+                        "<tbody>";
+
+				$('#cartTable tbody').empty();
+				$('#cartTable').append(foundBooking);
+
+                
+            } else {
+                showError(booking_data.message);
+            }
+	} catch (error) {
+		console.error(error);
+	}
+	}
+
+	$(function() { 
+		var getBookingURL = "http://127.0.0.1:5000/booking/" + refCode;
+		getBookingData(getBookingURL).refCode;
+	});
+
+
+
 
     </script>
     
