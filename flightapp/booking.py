@@ -120,7 +120,8 @@ def assign_seat_for_booking(refCode):
     print(assigned_seats)
 
     for one_seat in assigned_seats:
-        all_seats.remove(one_seat)
+        if one_seat in all_seats:
+            all_seats.remove(one_seat)
     # print(all_seats[:80])
     booking.seat_number = all_seats[0]
     
@@ -150,7 +151,9 @@ def get_booking_by_flightCode_date():
     if selected_booking:
         return jsonify([booking.json() for booking in selected_booking]), 200
 
-    return jsonify({"message": "Bookings not found."}), 404
+    return jsonify([]), 201 # return empty list 
+
+    # return jsonify({"message": "Bookings not found."}), 404
     
 
 @app.route("/booking/create", methods=['POST'])

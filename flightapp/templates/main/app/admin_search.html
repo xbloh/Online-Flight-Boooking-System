@@ -108,12 +108,12 @@
           <form action="#" id='searchFlightForm'>
             <div class="fields">
               <!-- <div class="form-group">
-                <input class="form-control" id='arrivalDest' placeholder="From" type="text">
-              </div> -->
+              <input class="form-control" id='arrivalDest' placeholder="From" type="text">
+            </div> -->
 
               <!-- <div class="form-group">
-                <input class="form-control" id='departDest' placeholder="To" type="text">
-              </div> -->
+              <input class="form-control" id='departDest' placeholder="To" type="text">
+            </div> -->
 
               <div class="form-group">
                 <!-- <input class="form-control" id='departDate' placeholder="departDate" type="text"> -->
@@ -139,7 +139,7 @@
         </div>
         <!-- <div class="sidebar-wrap ftco-animate">
 
-        </div> -->
+      </div> -->
       </div>
 
 
@@ -159,15 +159,15 @@
           </thead>
           <tbody>
           <!-- <tr>
-            <td>cell</td>
-            <td>cell</td>
-            <td>cell</td>
-            <td>cell</td>
-            <td>cell</td>
-            <td>cell</td>
-            <td>cell</td>
-            <td>cell</td>
-          </tr> -->
+        <td>cell</td>
+        <td>cell</td>
+        <td>cell</td>
+        <td>cell</td>
+        <td>cell</td>
+        <td>cell</td>
+        <td>cell</td>
+        <td>cell</td>
+      </tr> -->
           </tbody>
         </table>
 
@@ -217,7 +217,7 @@
   <script src="js/main.js"></script>
 
   <form>
-    <input type='button' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn1'/>
+    <input class='btn btn-primary' id='assignSeatBtn1' type='button' value='Assign Seats'/>
   </form>
 
   <!-- Get flight details with arrival and departure destination -->
@@ -238,12 +238,6 @@
 
       var flightURL = "http://127.0.0.1:5000/booking";
 
-      //Get form data
-      // var arrivalDest = $('#arrivalDest').val();
-      // var departDest = $('#departDest').val();
-
-      // flightURL_dep = flightURL + departDest + '/' + arrivalDest;
-
       try {
         // get flight details of departure flight
         const response_dep =
@@ -258,16 +252,12 @@
         if (response_dep.ok) {
           var rows = "";
           for (const flight of out_flights) {
-            // console.log(dateToYMD(new Date(flight.departDate)));
 
             var departDate = dateToYMD(new Date(flight.departDate));
             // console.log(departDate);
             seatNumber = flight.seatNumber;
             if (!seatNumber) {
-              // <form></form>
-            // <form id="assignForm">
-              seatNumber = `<form><input type='button' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn'/></form>`;
-              // onClick='redirect_to_assignSeats(${flight.refCode})'
+              seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
             }
             eachRow =
               "<td>" + flight.refCode + "</td>" +
@@ -279,7 +269,7 @@
               "<td>" + flight.class_type + "</td>" +
               "<td>" + flight.baggage + "</td>" +
               "<td>" + flight.meal + "</td>" +
-              "<td>" + seatNumber + "</td>";
+              `<td id="td${flight.refCode}">` + seatNumber + "</td>";
             rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
           }
           // $('#outFlightsTable tbody').empty();
@@ -297,7 +287,9 @@
 
     displayBooking();
 
-    document.getElementById("dateDDL").value = "2020-03-15"
+    // document.getElementById("dateDDL").value = "2020-03-15";
+    document.getElementById("dateDDL").valueAsDate = new Date();
+    // console.log(Date.now().toLocaleString('en-CA'));
 
     $("#searchFlightForm").submit(async (event) => {
       event.preventDefault();
@@ -335,7 +327,7 @@
             // console.log("seat_number null : "+ !flight.seatNumber);
             seatNumber = flight.seatNumber;
             if (!seatNumber) {
-              seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn'/></form>`;
+              seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
             }
             eachRow =
               "<td>" + flight.refCode + "</td>" +
@@ -362,30 +354,31 @@
       }
     });
 
-    // $(document).ready(function () {
-    //
-    // });
-    // $("assignSeatBtn").click(function () {
-    //   console.log('button clicked');
-    // });
+    async function assignSeats(refCode) {
 
-    // $("#assignSeatBtn1").click(async (event) => {
-    //   console.log('assignSeatBtn');
-    // });
-
-    $("#assignSeatBtn").click(async (event) => {
-      console.log('assignSeatBtn');
-    });
-
-    // $("assignForm").submit(async function (event) {
-    //   event.preventDefault();
-    //   window.location.href("admin_assignSeats.html");
-    // })
-
-    function redirect_to_assignSeats(refCode) {
-      // window.location.assign("admin_assignSeats.html");
-      console.log('ASDSDS');
-      // $(location).attr('href', 'admin_assignSeats.html');
+      event.preventDefault(); //Prevents screen from refreshing when submitting
+      console.log('assign (refCode): ' + refCode);
+      var flightURL = `http://127.0.0.1:5000/booking/assignSeat/${refCode}`;
+      try {
+        // get flight details of departure flight
+        const response_dep =
+          await fetch(
+            flightURL, {
+              method: 'GET'
+              // ,mode: 'no-cors'
+            });
+        const booking_data = await response_dep.json();
+        if (response_dep.ok) {
+          console.log(booking_data);
+          var element = document.getElementById(`td${refCode}`);
+          element.innerHTML = booking_data.seatNumber;
+        }
+      } catch (error) {
+        // Errors when calling the service; such as network error,
+        // service offline, etc
+        showError
+        ('There is a problem retrieving books data, please try again later.<br />' + error);
+      }
     }
 
   </script>
