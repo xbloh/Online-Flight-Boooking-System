@@ -282,7 +282,7 @@ def get_booking_by_refCode(refCode):
         url2 = 'http://localhost:5001/flight/' +str(booking.flightNo)
         r2 = requests.get(url2)
         result2 = json.loads(r2.text)
-        return_json = {"name": result1['firstName'] + " " + result1['lastName'], "email" : result1['email'], "refCode" : refCode, "flightNo": booking.flightNo, "departDate" :booking.departDate, "deptTime": result2['flight']['deptTime'], "price":booking.price }
+        return_json = {"name": result1['firstName'] + " " + result1['lastName'], "email" : result1['email'], "refCode" : refCode, "flightNo": booking.flightNo, "departDate" :booking.departDate, "deptTime": result2['flight']['deptTime'], "price":booking.price, "class_type": booking.class_type, "seat_number": booking.seat_number }
         return return_json
     return jsonify({"message": "Passenger not found"}), 404
 
