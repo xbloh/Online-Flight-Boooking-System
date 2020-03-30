@@ -87,7 +87,7 @@ def get_booking_by_pid(pid):
     # Translates to Select... WHERE>... LIMIT 1
     
     if all_booking:
-        return jsonify([booking.json() for booking in all_booking])
+        return jsonify([booking.json() for booking in all_booking]), 200
 
     return jsonify({"message": "Book not found."}), 404
 
