@@ -91,6 +91,7 @@
 						        	<h3>Singapore to Japan · SQ240</h3>
 									<p>Dept. Date: 16 Apr 2020 <br>
 									Arr. Date: 17 Apr 2020</p>
+									
 						        </td>
 								 
 						        
@@ -122,6 +123,8 @@
 									<h3>Japan to Singapore · SQ240</h3>
 									<p>Dept. Date: 20 Apr 2020 <br>
 									Arr. Date: 21 Apr 2020</p>
+
+									
 								</td>
 						        
 						        <td class="price">
@@ -146,8 +149,54 @@
 						  </table>
 					  </div>
     			</div>
-    		</div>
-    	
+			</div>
+			<script>
+			pid = sessionStorage.getItem('pid');
+			var flightURL = `http://127.0.0.1:5000/booking/${pid}`;
+
+    async function getFlightData(flightURL_dep) {
+      console.log(flightURL_dep);
+    //   try {
+    //     // get flight details of departure flight
+    //     const response_dep =
+    //       await fetch(
+    //         flightURL_dep, {method: 'GET'}
+    //       );
+    //     const data_dep = await response_dep.json();
+    //     // console.log(data_dep);
+    //     var flights = data_dep.flight;
+    //     if (response_dep.ok) {
+    //       var rows = "";
+    //       for (const flight of flights) {
+    //         eachRow =
+    //           "<td>" +
+    //           "Flight Number: " + flight.flightNo + "<br>" +
+    //           "Departure Destination: " + flight.departDest + "<br>" +
+    //           "Arrival Destination: " + flight.arrivalDest + "<br>" +
+    //           "Departure Time: " + flight.deptTime + "<br>" +
+    //           "Arrival Time: " + flight.arrivalTime + "<br>" +
+    //           "Base Price: $" + flight.basePrice + "<br>" +
+    //           // "Type: " + flight.type + "</td>" +
+    //           "<td><input value=" + "'" + flight.flightNo + "'" + "class='outbound_flight' name='type_radio' type='radio' /></td>";
+    //         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+    //       }
+    //       $('#outFlightsTable tbody').empty();
+    //       $('#outFlightsTable').append(rows);
+    //     } else {
+    //       showError(data_dep.message);
+    //     }
+
+
+    //   } catch (error) {
+    //     // Errors when calling the service; such as network error,
+    //     // service offline, etc
+    //     showError
+    //     ('There is a problem retrieving books data, please try again later.<br />' + error);
+
+    //   }
+    }
+
+			</script>
 
               <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
               	<form action="#" class="search-destination">
