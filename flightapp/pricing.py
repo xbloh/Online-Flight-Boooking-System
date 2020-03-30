@@ -132,15 +132,15 @@ def get_mealobj_by_meal_desc(meal_desc):
     return jsonify({"message": "Couldn't find meal"}), 404
 
 @app.route("/pricing/getbaggage/<string:baggage_id>")
-def get_mealobj_by_meal_id(baggage_id):
+def get_baggageobj_by_baggage_id(baggage_id):
     baggage = Baggage.query.filter_by(baggage_id=baggage_id).first()
     if baggage:
         return jsonify(baggage.json())
     return jsonify({"message": "Couldn't find baggage"}), 404
 
 @app.route("/pricing/getbaggage/<string:baggage_desc>")
-def get_baggageobj_by_meal_desc(baggage_desc):
-    baggage = Meal.query.filter_by(baggage_desc=baggage_desc).first()
+def get_baggageobj_by_baggage_desc(baggage_desc):
+    baggage = Baggage.query.filter_by(baggage_desc=baggage_desc).first()
     if baggage:
         return jsonify(baggage.json())
     return jsonify({"message": "Couldn't find baggage"}), 404
