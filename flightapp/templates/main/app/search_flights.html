@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <title>Homepage</title>
+  <title>Search Results</title>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
@@ -32,7 +31,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
   <div class="container">
-    <a class="navbar-brand" href="about.html">Fly Like T6</a>
+    <a class="navbar-brand" href="index.html">Fly Like T6</a>
     <button aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
             data-target="#ftco-nav"
             data-toggle="collapse" type="button">
@@ -41,196 +40,491 @@
 
     <div class="collapse navbar-collapse" id="ftco-nav">
       <ul class="navbar-nav ml-auto">
-
-        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="search_flights.html">Search Flights</a></li>
-        <li class="nav-item"><a class="nav-link" href="manage_booking.html">My Bookings</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">Logout</a></li>
-
-
+        <li class="nav-item"><a class="nav-link" href="about.html" style="color:white">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="search_flights.html" style="color:white">Search Flights</a></li>
+        <li class="nav-item"><a class="nav-link" href="manage_booking.html" style="color:white">My Bookings</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html" style="color:white">Logout</a></li>
       </ul>
     </div>
   </div>
 </nav>
 <!-- END nav -->
+<div class="hero-wrap js-fullheight" style="background-image: url('images/bg_1.jpg')">
 
-<div class="hero-wrap js-fullheight" style="background-image: url('images/bg_1.jpg');">
-  <div class="overlay"></div>
+
+<section class="ftco-section ftco-degree-bg">
   <div class="container">
-    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start"
-         data-scrollax-parent="true">
-      <div class="col-md-9 ftco-animate mb-5 pb-5 text-center text-md-left"
-           data-scrollax=" properties: { translateY: '70%' }">
-        <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Make a Booking</h1>
-        <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Search and book flights to travel around the
-          world</p>
+    <div class="row">
+      <div class="col-lg-3 sidebar"  style="background-color:beige; opacity:0.95">
+        <div class="sidebar-wrap ftco-animate" style="padding:20px">
+          <h2 class="mb-4">Find Flight</h2>
+          <form action="#" id='searchFlightForm'>
+            <div class="fields">
+              <div class="form-group">
+                <!--								<input class="form-control" id='departDest' placeholder="To" type="text">-->
+                <select class="form-control" id="departDestCodeDDL">
+                  <option disabled selected value="">Please Select - Flying from</option>
+                </select>
+              </div>
 
+              <div class="form-group">
+                <!--								<input class="form-control" id='arrivalDest' placeholder="From" type="text">-->
+                <select class="form-control" id="arrivalDestCodeDDL">
+                  <option disabled selected value="">Please Select - Flying to</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <input class="btn btn-primary py-3 px-5" type="submit" value="Search">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="sidebar-wrap ftco-animate">
+
+        </div>
       </div>
+
+
+      <form action="#" id='createBookingForm'  style="background-color:aliceblue; opacity:0.95">
+        <div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
+          <h4 class="mb-5">Step 1: Select your flights</h4>
+          <table class='table table-striped' id="outFlightsTable">
+            <thead>
+            <th>Flight Details</th>
+
+            <!-- <th>Departure Destination</th>
+            <th>Arrival Destination</th>
+            <th>Departure Time</th>
+            <th>Arrival Time</th>
+            <th>Base Price</th>
+            <th>Flight Type</th> -->
+            </thead>
+          </table>
+          <!-- <table id="inFlightsTable" class='table table-striped'>
+            <thead>
+              <th>Inbound Flights</th>
+            </thead>
+          </table> -->
+          <div class="fields">
+            <h4>
+              <class
+              ="mb-5">Step 2: Select your flight class
+            </h4>
+            <div class="row">
+              <div class="col-md-6">
+                Class:
+                <div class="form-group">
+                  <div class="select-wrap one-third">
+                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                    <select class="form-control" id="class_name" name="" placeholder="Class">
+                      <option value="economy">Economy</option>
+                      <option value="business">Business</option>
+                      <option value="first">First</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <!-- Length:
+                <div class="form-group">
+                <div class="select-wrap one-third">
+                <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                <select name="" id="flight_length" class="form-control" placeholder="Length">
+                  <option value="short">Short-Haul</option>
+                  <option value="long">Long-Haul</option>
+                </select>
+                </div>
+                </div> -->
+              </div>
+            </div>
+
+            <h4>
+              <class
+              ="mb-5">Step 3: Select your add-ons
+            </h4>
+            <div class="row">
+              <div class="col-md-6">
+                In-Flight Meal:
+                <div class="form-group">
+                  <div class="select-wrap one-third">
+                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                    <select class="form-control" id="meal_desc" name="" placeholder="Length">
+                      <option value="0">No Meal</option>
+                      <option value="1">Fruit Cup</option>
+                      <option value="2">Breakfast Set</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                Baggage:
+                <div class="form-group">
+                  <div class="select-wrap one-third">
+                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                    <select class="form-control" id="baggage" name="" placeholder="Baggage">
+                      <option value="no baggage">No Baggage</option>
+                      <option value="standard">Standard (15kg)</option>
+                      <option value="add30">30kg</option>
+                      <option value="add50">50kg</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <input class="btn btn-primary py-3" type="submit" value="Proceed to Checkout">
+                </div>
+              </div>
+      </form>
     </div>
   </div>
+  </div>
+
+  <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    <!-- Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> -->
+    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+  </div>
+  </div>
+  </div>
+  </footer>
+
+
+  <!-- loader -->
+  <div class="show fullscreen" id="ftco-loader">
+    <svg class="circular" height="48px" width="48px">
+      <circle class="path-bg" cx="24" cy="24" fill="none" r="22" stroke="#eeeeee" stroke-width="4"/>
+      <circle class="path" cx="24" cy="24" fill="none" r="22" stroke="#F96D00" stroke-miterlimit="10" stroke-width="4"/>
+    </svg>
+  </div>
+
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <!-- <script src="js/jquery.timepicker.min.js"></script> -->
+  <script src="js/scrollax.min.js"></script>
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="js/google-map.js"></script> -->
+  <script src="js/main.js"></script>
+
+  <!-- Get flight details with arrival and departure destination -->
+  <script>
+    pid = sessionStorage.getItem('pid');
+    departDest = sessionStorage.getItem('departDest');
+    arrivalDest = sessionStorage.getItem('arrivalDest');
+    // console.log(pid);
+    var flightURL = "http://127.0.0.1:5001/flight/";
+
+    async function getFlightData(flightURL_dep) {
+      console.log(flightURL_dep);
+      try {
+        // get flight details of departure flight
+        const response_dep =
+          await fetch(
+            flightURL_dep, {method: 'GET'}
+          );
+        const data_dep = await response_dep.json();
+        // console.log(data_dep);
+        var flights = data_dep.flight;
+        if (response_dep.ok) {
+          var rows = "";
+          for (const flight of flights) {
+            eachRow =
+              "<td>" +
+              "Flight Number: " + flight.flightNo + "<br>" +
+              "Departure Destination: " + flight.departDest + "<br>" +
+              "Arrival Destination: " + flight.arrivalDest + "<br>" +
+              "Departure Time: " + flight.deptTime + "<br>" +
+              "Arrival Time: " + flight.arrivalTime + "<br>" +
+              "Base Price: $" + flight.basePrice + "<br>" +
+              // "Type: " + flight.type + "</td>" +
+              "<td><input value=" + "'" + flight.flightNo + "'" + "class='outbound_flight' name='type_radio' type='radio' /></td>";
+            rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+          }
+          $('#outFlightsTable tbody').empty();
+          $('#outFlightsTable').append(rows);
+        } else {
+          showError(data_dep.message);
+        }
+
+
+      } catch (error) {
+        // Errors when calling the service; such as network error,
+        // service offline, etc
+        showError
+        ('There is a problem retrieving books data, please try again later.<br />' + error);
+
+      }
+    }
+
+    // $(function () {
+    //   flightURL_dep = flightURL + departDest + '/' + arrivalDest;
+    //   getFlightData(flightURL_dep);
+    // });
+
+
+    // Helper function to display error message
+    function showError(message) {
+      // Display an error under the the predefined label with error as the id
+      $('#error').text(message);
+    }
+
+    $("#searchFlightForm").submit(async (event) => {
+
+      //Prevents screen from refreshing when submitting
+      event.preventDefault();
+
+      var flightURL = "http://127.0.0.1:5001/flight/";
+
+      //Get form data
+      let departDest = document.getElementById("departDestCodeDDL").value;
+      let arrivalDest = document.getElementById("arrivalDestCodeDDL").value;
+      // console.log(arrivalDest + ' --- ' + departDest);
+      // return;
+
+      flightURL_dep = flightURL + departDest + '/' + arrivalDest;
+      // flightURL_ret = flightURL + arrivalDest + '/' + departDest;
+
+      try {
+        // get flight details of departure flight
+        const response_dep =
+          await fetch(
+            flightURL_dep, {method: 'GET'}
+          );
+        const data_dep = await response_dep.json();
+        console.log(data_dep);
+        var out_flights = data_dep.flight;
+        if (response_dep.ok) {
+          var rows = "";
+          for (const flight of out_flights) {
+            eachRow =
+              "<td>" +
+              "Flight Number: " + flight.flightNo + "<br>" +
+              "Departure Destination: " + flight.departDest + "<br>" +
+              "Arrival Destination: " + flight.arrivalDest + "<br>" +
+              "Departure Time: " + flight.deptTime + "<br>" +
+              "Arrival Time: " + flight.arrivalTime + "<br>" +
+              "Base Price: $" + flight.basePrice + "<br>" +
+              // "Type: " + flight.type + "</td>" +
+              "<td><input value=" + "'" + flight.flightNo + "'" + "class='outbound_flight' name='type_radio' type='radio' /></td>";
+            rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+          }
+          $('#outFlightsTable tbody').empty();
+          $('#outFlightsTable').append(rows);
+        } else {
+          showError(data_dep.message);
+        }
+
+        // 	// get flight details of return flight
+        // 	const response_ret =
+        //         await fetch(
+        //             flightURL_ret, { method: 'GET' }
+        //         );
+        //     const data_ret = await response_ret.json();
+        // 	var in_flights = data_ret.flight;
+        //     if (response_ret.ok) {
+        //         console.log(data_ret);
+        // 		var rows = "";
+        //         for (const flight of in_flights) {
+        //             eachRow =
+        //                 "<td>" + "Flight Number: " + flight.flightNo  + "<br>" +
+        //                 "Departure Destination: " + flight.departDest + "<br>" +
+        //                 "Arrival Destination: " + flight.arrivalDest + "<br>" +
+        //                 "Departure Time: " + flight.deptTime  + "<br>" +
+        // 				"Arrival Time: " + flight.arrivalTime + "<br>" +
+        // 				"Base Price: $" + flight.basePrice+ "<br>" +
+        // 				"Type: " + flight.type + "</td>" +
+        // 				"<td><input value="+"'" + flight.flightNo+ "'" + "class='inbound_flight' name='type_radio' type='radio' /></td>";
+        //             rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+        //         }
+        // $('#inFlightsTable tbody').empty();
+        // $('#inFlightsTable').append(rows);
+        // }
+      } catch (error) {
+        // Errors when calling the service; such as network error,
+        // service offline, etc
+        showError
+        ('There is a problem retrieving books data, please try again later.<br />' + error);
+
+      }
+
+    });
+  </script>
+  <script>
+    $("#createBookingForm").submit(async (event) => {
+      event.preventDefault();
+      // var pid = window.location.hash.substring(pid).substring(1);
+      //Prevents screen from refreshing when submitting
+
+
+      var bookingURL = "http://127.0.0.1:5000/booking/create";
+      var pricingURL = "http://127.0.0.1:5003/pricing/getbaggageid/";
+      var flightURL = "http://127.0.0.1:5001/flight/";
+
+      //Get form data
+
+      var outbound_flightNo = $(".outbound_flight").val();
+      // var inbound_flightNo = $(".inbound_flight").val();
+      var class_type = $('#class_name').val();
+      var flight_length = $('#flight_length').val();
+      var meal_desc = $('#meal_desc').val();
+      var baggage_desc = $('#baggage').val();
+      // var class_type = flight_length + '_' + class_name
+      var today = new Date();
+      var departDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      // var baggage_desc = flight_length + '_' + baggage;
+
+
+      // localStorage.setItem('outbound_flightNo', outbound_flightNo);
+      // localStorage.setItem('class_name', class_name);
+      // localStorage.setItem('meal_desc', meal_desc);
+      // localStorage.setItem('baggage', baggage);
+      // localStorage.setItem('class_type', class_type);
+      // localStorage.setItem('departDate', departDate);
+      // localStorage.setItem('baggage_desc', baggage_desc);
+
+      // window.location.href = './cart.html';
+
+
+      // create booking
+
+
+      // pid=localStorage.getItem('pid');
+      pricingURL += baggage_desc;
+      flightURL += outbound_flightNo;
+      // console.log(flightURL);
+
+      try {
+
+        // get flight base price
+        const flightbaseprice_response =
+          await fetch(
+            flightURL, {
+              method: 'GET'
+            });
+        const flightbaseprice_data = await flightbaseprice_response.json();
+        if (flightbaseprice_response.ok) {
+          var flightbaseprice = flightbaseprice_data.flight['basePrice'];
+          localStorage.setItem('flightbaseprice', flightbaseprice);
+
+        } else {
+          showError(flightbaseprice_data.message);
+        }
+        // get baggage id
+        const baggageid_response =
+          await fetch(
+            pricingURL, {
+              method: 'GET'
+            });
+        const baggageid_data = await baggageid_response.json();
+        if (baggageid_response.ok) {
+          var baggageid = baggageid_data.baggage_id;
+          // localStorage.setItem('baggageid', baggageid);
+          // console.log(baggageid);
+        } else {
+          showError(baggageid_data.message);
+        }
+        // console.log('hihi')
+        // console.log(pid);
+        // console.log(outbound_flightNo);
+        // console.log(flightbaseprice);
+        // console.log(departDate);
+        // console.log(class_type);
+        // console.log(baggageid);
+        // console.log(meal_desc);
+
+
+        const response_booking =
+          await fetch(
+            bookingURL, {
+              method: 'POST',
+              headers: {"Content-Type": "application/json"},
+              body: JSON.stringify({
+                pid: pid,
+                flightNo: outbound_flightNo,
+                base_price: flightbaseprice,
+                departDate: departDate,
+                class_type: class_type,
+                baggage: baggageid,
+                meal: meal_desc
+              })
+
+            });
+
+
+        const data_booking = await response_booking.json();
+
+        if (response_booking.ok) {
+
+          refCode = data_booking.refCode;
+          sessionStorage.setItem('refCode', refCode);
+
+
+          window.location.href = 'cart.html';
+          // console.log(data_booking);
+
+          // // relocate to home page
+          // window.location.replace(homeURL);
+
+        } else {
+
+          showError(data_booking.message);
+        }
+      } catch (error) {
+        // Errors when calling the service; such as network error,
+        // service offline, etc
+        showError
+        ("There is a problem adding this book, please try again later. " + error);
+
+      } // error
+    });
+
+    async function displayFlyingFromDDL() {
+
+      var flightURL = "http://localhost:5001/getFlightCode";
+      try {
+        // get flight details of departure flight
+        const flight =
+          await fetch(
+            flightURL, {method: 'GET'}
+          );
+        const flight_code_list = await flight.json();
+        console.log(flight_code_list);
+
+        if (flight.ok) {
+          var rows = "";
+          for (const flightCode of flight_code_list) {
+            eachRow = "<option value='" + flightCode.code + "'>" + flightCode.name + "</option>";
+            rows += eachRow;
+          }
+          // $('#departDestCodeDDL').empty();
+          $('#departDestCodeDDL').append(rows);
+          $('#arrivalDestCodeDDL').append(rows);
+
+        } else {
+          showError(data_dep.message);
+        }
+      } catch (error) {
+        // Errors when calling the service; such as network error,
+        // service offline, etc
+        alert('There is no internet connection, please try again later.<br />');
+      }
+    }
+    displayFlyingFromDDL();
+
+  </script>
+</section>
 </div>
-
-<section class="ftco-section justify-content-end ftco-search">
-  <div class="container-wrap ml-auto">
-    <div class="row no-gutters">
-      <div class="col-md-12 nav-link-wrap">
-        <div aria-orientation="vertical" class="nav nav-pills justify-content-center text-center" id="v-pills-tab"
-             role="tablist">
-          <a aria-controls="v-pills-1" aria-selected="true" class="nav-link active" data-toggle="pill" href="#v-pills-1"
-             id="v-pills-1-tab" role="tab">Book Now</a>
-
-        </div>
-      </div>
-      <div class="col-md-12 tab-wrap">
-
-        <div class="tab-content p-4 px-5" id="v-pills-tabContent">
-
-          <div aria-labelledby="v-pills-nextgen-tab" class="tab-pane fade show active" id="v-pills-1" role="tabpanel">
-            <form class="search-destination" id="searchFlightForm">
-              <div class="row">
-                <div class="col-md align-items-end">
-                  <div class="form-group">
-                    <label for="#">From</label>
-                    <div class="form-field">
-                      <div class="icon"><span class="icon-my_location"></span></div>
-                      <input class="form-control" id="departDest" placeholder="From" type="text">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md align-items-end">
-                  <div class="form-group">
-                    <label for="#">To</label>
-                    <div class="form-field">
-                      <div class="icon"><span class="icon-map-marker"></span></div>
-                      <input class="form-control" id="arrivalDest" placeholder="To" type="text">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md align-self-end">
-                  <div class="form-group">
-                    <div class="form-field">
-                      <input class="form-control btn btn-primary" type="submit" value="Search">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <!-- <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
-            <form action="#" class="search-destination">
-              <div class="row">
-                <div class="col-md align-items-end">
-                  <div class="form-group">
-                    <label for="#">Check In</label>
-                    <div class="form-field">
-                      <div class="icon"><span class="icon-map-marker"></span></div>
-                      <input type="text" class="form-control checkin_date" placeholder="Check In">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md align-items-end">
-                  <div class="form-group">
-                    <label for="#">Check Out</label>
-                    <div class="form-field">
-                      <div class="icon"><span class="icon-map-marker"></span></div>
-                      <input type="text" class="form-control checkout_date" placeholder="From">
-                    </div>
-                  </div>
-                </div> -->
-          <!-- <div class="col-md align-items-end">
-            <div class="form-group">
-              <label for="#">Guest</label>
-              <div class="form-field">
-                <div class="select-wrap">
-                  <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                  <select name="" id="" class="form-control">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-          <!-- <div class="col-md">
-            <div class="ftco-footer-widget mb-4">
-            	<h2 class="ftco-heading-2">Have a Questions?</h2>
-            	<div class="block-23 mb-3">
-	              <ul>
-	                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
-	              </ul>
-	            </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center"> -->
-
-          <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            <!-- Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> -->
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-        </div>
-      </div>
-    </div>
-    </footer>
-
-
-    <!-- loader -->
-    <div class="show fullscreen" id="ftco-loader">
-      <svg class="circular" height="48px" width="48px">
-        <circle class="path-bg" cx="24" cy="24" fill="none" r="22" stroke="#eeeeee" stroke-width="4"/>
-        <circle class="path" cx="24" cy="24" fill="none" r="22" stroke="#F96D00" stroke-miterlimit="10"
-                stroke-width="4"/>
-      </svg>
-    </div>
-
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.easing.1.3.js"></script>
-    <script src="js/jquery.waypoints.min.js"></script>
-    <script src="js/jquery.stellar.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/aos.js"></script>
-    <script src="js/jquery.animateNumber.min.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
-    <!-- <script src="js/jquery.timepicker.min.js"></script> -->
-    <script src="js/scrollax.min.js"></script>
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script> -->
-    <!-- <script src="js/google-map.js"></script> -->
-    <script src="js/main.js"></script>
-
-    <script>
-
-      console.log(sessionStorage.getItem(pid));
-
-      $("#searchFlightForm").submit(async (event) => {
-        event.preventDefault();
-
-        //Get depart and arrival destination
-        var departDest = $('#departDest').val();
-        var arrivalDest = $('#arrivalDest').val();
-
-        sessionStorage.setItem('departDest', departDest);
-        sessionStorage.setItem('arrivalDest', arrivalDest);
-        console.log(departDest);
-
-        window.location.href = 'flight_search_results.html';
-
-
-      });
-
-    </script>
-
 </body>
 </html>
