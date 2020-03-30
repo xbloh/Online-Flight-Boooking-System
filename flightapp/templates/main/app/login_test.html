@@ -112,68 +112,67 @@
               		</div>
               	</form>
               </div>
+              
               <script>
-              $("#loginForm").submit(async (event) => {
-                event.preventDefault();
-                console.log("gi");
-                var email = document.getElementById("email").value;
-          
-                var password = document.getElementById("password").value;
-                // var date = dateToYMD(new Date(dateDDL));
-                console.log(`email is (${email}) and password(${password})`)
-          
-                // try {
-                //   var flightURL = `http://127.0.0.1:5000/booking/filter`;
-                //   // ?q={"flightCode": "${flightCode}", "date": "${date}"}
-          
-                //   const response_dep =
-                //     await fetch(flightURL, {
-                //       method: 'POST'
-                //       , headers: {"Content-Type": "application/json"}
-                //       , body: JSON.stringify({
-                //         "flightCode": flightCode,
-                //         "date": date
-                //       })
-                //     });
-                //   const booking_data = await response_dep.json();
-                //   console.log(booking_data);
-          
-                //   if (response_dep.ok) {
-          
-                //     var rows = "";
-                //     for (const flight of booking_data) {
-          
-                //       var departDate = dateToYMD(new Date(flight.departDate));
-                //       // console.log(departDate);
-                //       // console.log("seat_number null : "+ !flight.seatNumber);
-                //       seatNumber = flight.seatNumber;
-                //       if (!seatNumber) {
-                //         seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
-                //       }
-                //       eachRow =
-                //         "<td>" + flight.refCode + "</td>" +
-                //         "<td>" + flight.pid + "</td>" +
-                //         "<td>" + flight.flightNo + "</td>" +
-                //         "<td>" + departDate + "</td>" +
-                //         "<td>" + flight.price + "</td>" +
-                //         "<td>" + flight.class_type + "</td>" +
-                //         "<td>" + flight.baggage + "</td>" +
-                //         "<td>" + flight.meal + "</td>" +
-                //         "<td>" + seatNumber + "</td>";
-                //       rows += "<tr>" + eachRow + "</tr>";
-                //     }
-                //     $('#outFlightsTable tbody').empty();
-                //     $('#outFlightsTable').append(rows);
-                //   } else {
-                //     showError(data_dep.message);
-                //   }
-                // } catch (error) {
-                //   // Errors when calling the service; such as network error,
-                //   // service offline, etc
-                //   showError
-                //   ('There is a problem retrieving books data, please try again later.<br />' + error);
-                // }
-              });
+    // Helper function to display error message
+    function showError(message) {
+        // Display an error under the the predefined label with error as the id
+        $('#error').text(message);
+    }
+
+    $("#loginForm").submit(async (event) => {
+        //Prevents screen from refreshing when submitting
+        event.preventDefault();
+
+        var serviceURL = "http://127.0.0.1:5002/passenger/login";
+        var getpidURL = "http://127.0.0.1:5002/getpassengerpid/";
+        // var homeURL = "http://127.0.0.1/bookstore/";
+
+        //Get form data 
+        var email = $('#email').val();
+        var password = $('#password').val();
+
+        var getpidURL = getpidURL + email;
+
+        
+        try {
+            const response =
+                await fetch(
+                    serviceURL, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({email: email, password: password})
+                });
+            const data = await response.json();
+
+            const pid_response =
+                await fetch(
+                    getpidURL, {
+                    method: 'GET'  });
+            const pid_data = await pid_response.json();
+            if (pid_response.ok) {
+                pid = pid_data;
+                // localStorage.setItem('pid', pid);
+                sessionStorage.setItem('pid', pid);
+                // document.location.href="../flight_search_results.html?pid="+pid;
+                
+                window.location.href = 'manage_booking.html';
+                // console.log("hihi");
+                // relocate to home page
+                // window.location.replace(homeURL);
+                return false;
+            } else {
+                console.log(data);
+                showError(data.message);
+            }
+        } catch (error) {
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            showError
+                ("There is a problem signing in, please try again later. " + error);
+
+        } // error
+    });
             </script>
           
 

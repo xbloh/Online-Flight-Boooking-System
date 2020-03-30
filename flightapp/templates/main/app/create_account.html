@@ -54,33 +54,33 @@
     <h1 class="display-4">Create an Account</h1>
     <form id='create_accountForm'>
         <div class="form-group">
-            <label for="firstName">firstName</label>
-            <input type="text" class="form-control" id="firstName" aria-describedby="emailHelp" placeholder="Enter email"
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" aria-describedby="emailHelp" placeholder="Enter your First name or Given name"
                 >
         </div>
         <div class="form-group">
-            <label for="password">password</label>
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" placeholder="Enter your last name ">
+		</div>
+		<div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email, you will use this to login">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
             <input type="password" class="form-control" id="password" placeholder="Enter password">
         </div>
-        <div class="form-group">
-            <label for="lastName">lastName</label>
-            <input type="text" class="form-control" id="lastName" placeholder="Enter password">
-		</div>
-		<div class="form-group">
-            <label for="email">email</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter password">
-        </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="pid" placeholder="Enter a username">
-        </div>
+        </div> -->
 		<div class="form-group">
-            <label for="dateOfBirth">dateOfBirth</label>
-            <input type="text" class="form-control" id="dateOfBirth" placeholder="Enter password">
+            <label for="dateOfBirth">Date of Birth</label>
+            <input type="text" class="form-control" id="dateOfBirth" placeholder="Enter your date of birth in yyyy-mm-dd format, eg. 1976-12-12">
 		</div>
 		<div class="form-group">
-            <label for="contactNo">contactNo</label>
-            <input type="text" class="form-control" id="contactNo" placeholder="Enter password">
+            <label for="contactNo">Contact Number </label>
+            <input type="text" class="form-control" id="contactNo" placeholder="Enter your mobile number eg. 99330292">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
@@ -136,7 +136,7 @@
             // Errors when calling the service; such as network error, 
             // service offline, etc
             showError
-                ("There is a problem adding this book, please try again later. " + error);
+                ("A problem occurred when creating your account, please try again later. " + error);
 
         } // error
     });
