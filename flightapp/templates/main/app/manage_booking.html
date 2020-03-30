@@ -32,7 +32,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
   <div class="container">
     <a class="navbar-brand" href="index.html">Fly Like T6</a>
-    <button aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#ftco-nav"
+    <button aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-target="#ftco-nav"
             data-toggle="collapse" type="button">
       <span class="oi oi-menu"></span> Menu
     </button>
@@ -71,7 +72,7 @@
     <div class="row">
       <div class="col-md-12 ftco-animate">
         <div class="cart-list">
-          <table class="table">
+          <table class="table" id="myBookingsTable">
             <thead class="thead-primary">
             <tr class="text-center">
               <th>Flight</th>
@@ -87,120 +88,120 @@
             </thead>
             <tbody>
             <tr class="text-center">
-              <!-- <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-              <td class="image-prod"><div class="img" style="background-image:url(images/product-3.jpg);"></div></td>
-           -->
               <td class="product-name">
-                <h3>Singapore to Japan · SQ240</h3>
+                <h3>Singapore to Japan SQ240</h3>
                 <p>Dept. Date: 16 Apr 2020 <br>
                   Arr. Date: 17 Apr 2020</p>
-
               </td>
-
-
               <td class="price">
-                Flight Ticket: $2567.50 <br>
+                Flight Ticket: $257.50 <br>
                 20kg Baggage: $200 <br>
                 Japanese Cuisine: $20.29 <br>
-
               </td>
-
-              <!-- <td class="quantity">
-                <div class="input-group mb-3">
-                   <input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-                </div> -->
-              </td>
-
               <td class="total">$4.90</td>
               <td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>Cancel</i> &nbsp;&nbsp;&nbsp;
                 <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Edit</i> &nbsp;&nbsp;&nbsp;
                 <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Check In</i></td>
             </tr><!-- END TR-->
 
-            <tr class="text-center">
-              <!-- <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-              <td class="image-prod"><div class="img" style="background-image:url(images/product-4.jpg);"></div></td>
-               -->
-              <td class="product-name">
-                <h3>Japan to Singapore · SQ240</h3>
-                <p>Dept. Date: 20 Apr 2020 <br>
-                  Arr. Date: 21 Apr 2020</p>
-
-
-              </td>
-
-              <td class="price">
-                Flight Ticket: $2567.50 <br>
-                20kg Baggage: $200 <br>
-                Japanese Cuisine: $20.29 <br>
-
-              </td>
-
-              <!-- <td class="quantity">
-                <div class="input-group mb-3">
-                   <input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-                </div>
-              </td> -->
-
-              <td class="total">$15.70</td>
-
-              <td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>delete</i> &nbsp;&nbsp;&nbsp;
-                <i class='material-icons' onclick='deleteRow(" + rowID + ")'>edit</i></td>
-            </tr><!-- END TR-->
+            <!--            <tr class="text-center">-->
+            <!--              <td class="product-name">-->
+            <!--                <h3>Japan to Singapore SQ240</h3>-->
+            <!--                <p>Dept. Date: 20 Apr 2020 <br>-->
+            <!--                  Arr. Date: 21 Apr 2020</p>-->
+            <!--              </td>-->
+            <!--              <td class="price">-->
+            <!--                Flight Ticket: $257.50 <br>-->
+            <!--                20kg Baggage: $200 <br>-->
+            <!--                Japanese Cuisine: $20.29 <br>-->
+            <!--              </td>-->
+            <!--              <td class="total">$15.70</td>-->
+            <!--              <td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>delete</i> &nbsp;&nbsp;&nbsp;-->
+            <!--                <i class='material-icons' onclick='deleteRow(" + rowID + ")'>edit</i></td>-->
+            <!--            </tr>&lt;!&ndash; END TR&ndash;&gt;-->
             </tbody>
           </table>
         </div>
       </div>
     </div>
     <script>
+
+      sessionStorage.setItem('pid', 'pid_0004');
       pid = sessionStorage.getItem('pid');
       console.log(pid);
-      var flightURL = `http://127.0.0.1:5000/booking/${pid}`;
 
-      async function getFlightData(flightURL_dep) {
-        console.log(flightURL_dep);
-          try {
-            // get flight details of departure flight
-            const response_dep =
-              await fetch(
-                flightURL_dep, {method: 'GET'}
-              );
-            const data_dep = await response_dep.json();
-            console.log(data_dep);
-
-            var flights = data_dep.flight;
-            if (response_dep.ok) {
-              var rows = "";
-              for (const flight of flights) {
-                eachRow =
-                  "<td>" +
-                  "Flight Number: " + flight.flightNo + "<br>" +
-                  "Departure Destination: " + flight.departDest + "<br>" +
-                  "Arrival Destination: " + flight.arrivalDest + "<br>" +
-                  "Departure Time: " + flight.deptTime + "<br>" +
-                  "Arrival Time: " + flight.arrivalTime + "<br>" +
-                  "Base Price: $" + flight.basePrice + "<br>" +
-                  // "Type: " + flight.type + "</td>" +
-                  "<td><input value=" + "'" + flight.flightNo + "'" + "class='outbound_flight' name='type_radio' type='radio' /></td>";
-                rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-              }
-              $('#outFlightsTable tbody').empty();
-              $('#outFlightsTable').append(rows);
-            } else {
-              showError(data_dep.message);
-            }
-
-
-          } catch (error) {
-            // Errors when calling the service; such as network error,
-            // service offline, etc
-            showError
-            ('There is a problem retrieving books data, please try again later.<br />' + error);
-
+      var flightURL = `http://127.0.0.1:5001/getFlightCode`;
+      async function getFlightByFlightNo(flightURL) {
+        try {
+          // get flight details of departure flight
+          const response_dep =
+            await fetch(
+              flightURL, {method: 'GET'}
+            );
+          const flights = await response_dep.json();
+          console.log(flights);
+          if (response_dep.ok) {
+            return flights;
           }
+        } catch (e) {
+
+        }
       }
+      airportCodes = getFlightByFlightNo(flightURL);
+      console.log(airportCodes);
+
+      var bookingURl = `http://127.0.0.1:5000/booking/${pid}`;
+      async function getMyBookingsData(flightURL) {
+        try {
+          // get flight details of departure flight
+          const response_dep =
+            await fetch(
+              flightURL, {method: 'GET'}
+            );
+          const flights = await response_dep.json();
+          console.log(flights);
+          if (response_dep.ok) {
+            var rows = "";
+            for (const booking of flights) {
+              eachRow = `
+              <tr class="text-center">
+              <td class="product-name">
+                <h3>Singapore to Japan ${booking.flightNo}</h3>
+                <p>Dept. Date: ${booking.departDate} <br>
+                  Dept. Time: 18:00 HRS</p>
+              </td>
+              <td class="price">
+
+                Class Type: <br>${booking.class_type}
+                <br>
+                20kg Baggage: $200 <br>
+                Japanese Cuisine: $20.29 <br>
+              </td>
+              <td class="total">${booking.price}</td>
+              <td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>Cancel</i> &nbsp;&nbsp;&nbsp;
+                <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Edit</i> &nbsp;&nbsp;&nbsp;
+                <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Check In</i></td>
+            </tr>
+              `;
+              rows += eachRow;
+            }
+            // $('#myBookingsTable tbody').empty();
+            console.log('appending');
+            $('#myBookingsTable').append(rows);
+          } else {
+            console.log("error");
+            // showError(data_dep.message);
+          }
+        } catch (error) {
+          // Errors when calling the service; such as network error,
+          // service offline, etc
+          // showError
+          // ('There is a problem retrieving books data, please try again later.<br />' + error);
+        }
+      }
+      getMyBookingsData(bookingURl);
+
+
 
     </script>
 
@@ -295,10 +296,10 @@
     <script src="js/aos.js"></script>
     <script src="js/jquery.animateNumber.min.js"></script>
     <script src="js/bootstrap-datepicker.js"></script>
-<!--    <script src="js/jquery.timepicker.min.js"></script>-->
+    <!--    <script src="js/jquery.timepicker.min.js"></script>-->
     <script src="js/scrollax.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-    <script src="js/google-map.js"></script>
+    <!--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>-->
+    <!--    <script src="js/google-map.js"></script>-->
     <script src="js/main.js"></script>
 
 </body>

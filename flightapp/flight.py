@@ -127,6 +127,14 @@ def receive_choice():
 def getAllFlightCode():
     return jsonify([flightCode.json() for flightCode in FlightCode.query.all()]), 200
 
+#input is depart/arrive Dest in the form of "KUL"/"SIN"
+@app.route("/getcodename/<string:code>")
+def getdestname(dest):
+    code = Code.query.filter_by(code=dest).first()
+    if code:
+        return{"name":code.name, "status":200}
+    return jsonify({"message": "Couldn't find the country name by code"}), 404
+
 
 if __name__ == "__main__":
     app.run(port=5001, debug=True)
