@@ -89,7 +89,7 @@ def get_booking_by_pid(pid):
     if all_booking:
         return jsonify([booking.json() for booking in all_booking])
 
-    return jsonify({"message": "Book not found."}), 404
+    return jsonify({"message": "Booking not found."}), 404
 
 
 @app.route("/booking/assignSeat/<string:refCode>")
