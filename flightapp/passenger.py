@@ -77,7 +77,7 @@ def get_passenger_by_pid(pid):
 @app.route("/getpassengerpid/<string:email>")
 def get_pid_by_email(email):
     passenger = Passenger.query.filter_by(email=email).first()
-    # pid = passenger.pid
+    pid = passenger.pid
     if pid:
         #store
         return jsonify(passenger.pid)
@@ -91,6 +91,7 @@ def create_passenger(email):
         return jsonify({"message": "A passenger account with '{}' already exists.".format(email)}), 400
 
     data = request.get_json()
+
     pwd = data["password"]
     pid = data["pid"]
     firstName = data["firstName"]
