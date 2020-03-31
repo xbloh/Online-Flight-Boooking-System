@@ -67,11 +67,12 @@
                             <thead class="thead-primary">
                               <tr class="text-center">
                                 
-                                <!-- <th>Depart Time</th>
+                                <th>Depart Time</th>
                                 <th>Flight Number</th>
                                 <th>Reference Code</th>
                                 <th>Seat Number</th>
-                                <th>Flight Number</th> -->
+                                <th>Flight Number</th>
+
                               </tr>
                             </thead>
                             <tbody>
@@ -142,6 +143,7 @@ try {
         console.log(booking_data);
         var booking = booking_data; 
         var date = new Date(booking.departDate);
+        console.log(date)
         var day = date.getDate();
         var month = date.getMonth();
         var year = date.getFullYear();
