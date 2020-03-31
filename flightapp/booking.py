@@ -293,12 +293,8 @@ def get_boarding(refCode):
     return render_template("boarding.html", refCode = refCode)
 
 @app.route("/manage")
-def manage_booking():
-    return render_template("main/app/manage_booking.html")
-
-
-
-
+def manage_booking(): 
+    return render_template("manage_booking.html")
 
 
 '''
@@ -356,4 +352,4 @@ if __name__ == "__main__":
     # this part i still hardcoded bc need to get passenger id when logged in from frontend but frontend not up yet
     # booking = create_booking_for_notification('pid_0004')
     # send_booking(booking)
-    app.run(port=5000, debug=True, use_reloader=True, threaded=True)
+    app.run(port=5000, debug=True)

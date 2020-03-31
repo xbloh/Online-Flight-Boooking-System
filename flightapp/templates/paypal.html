@@ -45,8 +45,8 @@
                     
                     if (response.ok) {
                         if (data['status'] == 'yes') {
-                            // replace google.com with managebooking ui
-                            window.location.replace('http://www.google.com/'); 
+                            
+                            window.location.replace('/manage');
                         }
                         // if (data['status'] == 'no') {
                         //     window.location.replace('http://www.facebook.com/');
@@ -55,7 +55,6 @@
                 } // TypeError: Failed to fetch
                 catch {
                     // send_status(statusURL + "/no/" + refCode)
-                    // replace youtube.com with managebooking UI
                     window.location.replace('/manage');
                 }
             }
