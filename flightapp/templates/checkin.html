@@ -1,89 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Boarding Pass</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
+{% extends "layout.html" %}
 
-    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="css/animate.css">
-    
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-
-    <link rel="stylesheet" href="css/aos.css">
-
-    <link rel="stylesheet" href="css/ionicons.min.css">
-
-    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="css/jquery.timepicker.css">
+{% block content %}
 
     
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/icomoon.css">
-    <link rel="stylesheet" href="css/style.css">
+<div class="hero-wrap js-fullheight" style="background-image: url('/static/images/image_5.jpg');">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
+      <div class="col-md-9 ftco-animate mb-5 pb-5 text-center text-md-left" data-scrollax=" properties: { translateY: '70%' }">
+        <!-- <h1 class="mb-4" >Boarding Pass</h1> -->
+        <!-- <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Confirm your booking details<br/> before checking out with us!</p> -->
+        <section class="ftco-section ftco-cart">
+          <div class="container">
+            <div class="row" >
+              <div class="col-md-12 ftco-animate">
+                <table class="table" id="cartTable" width="400">
+                  <thead class="thead-primary" >
+                  <tr class="text-center" id = 'title'></tr>
+                  <tr class="text-center">                                
+                    <th colspan="2">Depart Time</th>
+                    <th>Flight Number</th>
+                    <th>Reference Code</th>
+                    <th>Seat Number</th>
+                    <th>Flight Number</th>
 
-  </head>
-  <body>
-
-    
-	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-	    <div class="container">
-	      <a class="navbar-brand" href="index.html">Fly Like T6</a>
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="oi oi-menu"></span> Menu
-	      </button>
-
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav ml-auto">
-	          
-	          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-			      <li class="nav-item"><a href="search_flights.html" class="nav-link">Search Flights</a></li>
-	          <li class="nav-item"><a href="manage_booking.html" class="nav-link">My Bookings</a></li>
-			      <li class="nav-item"><a href="about.html" class="nav-link">Logout</a></li>
-	        
-	        </ul>
-	      </div>
-	    </div>
-	  </nav>
-    <!-- END nav -->
-    
-    <div class="hero-wrap js-fullheight" style="background-image: url('images/image_5.jpg');">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-9 ftco-animate mb-5 pb-5 text-center text-md-left" data-scrollax=" properties: { translateY: '70%' }">
-            <!-- <h1 class="mb-4" >Boarding Pass</h1> -->
-            <!-- <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Confirm your booking details<br/> before checking out with us!</p> -->
-            <section class="ftco-section ftco-cart">
-                <div class="container">
-                    <div class="row" >
-                    <div class="col-md-12 ftco-animate">
-                        <table class="table" id="cartTable" width="400">
-                            <thead class="thead-primary">
-                              <tr class="text-center">
-                                
-                                <th>Depart Time</th>
-                                <th>Flight Number</th>
-                                <th>Reference Code</th>
-                                <th>Seat Number</th>
-                                <th>Flight Number</th>
-
-                              </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                          </table>  
-        </div>
-        </div>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>  
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
-
-
+  </div>
+  </div>
+</div>
 <!-- 
           </div>
         </div>
@@ -96,65 +50,46 @@
   <!-- <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div> -->
 
 
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.easing.1.3.js"></script>
-  <script src="js/jquery.waypoints.min.js"></script>
-  <script src="js/jquery.stellar.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/aos.js"></script>
-  <script src="js/jquery.animateNumber.min.js"></script>
-  <script src="js/bootstrap-datepicker.js"></script>
-  <!-- <script src="js/jquery.timepicker.min.js"></script> -->
-  <script src="js/scrollax.min.js"></script>
-  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script> -->
-  <!-- <script src="js/google-map.js"></script> -->
-  <script src="js/main.js"></script>
 
-  <script>
+<script>
     // var status = {{ status|tojson}};
-        // var refCode = {{refCode|tojson}};
-        // if (status == "no"){
-        //     var msg = "<h1 style='font-size:100px'>Sorry we cannot proceed your boarding. Please proceed to our counter for more information</h1>";
-        //     $('#center').append(msg);
-        // }else{
-        //     var url = `<a href=http://localhost:5000/booking/boarding/${refCode}><img src=https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:5000/booking/boarding/${refCode} size=300x300></a>`;
-        //     $('#center').append(url);
-        // }
+    //     var refCode = {{refCode|tojson}};
+    //     if (status == "no"){
+    //         var msg = "<h1 style='font-size:100px'>Sorry we cannot proceed your boarding. Please proceed to our counter for more information</h1>";
+    //         $('#center').append(msg);
+    //     }else{
+    //         var url = `<a href=http://localhost:5000/booking/boarding/${refCode}><img src=https://api.qrserver.com/v1/create-qr-code/?data=http://localhost:5000/booking/boarding/${refCode} size=300x300></a>`;
+    //         $('#center').append(url);
+    //     }
 
-        // include table for boarding pass and qr code
+    //     include table for boarding pass and qr code
 
-        // replace hardcode refCode here
-      var refCode = 44;
+    //     replace hardcode refCode here
+  var refCode = 35;
 
-async function getBookingData(getBookingURL) {
-try {
+  async function getBookingData(getBookingURL) {
+    try {
+      var booking_response = await fetch (
+            getBookingURL, 
+            {method: 'GET', headers: { "Content-Type": "application/json" } }
+            );
 
-    const booking_response =
-        await fetch(
-            getBookingURL, {
-            method: 'GET'  });
-
-    const booking_data = await booking_response.json();
-    if (booking_response.ok) {
-        console.log(booking_data);
-        var booking = booking_data; 
+      booking_data = await booking_response.json();
+      if (booking_response.ok) {
+        var booking = booking_data['booking']; 
         var date = new Date(booking.departDate);
-        console.log(date)
+        
         var day = date.getDate();
         var month = date.getMonth();
         var year = date.getFullYear();
-        var departDate = day + '-' + month + '-' + year
+        var departDate = day + '-' + month + '-' + year;
+        console.log(booking);
+        var table_title = "<th colspan = 6> Boarding Pass</th>";
+        $('#title').append(table_title);
 
-        var table_title = "<th colspan = 2> Boarding Pass</th>";
-        $('#cartTable').append(table_title);
 
 
-
-        foundBooking =
+        var foundBooking =
         
 
                 "<tbody>" +
@@ -163,23 +98,18 @@ try {
                 "<td >" +"Departure Date: "+ departDate + "</td>" +
                 "<td>" + "Departure Time: " + booking.deptTime + "</td>" +
 
-                "<tr>"+
-
                 
                 "<td >" + "Flight Number: " + booking.flightNo + "</td>" +
-                "<td>" + "Class: " + booking.class_type + "</td></tr>" +
-                "<tr>"+
+                "<td>" + "Class: " + booking.class_type + "</td>" +
 
                 "<td>" + "Seat Number: " + booking.seat_number + "</td>" +
 
                 "<td>" + "Booking Reference Code: " + booking.refCode + "</td>" +
-                "</tr>" +
 
-                "<tr class='text-center'>" +
-                "<td >" + "<img src='images/qrcode.png' style='width:100px;height:100px;'"  + "</td>" +
+                "<td >" + "<img src='/static/images/qrcode.png' style='width:100px;height:100px;'"  + "</td>" +
 
 
-                "<tr>"+
+                "</tr>"+
 
 
                 "<tbody>";
@@ -188,24 +118,23 @@ try {
         $('#cartTable').append(foundBooking);
 
         
-    } else {
-        showError(booking_data.message);
+      } else {
+        console.log(booking_data.message);
+      }
+    } catch (error) {
+      console.error(error);
     }
-} catch (error) {
-console.error(error);
-}
-}
+  }
 
-$(function() { 
-var getBookingURL = "http://127.0.0.1:5000/booking/" + refCode;
-getBookingData(getBookingURL).refCode;
-});
+
+  var getBookingURL = "http://127.0.0.1:5000/booking/" + refCode;
+  getBookingData(getBookingURL);
 
 
 
 
 
-  </script>
 
-  </body>
-</html>
+</script>
+
+{% endblock %}
