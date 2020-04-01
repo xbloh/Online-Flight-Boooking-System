@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 {% block title %}About Us{% endblock %}
 
+{% block loggedin %} 
+  
+{% endblock %}
+
 {% block content %}
     
     <div class="hero-wrap js-fullheight" style="background-image: url('/static/images/bg_1.jpg');">
@@ -8,7 +12,7 @@
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
           <div class="col-md-9 text-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-            <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-2"><a href="login">Login</a></span> <span class="mr-2"><a href="create_account">Create an Account</a></span></p>
+            <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" id="notloggedin"></p>
             <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">About Us</h1>
           </div>
         </div>
@@ -291,4 +295,14 @@
         </div>
         <div class="row">
           <div class="col-md-12 text-center">
+{% endblock %}
+{% block scripts %}
+<script>
+  if (sessionStorage.getItem('pid') == null){
+    $("#notloggedin").append("<span class='mr-2'><a href='login'>Login</a></span> <span class='mr-2'><a href='create_account'>Create an Account</a></span>")
+  }else{
+    $("#loggedin").append("<li class='nav-item'><a class='nav-link' href='http://localhost:8000/search_flights'>Search Flights</a></li><li class='nav-item'><a class='nav-link' href='http://localhost:8000/manage'>My Bookings</a></li><li class='nav-item'><a class='nav-link' href='http://localhost:8000/logout'>Logout</a></li>")
+  }
+</script>
+
 {% endblock %}

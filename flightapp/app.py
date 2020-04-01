@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 app = Flask(__name__)
 
 @app.route("/about")
@@ -32,6 +32,10 @@ def admin_search_flights():
 @app.route("/cart")
 def cart():
     return render_template("/cart.html")
+
+@app.route("/paypal")
+def paypal():
+    return render_template("/paypal.html")
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)

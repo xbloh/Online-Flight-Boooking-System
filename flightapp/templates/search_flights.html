@@ -1,10 +1,16 @@
 {% extends "layout.html" %}
 {% block title %}Search Flights{% endblock %}
-{% block logout %} <li class="nav-item"><a class="nav-link" href="http://localhost:8000/logout">Logout</a></li> {% endblock %}
+{% block loggedin %} 
+
+<li class="nav-item"><a class="nav-link" href="http://localhost:8000/search_flights">Search Flights</a></li>
+<li class="nav-item"><a class="nav-link" href="http://localhost:8000/manage">My Bookings</a></li>
+<li class="nav-item"><a class="nav-link" href="http://localhost:8000/logout">Logout</a></li>
+
+{% endblock %}
 
 {% block content %}
 
-<div class="hero-wrap js-fullheight" style="background-image: url('/static/images/bg_1.jpg')">
+<div class="hero-wrap js-fullheight" style="background-image: url('/static/images/bg_1.jpg') ">
   <section class="ftco-section ftco-degree-bg">
     <div class="container">
       <div class="row">
@@ -148,7 +154,7 @@
     // Display an error under the the predefined label with error as the id
     $('#error').text(message);
   }
-  
+
   pid = sessionStorage.getItem('pid');
   departDest = sessionStorage.getItem('departDest');
   arrivalDest = sessionStorage.getItem('arrivalDest');
@@ -353,6 +359,7 @@
 
         refCode = data_booking.refCode;
         sessionStorage.setItem('refCode', refCode);
+        
 
 
         window.location.href = 'cart';

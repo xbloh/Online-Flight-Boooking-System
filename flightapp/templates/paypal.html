@@ -8,9 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- <meta id='price' data-name="{{price}}"> -->
     <script>
-        // session get 
-        var price = {{ price | tojson }};
-        var refCode = {{ refCode | tojson }};
+        booking_price = sessionStorage.getItem('price');
+        booking_refcode = sessionStorage.getItem('refCode');
+        console.log(booking_price);
+        console.log(booking_refcode);
+
     </script>
 </head>
 
@@ -55,7 +57,7 @@
                     }
                 } // TypeError: Failed to fetch
                 catch {
-                    // send_status(statusURL + "/no/" + refCode)
+                    send_status(statusURL + "/no/" + refCode)
                     window.location.replace('/manage');
                 }
             }
@@ -68,7 +70,7 @@
                         purchase_units: [{
                             amount: {
                                 // value: 10
-                                value: price
+                                value: booking_price
                             }
                         }]
                         
@@ -77,14 +79,18 @@
 
                 // Finalize the transaction
                 onApprove: function(data, actions) {
-                    send_status(statusURL + "/yes/" + refCode)
+                    send_status(statusURL + "/yes/" +  booking_refcode)
+                    window.location.replace('/manage');
+                    
                 },
 
                 onCancel: function (data) {
-                    send_status(statusURL + "/no/" + refCode)
+                    send_status(statusURL + "/no/" +  booking_refcode)
+                    window.location.replace('/manage');
                 }
 
             }).render('#paypal-button-container');
+            
         </script>
     </div>
 </body>
