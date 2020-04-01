@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
 {% block title %}Online Check in{% endblock %}
-{% block logout %} <li class="nav-item"><a class="nav-link" href="http://localhost:8000/logout">Logout</a></li> {% endblock %}
-{% block content %}
+{% block loggedin %} 
+
+<li class="nav-item"><a class="nav-link" href="http://localhost:8000/search_flights">Search Flights</a></li>
+<li class="nav-item"><a class="nav-link" href="http://localhost:8000/manage">My Bookings</a></li>
+<li class="nav-item"><a class="nav-link" href="http://localhost:8000/logout">Logout</a></li>
+
+{% endblock %}{% block content %}
 
     
 <div class="hero-wrap js-fullheight" style="background-image: url('/static/images/image_5.jpg');">

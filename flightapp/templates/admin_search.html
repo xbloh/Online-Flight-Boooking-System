@@ -1,27 +1,14 @@
 {% extends "layout.html" %}
-{% block title %}Manage Booking{% endblock %}
+{% block title %}Admin Portal{% endblock %}
+{% block loggedin %} 
+
+<li class="nav-item"><a class="nav-link" href="http://localhost:8000/admin_search">Search Flights</a></li>
+
+
+{% endblock %}
+
 {% block content %}
 
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="index.html">Fly Like T6</a>
-    <button aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
-            data-target="#ftco-nav" data-toggle="collapse" type="button">
-      <span class="oi oi-menu"></span> Menu
-    </button>
-
-    <div class="collapse navbar-collapse" id="ftco-nav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link" href="about.html" style="color:black">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="search_flights.html" style="color:black">Search
-          Flights</a>
-        </li>
-        <li class="nav-item"><a class="nav-link" href="manage_booking.html" style="color:black">My Bookings</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html" style="color:black">Logout</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
 <!-- END nav -->
 
 <section class="ftco-section ftco-degree-bg">
@@ -72,7 +59,7 @@
         <!-- <h4 class="mb-5">Flight Details</h4> -->
         <table class='table table-striped' id="outFlightsTable">
           <thead>
-          <th>refCode</th>
+          <!-- <th>refCode</th>
           <th>Passenger ID</th>
           <th>Flight No</th>
           <th>Depart Date</th>
@@ -80,7 +67,7 @@
           <th>Class Type</th>
           <th>Baggage</th>
           <th>Meal</th>
-          <th>Seat Num</th>
+          <th>Seat Num</th> -->
           </thead>
           <tbody>
             <!-- <tr>
@@ -109,9 +96,9 @@
 <!--  </svg>-->
 <!--</div>-->
 
-<form>
+<!-- <form>
   <input class='btn btn-primary' id='assignSeatBtn1' type='button' value='Assign Seats'/>
-</form>
+</form> -->
 
 {% endblock %}
 
@@ -159,7 +146,7 @@
   }
 
   displayFlightDownMenu();
-  <!-- Get flight details with arrival and departure destination -->
+  // <!-- Get flight details with arrival and departure destination -->
   // Helper function to display error message
   function showError(message) {
     // Display an error under the the predefined label with error as the id
@@ -221,7 +208,7 @@
     }
   }
 
-  displayBooking();
+  // displayBooking();
 
   // document.getElementById("dateDDL").value = "2020-03-15";
   document.getElementById("dateDDL").valueAsDate = new Date();
@@ -255,6 +242,11 @@
       if (response_dep.ok) {
 
         let rows = "";
+        head = "<th>refCode</th>" + "<th>Passenger ID</th>"  + "<th>Flight No</th>"
+          + "<th>Depart Date</th>" + "<th>Price</th>" + "<th>Class Type</th>" 
+          + "<th>Baggage</th>" + "<th>Meal</th>" + "<th>Seat Num</th>";
+        $('#outFlightsTable thead').empty();
+        $('#outFlightsTable thead').append(head)
         for (const flight of booking_data) {
 
           let departDate = dateToYMD(new Date(flight.departDate));
@@ -264,6 +256,7 @@
           if (!seatNumber) {
             seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
           }
+          id = flight.refCode;
           let eachRow =
             "<td>" + flight.refCode + "</td>" +
             "<td>" + flight.pid + "</td>" +
@@ -273,11 +266,12 @@
             "<td>" + flight.class_type + "</td>" +
             "<td>" + flight.baggage + "</td>" +
             "<td>" + flight.meal + "</td>" +
-            "<td>" + seatNumber + "</td>";
+            `<td id=${id}>` + seatNumber + "</td>";
+
           rows += "<tr>" + eachRow + "</tr>";
         }
         $('#outFlightsTable tbody').empty();
-        $('#outFlightsTable').append(rows);
+        $('#outFlightsTable tbody').append(rows);
       } else {
         // showError(data_dep.message);
       }
@@ -290,7 +284,6 @@
   async function assignSeats(refCode) {
 
     event.preventDefault(); //Prevents screen from refreshing when submitting
-    console.log('assign (refCode): ' + refCode);
     let flightURL = `http://127.0.0.1:5000/booking/assignSeat/${refCode}`;
     try {
       // get flight details of departure flight
@@ -302,9 +295,9 @@
           });
       const booking_data = await response_dep.json();
       if (response_dep.ok) {
-        console.log(booking_data);
-        var element = document.getElementById(`td${refCode}`);
-        element.innerHTML = booking_data.seatNumber;
+        id = refCode;
+        console.log(id)
+        document.getElementById(id).innerHTML = booking_data.seatNumber;
       }
     } catch (error) {
       // Errors when calling the service; such as network error,

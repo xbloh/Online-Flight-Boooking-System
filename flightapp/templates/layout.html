@@ -41,15 +41,16 @@
             data-toggle="collapse" type="button">
       <span class="oi oi-menu"></span> Menu
     </button>
-
+    <!-- {% block nav %} -->
     <div class="collapse navbar-collapse" id="ftco-nav">
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav ml-auto" id = "loggedin">
 
         <li class="nav-item"><a class="nav-link" href="http://localhost:8000/about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="http://localhost:8000/search_flights">Search Flights</a></li>
+        <!-- <li class="nav-item"><a class="nav-link" href="http://localhost:8000/search_flights">Search Flights</a></li>
         <li class="nav-item"><a class="nav-link" href="http://localhost:8000/manage">My Bookings</a></li>
-        <!-- <li class="nav-item"><a class="nav-link" href="http://localhost:8000/logout">Logout</a></li> -->
-        {% block logout %} {% endblock %}
+        <li class="nav-item"><a class="nav-link" href="http://localhost:8000/logout">Logout</a></li> -->
+        {% block loggedin %} {% endblock %}
+      <!-- {% endblock %} -->
 
       </ul>
     </div>
