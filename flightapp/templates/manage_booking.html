@@ -142,27 +142,27 @@
   pid = sessionStorage.getItem('pid');
   console.log(pid);
 
-  let flightURL = `http://127.0.0.1:5001/getFlightCode`;
+  let flightURL = `http://127.0.0.1:5001/getFlightCodeDict`;
 
-  // async function getFlightByFlightNo(flightURL) {
-  //   try {
-  //     // get flight details of departure flight
-  //     const response_dep =
-  //       await fetch(
-  //         flightURL, {method: 'GET'}
-  //       );
-  //     const flights = await response_dep.json();
-  //     console.log(flights);
-  //     if (response_dep.ok) {
-  //       return flights;
-  //     }
-  //   } catch (e) {
-  //
-  //   }
-  // }
-  //
-  // airportCodes = getFlightByFlightNo(flightURL);
-  // console.log(airportCodes);
+  async function getFlightByFlightNo(flightURL) {
+    try {
+      // get flight details of departure flight
+      const response_dep =
+        await fetch(
+          flightURL, {method: 'GET'}
+        );
+      const flights = await response_dep.json();
+      console.log(flights);
+      if (response_dep.ok) {
+        return flights;
+      }
+    } catch (e) {
+
+    }
+  }
+
+  airportCodes = getFlightByFlightNo(flightURL);
+  console.log(airportCodes);
 
   let bookingURl = `http://127.0.0.1:5000/booking/${pid}`;
 
@@ -173,15 +173,26 @@
         await fetch(
           flightURL, {method: 'GET'}
         );
-      const flights = await response_dep.json();
-      console.log(flights);
+      const bookings = await response_dep.json();
+      console.log(bookings);
       if (response_dep.ok) {
         let rows = "";
-        for (const booking of flights) {
-          eachRow = `
+        for (const booking of bookings) {
+          let departCountry = airportCodes[booking.flightNo];
+          console.log(booking.flightNo);
+          let v = 'SIN';
+          console.log(airportCodes.v);
+          // let arrivalCountry = airportCodes.`${booking.arrivalDest}`;
+          departCountry = "depart";
+          let arrivalCountry = "arrive";
+          // let checkInDisabled = "";
+          // if (!booking.seat_number) {
+          //   checkInDisabled = "disabled";
+          // }
+          let eachRow = `
               <tr class="text-center">
               <td class="product-name">
-                <h3>Singapore to Japan ${booking.flightNo}</h3>
+                <h3>depart to ${arrivalCountry} ${booking.flightNo}</h3>
                 <p>Dept. Date: ${booking.departDate} <br>
                   Dept. Time: 18:00 HRS</p>
               </td>
@@ -193,10 +204,12 @@
                 Japanese Cuisine: $20.29 <br>
               </td>
               <td class="total">${booking.price}</td>
-              <td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>Cancel</i> &nbsp;&nbsp;&nbsp;
-                <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Edit</i> &nbsp;&nbsp;&nbsp;
-                <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Check In</i></td>
+              <td><button id="checkIn" onclick="checkIn(${booking.refCode})">Check In</button></td>
             </tr>`;
+          <!--              checkIn-->
+          // <i class='material-icons' onclick='checkIn(" + rowID + ")'>Check In</i></td>
+          // <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Edit</i> &nbsp;&nbsp;&nbsp;
+          // <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Cancel</i> &nbsp;&nbsp;&nbsp;
           rows += eachRow;
         }
         $('#myBookingsTable tbody').empty();
@@ -216,6 +229,14 @@
 
   getMyBookingsData(bookingURl);
 
+  function checkIn(refCode) {
+    window.location.href = `http://localhost:5000/booking/checkin/${refCode}`;
+  }
+
+  // $('#checkIn').click(() => {
+  //   let refCode = $('#checkIn').val();
+  //   window.location.href = `http://localhost:5000/booking/checkin/${refCode}`;
+  // });
 </script>
 
 
