@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    
+    <div class="hero-wrap js-fullheight" style="background-image: url('/static/images/background.jpg'); height:1024px">
+    <section class="ftco-section ftco-degree-bg">
+        <div class="container">
+            <div class="row">
+                <div class="form-group" style="background-color:aliceblue; opacity:0.95; padding: 20px">
+                <h1 class="display-4">Login</h1>
+                <form id='loginForm'>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"
+                            >
+                    </div>
+                    <div class="form-group">
+                        <label for="password">password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter password">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary py-3">Login</button>
+                </form>
+                Dont have an account yet? Click 
+                <a href="create_account.html">here</a>!
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+    <label id="error" class="text-danger"></label>
+</body>
+<script>
+    // Helper function to display error message
+    function showError(message) {
+        // Display an error under the the predefined label with error as the id
+        $('#error').text(message);
+    }
+
+    $("#loginForm").submit(async (event) => {
+        //Prevents screen from refreshing when submitting
+        event.preventDefault();
+
+        var serviceURL = "http://127.0.0.1:5002/passenger/login";
+        var getpidURL = "http://127.0.0.1:5002/getpassengerpid/";
+        // var homeURL = "http://127.0.0.1/bookstore/";
+
+        //Get form data 
+        var email = $('#email').val();
+        var password = $('#password').val();
+
+        var getpidURL = getpidURL + email;
+
+        
+        try {
+            const response =
+                await fetch(
+                    serviceURL, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({email: email, password: password})
+                });
+            const data = await response.json();
+
+            const pid_response =
+                await fetch(
+                    getpidURL, {
+                    method: 'GET'  });
+            const pid_data = await pid_response.json();
+            if (pid_response.ok) {
+                pid = pid_data;
+                // localStorage.setItem('pid', pid);
+                sessionStorage.setItem('pid', pid);
+                // document.location.href="../flight_search_results.html?pid="+pid;
+                
+                window.location.href = './search_flights.html';
+                // console.log("hihi");
+                // relocate to home page
+                // window.location.replace(homeURL);
+                return false;
+            } else {
+                console.log(data);
+                showError(data.message);
+            }
+        } catch (error) {
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            showError
+                ("There is a problem signing in, please try again later. " + error);
+
+        } // error
+    });
+</script>
+
+{% endblock %}

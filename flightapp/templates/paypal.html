@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Pay with PayPal</title>
+    <link href="css/style.css" rel="stylesheet">
     <!-- Add meta tags for mobile and IE -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,73 +14,78 @@
 </head>
 
 <body>
-    
+
     <!-- <input type="hidden" id="hiddenVar" value="{{ price }}"/> -->
     <!-- Set up a container element for the button -->
-    <div id="paypal-button-container"></div>
+    <div style="text-align: center">
+        <img src="/static/images/yellow-plane.gif">
+        <h1>Fly Like T6</h1>
+        <div id="paypal-button-container"></div>
 
-    <!-- Include the PayPal JavaScript SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AfdIsAzYVP3EzeS6PWGIlAobdqrBDR3sgibqvOW1L8hyx54GLvxRQ7uMujWJKraqRO8L1Wrxp1_HtFEx&currency=SGD"></script>
-    <!-- <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=SGD&debug=true"></script> -->
-    <script>
-        statusURL = 'http://localhost:5004/billing/status';
+        <!-- Include the PayPal JavaScript SDK -->
+        <script src="https://www.paypal.com/sdk/js?client-id=AfdIsAzYVP3EzeS6PWGIlAobdqrBDR3sgibqvOW1L8hyx54GLvxRQ7uMujWJKraqRO8L1Wrxp1_HtFEx&currency=SGD"></script>
+        <!-- <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=SGD&debug=true"></script> -->
+        <script>
+            statusURL = 'http://localhost:5004/billing/status';
 
-        function showError(message) {
-            alert(message)
-        }
-
-        async function send_status(statusURL) {
-
-            try {
-                var response =
-                    await fetch(
-                        statusURL, 
-                        { method: 'GET', headers: { "Content-Type": "application/json" }}
-                    );
-                var data = await response.json();
-                // console.log(response)
-                
-                if (response.ok) {
-                    if (data['status'] == 'yes') {
-                        window.location.replace('http://www.google.com/'); 
-                    }
-                    // if (data['status'] == 'no') {
-                    //     window.location.replace('http://www.facebook.com/');
-                    // }
-                }
-            } // TypeError: Failed to fetch
-            catch {
-                // send_status(statusURL + "/no/" + refCode)
-                window.location.replace('http://www.youtube.com/');
+            function showError(message) {
+                alert(message)
             }
-        }
 
-        // Render the PayPal button into #paypal-button-container
-        paypal.Buttons({
-            // Set up the transaction
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            // value: 10
-                            value: price
-                        }
-                    }]
+            async function send_status(statusURL) {
+
+                try {
+                    var response =
+                        await fetch(
+                            statusURL, 
+                            { method: 'GET', headers: { "Content-Type": "application/json" }}
+                        );
+                    var data = await response.json();
+                    // console.log(response)
                     
-                });
-            },
-
-            // Finalize the transaction
-            onApprove: function(data, actions) {
-                send_status(statusURL + "/yes/" + refCode)
-            },
-
-            onCancel: function (data) {
-                send_status(statusURL + "/no/" + refCode)
+                    if (response.ok) {
+                        if (data['status'] == 'yes') {
+                            
+                            window.location.replace('/manage');
+                        }
+                        // if (data['status'] == 'no') {
+                        //     window.location.replace('http://www.facebook.com/');
+                        // }
+                    }
+                } // TypeError: Failed to fetch
+                catch {
+                    // send_status(statusURL + "/no/" + refCode)
+                    window.location.replace('/manage');
+                }
             }
 
-        }).render('#paypal-button-container');
-    </script>
+            // Render the PayPal button into #paypal-button-container
+            paypal.Buttons({
+                // Set up the transaction
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                // value: 10
+                                value: price
+                            }
+                        }]
+                        
+                    });
+                },
+
+                // Finalize the transaction
+                onApprove: function(data, actions) {
+                    send_status(statusURL + "/yes/" + refCode)
+                },
+
+                onCancel: function (data) {
+                    send_status(statusURL + "/no/" + refCode)
+                }
+
+            }).render('#paypal-button-container');
+        </script>
+    </div>
 </body>
     
 </html>   
