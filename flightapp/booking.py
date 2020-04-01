@@ -215,18 +215,21 @@ def get_price(meal_id, baggage_id, class_type):
         print(result)
         return result
 
-@app.route('/booking/<int:refCode>')
-def get_booking_by_refCode(refCode):
-    booking = Booking.query.filter_by(refCode=refCode).first()
-    if booking:
-        url2 = 'http://localhost:5001/flight/' +str(booking.flightNo)
-        r2 = requests.get(url2)
-        result2 = json.loads(r2.text)
-        return_json = {"pid": booking.pid, "refCode" : booking.refCode, "flightNo": booking.flightNo, "departDate" :booking.departDate, "deptTime": result2['flight']['deptTime'], "class_type": booking.class_type, "seat_number": booking.seat_number }
+# @app.route('/booking/status/<string:stt>/<int:refCode>')
+# def receive_status(stt, refCode):
+# #    <body onload="myFunction()">
 
-        return {"booking": return_json, "status": 200}
-    return jsonify({"message": "Booking not found"}), 404
+# # <h1>Hello World!</h1>
 
+# # <script>
+# # function myFunction() {
+# #   alert("Page is loaded");
+# # }
+# # </script>
+#     if stt == 'no': # payment not success -> delete booking from db
+#         Booking.query.filter_by(refCode = refCode).delete()
+
+#     return {"status": stt, "refCode": refCode}
 
 
 # @app.route("/booking/confirm", methods=['POST'])
@@ -271,19 +274,17 @@ def get_status():
         Booking.query.filter_by(refCode = refCode).delete()
         db.session.commit()
     else:
-        message = create_message(refCode)
+        message = get_booking_by_refCode(refCode)
         send_booking(message)
     return status, refCode
 
 
 @app.route("/booking/checkin/<string:refCode>", methods=['GET'])
-def create_checkin_status(refCode):
+def create_status(refCode):
     # data = request.get_json()
     # refCode = data['refCode']
     ls =['yes', 'no']
-    status = 'yes'
-    if status == 'yes':
-        seat = assign_seat_for_booking(refCode)
+    status = random.choice(ls)
 
     return render_template("checkin.html", refCode = refCode, status = status)
 
@@ -291,9 +292,11 @@ def create_checkin_status(refCode):
 def get_boarding(refCode):
     return render_template("boarding.html", refCode = refCode)
 
-@app.route("/manage")
-def manage_booking(): 
-    return render_template("manage_booking.html")
+
+
+
+
+
 
 
 '''
@@ -304,8 +307,8 @@ COMMUNICATION TECHNOLOGIES AMQP
 '''
 
 # get booking details by booking reference code
-@app.route("/booking/message/<int:refCode>")
-def create_message(refCode):
+@app.route("/booking/<int:refCode>")
+def get_booking_by_refCode(refCode):
     booking = Booking.query.filter_by(refCode=refCode).first()
     if booking:
         url1 = passengerURL + "/passenger/" + str(booking.pid)

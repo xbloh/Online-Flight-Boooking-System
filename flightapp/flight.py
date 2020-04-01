@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from os import environ
@@ -134,7 +134,6 @@ def getdestname(dest):
     if code:
         return{"name":code.name, "status":200}
     return jsonify({"message": "Couldn't find the country name by code"}), 404
-
 
 
 if __name__ == "__main__":

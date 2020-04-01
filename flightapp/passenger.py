@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from os import environ
@@ -126,6 +126,7 @@ def check():
                 return jsonify({"message": "Wrong password"}), 400
         else:
             return jsonify({"message": "Wrong username"}), 400
+
 
 
 

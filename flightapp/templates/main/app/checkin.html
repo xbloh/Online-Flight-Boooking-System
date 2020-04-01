@@ -42,9 +42,9 @@
 	        <ul class="navbar-nav ml-auto">
 	          
 	          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-			      <li class="nav-item"><a href="search_flights.html" class="nav-link">Search Flights</a></li>
-	          <li class="nav-item"><a href="manage_booking.html" class="nav-link">My Bookings</a></li>
-			      <li class="nav-item"><a href="about.html" class="nav-link">Logout</a></li>
+			  <li class="nav-item"><a href="search_flights.html.html" class="nav-link">Search Flights</a></li>
+	          <li class="nav-item"><a href="manage booking.html" class="nav-link">My Bookings</a></li>
+			  <li class="nav-item"><a href="about.html" class="nav-link">Logout</a></li>
 	        
 	        </ul>
 	      </div>
@@ -67,12 +67,11 @@
                             <thead class="thead-primary">
                               <tr class="text-center">
                                 
-                                <th>Depart Time</th>
+                                <!-- <th>Depart Time</th>
                                 <th>Flight Number</th>
                                 <th>Reference Code</th>
                                 <th>Seat Number</th>
-                                <th>Flight Number</th>
-
+                                <th>Flight Number</th> -->
                               </tr>
                             </thead>
                             <tbody>
@@ -143,7 +142,6 @@ try {
         console.log(booking_data);
         var booking = booking_data; 
         var date = new Date(booking.departDate);
-        console.log(date)
         var day = date.getDate();
         var month = date.getMonth();
         var year = date.getFullYear();
