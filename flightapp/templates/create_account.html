@@ -48,7 +48,7 @@
 
 	<div class="container-contact100">
 		<div class="wrap-contact100">
-			<form class="contact100-form validate-form">
+			<form class="contact100-form validate-form" id = "create_accountForm">
 				<span class="contact100-form-title">
 					Create Account
 				</span>
@@ -98,7 +98,7 @@
 				<div class="container-contact100-form-btn">
 					<div class="wrap-contact100-form-btn">
 						<div class="contact100-form-bgbtn"></div>
-						<button class="contact100-form-btn">
+						<button class="contact100-form-btn" type = "submit">
 							<span>
 								Submit
 								<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
@@ -113,8 +113,8 @@
 
 
 	<div id="dropDownSelect1"></div>
-
-<!--===============================================================================================-->
+<!-- 
+=============================================================================================== -->
 	<script src="/static/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
 	<script src="/static/vendor/animsition/js/animsition.min.js"></script>
@@ -148,4 +148,73 @@
 </script> -->
 
 </body>
+
+<script>
+	// Helper function to display error message
+	function showError(message) {
+	  // Display an error under the the predefined label with error as the id
+	  $('#error').text(message);
+	}
+  
+	$("#create_accountForm").submit(async (event) => {
+	  //Prevents screen from refreshing when submitting
+	  event.preventDefault();
+	  console.log('hihi');
+  
+	  var serviceURL = "http://127.0.0.1:5002/passenger/register/";
+	  // var homeURL = "http://127.0.0.1/bookstore/";
+  
+	  //Get form data
+	  var email = $('#email').val();
+	  var password = $('#password').val();
+	  var firstName = $('#firstName').val();
+	  var lastName = $('#lastName').val();
+	  var dateOfBirth = $('#dateOfBirth').val();
+	  var contactNo = $('#contactNo').val();
+	  var pid = $('#pid').val();
+  
+	  serviceURL += email;
+  
+	  try {
+		const response =
+		  await fetch(
+			serviceURL, {
+			  method: 'POST',
+			  headers: {"Content-Type": "application/json"},
+			  body: JSON.stringify({
+				pid: pid,
+				password: password,
+				email: email,
+				firstName: firstName,
+				lastName: lastName,
+				dateOfBirth: dateOfBirth,
+				contactNo: contactNo
+			  })
+			});
+		const data = await response.json();
+  
+		if (response.ok) {
+		  document.location.href = "search_flights";
+  
+		  // // relocate to home page
+		  // window.location.replace(homeURL);
+		  return false;
+		} else {
+		  console.log(data);
+		  showError(data.message);
+		}
+	  } catch (error) {
+		// Errors when calling the service; such as network error,
+		// service offline, etc
+		showError
+		("A problem occurred when creating your account, please try again later. " + error);
+  
+	  } // error
+	});
+  </script>
+  
+
+
+
+
 </html>
