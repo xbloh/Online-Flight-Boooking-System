@@ -8,8 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- <meta id='price' data-name="{{price}}"> -->
     <script>
-        // session get 
-        var price = {{ price | tojson }};
+        booking_price = sessionStorage.getItem('price');
+        booking_refcode = sessionStorage.getItem('refCode');
+        console.log(booking_price);
+        console.log(booking_refcode);
+        var price = {{ booking_price | tojson }};
         var refCode = {{ refCode | tojson }};
     </script>
 </head>
