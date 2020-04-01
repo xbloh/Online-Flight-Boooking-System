@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 app = Flask(__name__)
 
 @app.route("/about")
@@ -17,6 +17,10 @@ def manage_booking():
 def login():
     return render_template("login.html")
 
+@app.route("/cart")
+def cart():
+    return render_template("cart.html")
+
 @app.route("/logout")
 def logout():
     return render_template("logout.html")
@@ -28,6 +32,8 @@ def search_flights():
 @app.route("/admin_search")
 def admin_search_flights():
     return render_template("/admin_search.html")
+
+
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
