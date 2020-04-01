@@ -281,7 +281,7 @@ def create_checkin_status(refCode):
     # data = request.get_json()
     # refCode = data['refCode']
     ls =['yes', 'no']
-    status = 'yes'
+    status = random.choice(ls)
     if status == 'yes':
         seat = assign_seat_for_booking(refCode)
 
@@ -291,9 +291,9 @@ def create_checkin_status(refCode):
 def get_boarding(refCode):
     return render_template("boarding.html", refCode = refCode)
 
-@app.route("/manage")
-def manage_booking(): 
-    return render_template("manage_booking.html")
+# @app.route("/manage")
+# def manage_booking(): 
+#     return render_template("manage_booking.html")
 
 
 '''

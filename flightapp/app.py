@@ -17,6 +17,10 @@ def manage_booking():
 def login():
     return render_template("login.html")
 
+@app.route("/logout")
+def logout():
+    return render_template("logout.html")
+
 @app.route("/search_flights")
 def search_flights():
     return render_template("/search_flights.html")
@@ -24,6 +28,10 @@ def search_flights():
 @app.route("/admin_search")
 def admin_search_flights():
     return render_template("/admin_search.html")
+
+@app.route("/cart")
+def cart():
+    return render_template("/cart.html")
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
