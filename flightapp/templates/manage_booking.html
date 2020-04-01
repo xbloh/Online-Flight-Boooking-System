@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Manage Booking{% endblock %}
+{% block logout %} <li class="nav-item"><a class="nav-link" href="http://localhost:8000/logout">Logout</a></li> {% endblock %}
 {% block content %}
 <div class="hero-wrap js-fullheight" style="background-image: url('/static/images/bg_1.jpg');">
   <div class="overlay"></div>
@@ -79,7 +80,7 @@
       pid = sessionStorage.getItem('pid');
       console.log(pid);
 
-      var flightURL = `http://127.0.0.1:5001/getFlightCode`;
+      let flightURL = `http://127.0.0.1:5001/getFlightCode`;
       async function getFlightByFlightNo(flightURL) {
         try {
           // get flight details of departure flight
@@ -99,7 +100,7 @@
       airportCodes = getFlightByFlightNo(flightURL);
       console.log(airportCodes);
 
-      var bookingURl = `http://127.0.0.1:5000/booking/${pid}`;
+      let bookingURl = `http://127.0.0.1:5000/booking/${pid}`;
       async function getMyBookingsData(flightURL) {
         try {
           // get flight details of departure flight
@@ -110,7 +111,7 @@
           const flights = await response_dep.json();
           console.log(flights);
           if (response_dep.ok) {
-            var rows = "";
+            let rows = "";
             for (const booking of flights) {
               eachRow = `
               <tr class="text-center">
