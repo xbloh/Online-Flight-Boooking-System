@@ -281,7 +281,7 @@ def create_checkin_status(refCode):
     # data = request.get_json()
     # refCode = data['refCode']
     ls =['yes', 'no']
-    status = 'yes'
+    status = random.choice(ls)
     if status == 'yes':
         seat = assign_seat_for_booking(refCode)
 
