@@ -11,9 +11,9 @@
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
-          <div class="col-md-9 text-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+          <div class="col-md-9 text-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }" id = 'morecontent'>
             <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" id="notloggedin"></p>
-            <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">About Us</h1>
+            <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" id='msg'>About Us</h1>
           </div>
         </div>
       </div>
@@ -87,8 +87,8 @@
     	</div>
     </section>
 		
-		<section class="ftco-about d-md-flex">
-    	<div class="one-half img" style="background-image: url(/static/images/about.jpg);"></div>
+		<section class="ftco-about d-md-flex" >
+    	<div class="one-half img" style="background-image: url(/static/images/about.jpg);" ></div>
     	<div class="one-half ftco-animate">
         <div class="heading-section ftco-animate ">
           <h2 class="mb-4">The Best Online Flight Booking System</h2>
@@ -298,10 +298,42 @@
 {% endblock %}
 {% block scripts %}
 <script>
+  async function go_to_search(){
+    window.location.href = 'search_flights';
+  }
   if (sessionStorage.getItem('pid') == null){
     $("#notloggedin").append("<span class='mr-2'><a href='login'>Login</a></span> <span class='mr-2'><a href='create_account'>Create an Account</a></span>")
   }else{
     $("#loggedin").append("<li class='nav-item'><a class='nav-link' href='http://localhost:8000/search_flights'>Search Flights</a></li><li class='nav-item'><a class='nav-link' href='http://localhost:8000/manage'>My Bookings</a></li><li class='nav-item'><a class='nav-link' href='http://localhost:8000/logout'>Logout</a></li>")
+    
+    pid = sessionStorage.getItem('pid');
+    async function displayPassenger() {
+      let passengerURL = "http://localhost:5002/passenger/" + pid;
+      try {
+        const passenger =
+        await fetch(
+          passengerURL, {method: 'GET',
+          }
+        );
+        const passenger_details = await passenger.json();
+
+        if (passenger.ok) {
+          let msg = "Hi " + passenger_details.firstName + "!<br> Where do you want to go today?";
+          document.getElementById("msg").innerHTML = msg;
+          $("#morecontent").append("<button class='btn btn-primary py-3 px-5'  style='margin:auto;display:block' onclick='go_to_search()'>Proceed to Booking</button>")
+
+
+        } else {
+        // showError(data_dep.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    displayPassenger()
+    $('section').hide()
+    $('footer').hide()
+
   }
 </script>
 
