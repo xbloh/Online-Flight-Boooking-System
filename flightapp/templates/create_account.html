@@ -1,52 +1,60 @@
 {% extends "layout.html" %}
-
+{% block title %}Create Account{% endblock %}
 {% block content %}
     
-    <div class="hero-wrap js-fullheight" style="background-image: url('/static/images/background.jpg'); height:1024px">
-    <section class="ftco-section ftco-degree-bg">
-        <div class="container">
-            <div class="row">
-                <div class="form-group" style="background-color:aliceblue; opacity:0.95; padding: 20px">
-                <h1 class="display-4">Create Account</h1>
-                <form id='create_accountForm'>
-					<div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Enter First Name">
-                    </div><div class="form-group">
-                        <label for="password">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"
-                            >
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter Password">
-					</div>
-					<div class="form-group">
-                        <label for="password">Userame</label>
-                        <input type="text" class="form-control" id="pid" placeholder="Enter a username">
-                    </div><div class="form-group">
-                        <label for="password">Date of Birth</label>
-                        <input type="date" class="form-control" id="dateOfBirth" placeholder="Enter date of birth">
-					</div>
-					<div class="form-group">
-                        <label for="password">Contact Number</label>
-                        <input type="test" class="form-control" id="contactNo" placeholder="Enter your contact number">
-                    </div>
-					
-					
-                    <button type="submit" class="btn btn-primary py-3">Create Account</button>
-                </form>
-                Already have an account? Click 
-                <a href="login">here</a>!
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="hero-wrap js-fullheight" style="background-image: url('/static/images/background.jpg'); height:1024px">
+	<div class="overlay"></div>
+	<div class="container">
+	  <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
+		<div class="col-md-9 ftco-animate mb-5 pb-5 text-center text-md-left" data-scrollax=" properties: { translateY: '70%' }">
+		  <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="color:black">Create Account</h1>
+		  <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="color:black">Create an account to join us!!</p>
+		</div>
+	  </div>
+	</div>
 </div>
+<section class="ftco-section ftco-degree-bg">
+	<div class="container">
+		<h1 class="display-4" style="text-align: center;">Create Account</h1>
+		<form id='create_accountForm' style="margin-left: auto ;display: block; margin-right: auto;  " >
+			<div class="form-group">
+				<label>First Name</label>
+				<input type="text" class="form-control" id="firstName" placeholder="Enter First Name">
+			</div>
+			<div class="form-group">
+				<label for="password">Last Name</label>
+				<input type="text" class="form-control" id="lastName" placeholder="Enter Last Name">
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"
+									>
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input type="password" class="form-control" id="password" placeholder="Enter Password">
+			</div>
+			<div class="form-group">
+				<label for="password">Userame</label>
+				<input type="text" class="form-control" id="pid" placeholder="Enter a username">
+			</div>
+			<div class="form-group">
+				<label for="password">Date of Birth</label>
+				<input type="date" class="form-control" id="dateOfBirth" placeholder="Enter date of birth">
+			</div>
+			<div class="form-group">
+				<label for="password">Contact Number</label>
+				<input type="test" class="form-control" id="contactNo" placeholder="Enter your contact number">
+			</div>
+					
+					
+			<button type="submit" class="btn btn-primary py-3">Create Account</button>
+		</form>
+		Already have an account? Click 
+		<a href="login">here</a>!
+	</div>
+				
+</section>
     <label id="error" class="text-danger"></label>
 </body>
 
