@@ -35,7 +35,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
   <div class="container">
-    <a class="navbar-brand" href="index.html">Fly Like T6</a>
+    <a class="navbar-brand" href="about">Fly Like T6</a>
     <button aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
             data-target="#ftco-nav"
             data-toggle="collapse" type="button">
@@ -48,7 +48,8 @@
         <li class="nav-item"><a class="nav-link" href="http://localhost:8000/about">About</a></li>
         <li class="nav-item"><a class="nav-link" href="http://localhost:8000/search_flights">Search Flights</a></li>
         <li class="nav-item"><a class="nav-link" href="http://localhost:8000/manage">My Bookings</a></li>
-        <li class="nav-item"><a class="nav-link" href="http://localhost:8000/login">Logout</a></li>
+        <!-- <li class="nav-item"><a class="nav-link" href="http://localhost:8000/logout">Logout</a></li> -->
+        {% block logout %} {% endblock %}
 
       </ul>
     </div>
