@@ -126,7 +126,7 @@
     <input class='btn btn-primary' id='assignSeatBtn1' type='button' value='Assign Seats'/>
   </form>
 
-  {% block scripts %}
+
   <script>
     function dateToYMD(date) {
       let d = date.getDate();
@@ -164,8 +164,8 @@
       } catch (error) {
         // Errors when calling the service; such as network error,
         // service offline, etc
-        showError
-        ('There is a problem retrieving books data, please try again later.<br />' + error);
+        // showError
+        console.log('There is a problem retrieving books data, please try again later.<br />' + error);
       }
     }
 
@@ -227,8 +227,8 @@
       } catch (error) {
         // Errors when calling the service; such as network error,
         // service offline, etc
-        showError
-        ('There is a problem retrieving books data, please try again later.<br />' + error);
+        // showError
+        console.log('There is a problem retrieving books data, please try again later.<br />' + error);
       }
     }
 
@@ -241,14 +241,14 @@
     $("#searchFlightForm").submit(async (event) => {
       event.preventDefault();
 
-      var flightCode = document.getElementById("flightCodeDDL").value;
+      let flightCode = document.getElementById("flightCodeDDL").value;
 
-      var dateDDL = document.getElementById("dateDDL").value;
-      var date = dateToYMD(new Date(dateDDL));
+      let dateDDL = document.getElementById("dateDDL").value;
+      let date = dateToYMD(new Date(dateDDL));
       console.log(`search by flightCode(${flightCode}) and date(${date})`)
 
       try {
-        var flightURL = `http://127.0.0.1:5000/booking/filter`;
+        let flightURL = `http://127.0.0.1:5000/booking/filter`;
         // ?q={"flightCode": "${flightCode}", "date": "${date}"}
 
         const response_dep =
@@ -293,10 +293,8 @@
           // showError(data_dep.message);
         }
       } catch (error) {
-        // Errors when calling the service; such as network error,
-        // service offline, etc
-        showError
-        ('There is a problem retrieving books data, please try again later.<br />' + error);
+        // Errors when calling the service; such as network error, service offline, etc
+        // console.log('There is a problem retrieving books data, please try again later.' + error);
       }
     });
 
@@ -304,7 +302,7 @@
 
       event.preventDefault(); //Prevents screen from refreshing when submitting
       console.log('assign (refCode): ' + refCode);
-      var flightURL = `http://127.0.0.1:5000/booking/assignSeat/${refCode}`;
+      let flightURL = `http://127.0.0.1:5000/booking/assignSeat/${refCode}`;
       try {
         // get flight details of departure flight
         const response_dep =
@@ -322,13 +320,16 @@
       } catch (error) {
         // Errors when calling the service; such as network error,
         // service offline, etc
-        showError
-        ('There is a problem retrieving books data, please try again later.<br />' + error);
+        // showError
+        console.log('There is a problem retrieving books data, please try again later.<br />' + error);
       }
     }
 
   </script>
-  {% endblock %}
+
 </section>
+
+<!--{% block scripts %}-->
+<!--{% endblock %}-->
 
 {% endblock %}

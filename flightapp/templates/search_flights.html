@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Search Flights{% endblock %}
+
 {% block content %}
 
 <div class="hero-wrap js-fullheight" style="background-image: url('/static/images/bg_1.jpg')">
@@ -136,8 +137,17 @@
     </div>
   </section>
 </div>
+{% endblock %}
+
+{% block scripts %}
 
 <script>
+  // Helper function to display error message
+  function showError(message) {
+    // Display an error under the the predefined label with error as the id
+    $('#error').text(message);
+  }
+  
   pid = sessionStorage.getItem('pid');
   departDest = sessionStorage.getItem('departDest');
   arrivalDest = sessionStorage.getItem('arrivalDest');
@@ -179,6 +189,61 @@
     }
   }
   displayFlyingFromDDL();
+
+  $("#searchFlightForm").submit(async (event) => {
+
+    //Prevents screen from refreshing when submitting
+    event.preventDefault();
+
+    var flightURL = "http://127.0.0.1:5001/flight/";
+
+    //Get form data
+    let departDest = document.getElementById("departDestCodeDDL").value;
+    let arrivalDest = document.getElementById("arrivalDestCodeDDL").value;
+    // console.log(arrivalDest + ' --- ' + departDest);
+    // return;
+
+    flightURL_dep = flightURL + departDest + '/' + arrivalDest;
+    // flightURL_ret = flightURL + arrivalDest + '/' + departDest;
+
+    try {
+      // get flight details of departure flight
+      const response_dep =
+        await fetch(
+          flightURL_dep, {method: 'GET'}
+        );
+      const data_dep = await response_dep.json();
+      console.log(data_dep);
+      var out_flights = data_dep.flight;
+      if (response_dep.ok) {
+        var rows = "";
+        for (const flight of out_flights) {
+          eachRow =
+            "<td>" +
+            "Flight Number: " + flight.flightNo + "<br>" +
+            "Departure Destination: " + flight.departDest + "<br>" +
+            "Arrival Destination: " + flight.arrivalDest + "<br>" +
+            "Departure Time: " + flight.deptTime + "<br>" +
+            "Arrival Time: " + flight.arrivalTime + "<br>" +
+            "Base Price: $" + flight.basePrice + "<br>" +
+            // "Type: " + flight.type + "</td>" +
+            "<td><input value=" + "'" + flight.flightNo + "'" + "class='outbound_flight' name='type_radio' type='radio' /></td>";
+          rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+        }
+        $('#outFlightsTable tbody').empty();
+        $('#outFlightsTable').append(rows);
+      } else {
+        showError(data_dep.message);
+      }
+    } catch (error) {
+      // Errors when calling the service; such as network error,
+      // service offline, etc
+      showError
+      ('There is a problem retrieving books data, please try again later.<br />' + error);
+
+    }
+
+  });
 
 </script>
 
