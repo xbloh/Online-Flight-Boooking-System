@@ -53,64 +53,15 @@
     		</div>
     	
 
-              <!-- <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
-              	<form action="#" class="search-destination">
-              		<div class="row">
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">Check In</label>
-              					<div class="form-field">
-	              					<div class="icon"><span class="icon-map-marker"></span></div>
-					                <input type="text" class="form-control checkin_date" placeholder="Check In">
-					              </div>
-				              </div>
-              			</div>
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">Check Out</label>
-              					<div class="form-field">
-	              					<div class="icon"><span class="icon-map-marker"></span></div>
-					                <input type="text" class="form-control checkout_date" placeholder="From">
-					              </div>
-				              </div>
-              			</div>
-              			<div class="col-md align-items-end">
-              				<div class="form-group">
-              					<label for="#">Guest</label>
-              					<div class="form-field">
-	              					<div class="select-wrap">
-			                      <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-			                      <select name="" id="" class="form-control">
-			                      	<option value="">1</option>
-			                        <option value="">2</option>
-			                        <option value="">3</option>
-			                        <option value="">4</option>
-			                        <option value="">5</option>
-			                      </select>
-			                    </div>
-					              </div>
-				              </div>
-              			</div>
-
-          <div class="col-md">
-            <div class="ftco-footer-widget mb-4">
-            	<h2 class="ftco-heading-2">Have a Questions?</h2>
-            	<div class="block-23 mb-3">
-	              <ul>
-	                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
-	              </ul>
-	            </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center"> -->
 {% endblock %}
 
 {% block scripts %}
   <script>
+	    // Helper function to display error message
+  function showError(message) {
+    // Display an error under the the predefined label with error as the id
+    $('#error').text(message);
+  }
 
 	refCode=sessionStorage.getItem('refCode');
 	console.log(refCode);
@@ -125,12 +76,15 @@
 
             const booking_data = await booking_response.json();
             if (booking_response.ok) {
-				var booking = booking_data; 
+				var booking = booking_data.booking; 
 				var date = new Date(booking.departDate);
 				var day = date.getDate();
 				var month = date.getMonth();
 				var year = date.getFullYear();
 				var departDate = day + '-' + month + '-' + year
+
+				console.log(booking);
+				
 
 				foundBooking =
                         "<tbody>" +
@@ -146,6 +100,9 @@
 				$('#cartTable tbody').empty();
 				$('#cartTable').append(foundBooking);
 
+				
+				
+
                 
             } else {
                 showError(booking_data.message);
@@ -159,6 +116,22 @@
 		var getBookingURL = "http://127.0.0.1:5000/booking/" + refCode;
 		getBookingData(getBookingURL).refCode;
 	});
+
+	$("#confirmBookingForm").submit(async (event) => {
+    event.preventDefault();
+    try {
+		
+		sessionStorage.setItem('price', booking.price);
+		console.log('hihi');
+		window.location.href = 'paypal';
+    } catch (error) {
+      // Errors when calling the service; such as network error,
+      // service offline, etc
+      showError
+      ("There is a problem adding this book, please try again later. " + error);
+
+    } // error
+  });
 
 
 	
