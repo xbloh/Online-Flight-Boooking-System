@@ -14,15 +14,16 @@
           <div class="container">
             <div class="row" >
               <div class="col-md-12 ftco-animate">
-                <table class="table" id="cartTable" width="400">
+                <table class="table" id="cartTable" style="background-color: #ffffff; filter: alpha(opacity=40); opacity: 0.95;border:1px white;  box-shadow: 2px 2px 2px #999; color:black;width:100%;">
                   <thead class="thead-primary" >
                   <tr class="text-center" id = 'title'></tr>
-                  <tr class="text-center">                                
+                  <tr class="text-center">   
+                    <th>Reference Code</th>    
+                    <th>Flight Number</th>                         
                     <th colspan="2">Depart Time</th>
-                    <th>Flight Number</th>
-                    <th>Reference Code</th>
+                    <th>Class</th>
                     <th>Seat Number</th>
-                    <th>Flight Number</th>
+                    
 
                   </tr>
                   </thead>
@@ -71,10 +72,11 @@
     try {
       var booking_response = await fetch (
             getBookingURL, 
-            {method: 'GET', headers: { "Content-Type": "application/json" } }
+            {method: 'GET', headers: { "Content-Type": "application/json" }}
             );
 
       booking_data = await booking_response.json();
+      console.log(booking_data);
       if (booking_response.ok) {
         var booking = booking_data['booking']; 
         var date = new Date(booking.departDate);
@@ -84,7 +86,7 @@
         var year = date.getFullYear();
         var departDate = day + '-' + month + '-' + year;
         console.log(booking);
-        var table_title = "<th colspan = 6> Boarding Pass</th>";
+        var table_title = "<th colspan = 7> Boarding Pass</th>";
         $('#title').append(table_title);
 
 
@@ -95,21 +97,19 @@
                 "<tbody>" +
                 
                 "<tr>" +
-                "<td >" +"Departure Date: "+ departDate + "</td>" +
-                "<td>" + "Departure Time: " + booking.deptTime + "</td>" +
+                "<td style='text-align:center'>" + booking.refCode + "</td>" +
+                "<td style='text-align:center'>" +  booking.flightNo + "</td>" +
+                "<td style='text-align:center'>" +"Date: "+ departDate + "</td>" +
+                "<td style='text-align:center'>" + "Time: " + booking.deptTime + "</td>" +
+                "<td style='text-align:center'>"  + booking.class_type + "</td>" +
+                "<td style='text-align:center'>" +  booking.seat_number + "</td>" +
+                "</tr>"+
+                "<tr>" +
+
+                "<td colspan=7 style='text-align:center'>" + "<img src='/static/images/qrcode.png' style='width:100px;height:100px;'"  + "</td> </tr>" +
+
 
                 
-                "<td >" + "Flight Number: " + booking.flightNo + "</td>" +
-                "<td>" + "Class: " + booking.class_type + "</td>" +
-
-                "<td>" + "Seat Number: " + booking.seat_number + "</td>" +
-
-                "<td>" + "Booking Reference Code: " + booking.refCode + "</td>" +
-
-                "<td >" + "<img src='/static/images/qrcode.png' style='width:100px;height:100px;'"  + "</td>" +
-
-
-                "</tr>"+
 
 
                 "<tbody>";
