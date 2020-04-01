@@ -258,7 +258,7 @@ def booking_confirm(price, refCode):
     return r.text
  
 
-@app.route("/booking/status", methods=['POST'])
+@app.route("/booking/status", methods=['OPTIONS'])
 def get_status():
     data = request.get_json()
     status = data['status']
@@ -273,7 +273,7 @@ def get_status():
     else:
         message = create_message(refCode)
         send_booking(message)
-    return status, refCode
+    return jsonify({"status": status, "refCode": refCode})
 
 
 @app.route("/booking/checkin/<string:refCode>", methods=['GET'])

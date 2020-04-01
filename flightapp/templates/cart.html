@@ -48,13 +48,13 @@
 						    </tbody>
 						  </table>
 					  </div>
-					  <form action="paypal.html"  id='confirmBookingForm'>
+					  <form id='confirmBookingForm'>
         				<div class="fields">
-		              <div class="form-group">
-		                <input type="submit" value="Confirm and Pay" class="btn btn-primary py-3 px-5"  style="margin:auto;display:block">
-		              </div>
-		            </div>
-	            </form>
+		              	<div class="form-group">
+		                	<input type="submit" value="Confirm and Pay" class="btn btn-primary py-3 px-5"  style="margin:auto;display:block")>
+		              	</div>
+		            	</div>
+	            	</form>
     			</div>
     		</div>
     	
@@ -70,7 +70,6 @@
   }
 
 	refCode=sessionStorage.getItem('refCode');
-	console.log(refCode);
 
 	async function getBookingData(getBookingURL) {
 		try {
@@ -88,8 +87,8 @@
 				var month = date.getMonth();
 				var year = date.getFullYear();
 				var departDate = day + '-' + month + '-' + year
+				sessionStorage.setItem('price', booking.price);
 
-				console.log(booking);
 				
 
 				foundBooking =
@@ -124,20 +123,17 @@
 	});
 
 	$("#confirmBookingForm").submit(async (event) => {
-    event.preventDefault();
-    try {
-		
-		sessionStorage.setItem('price', booking.price);
-		console.log('hihi');
-		window.location.href = 'paypal';
-    } catch (error) {
-      // Errors when calling the service; such as network error,
-      // service offline, etc
-      showError
-      ("There is a problem adding this book, please try again later. " + error);
+		event.preventDefault();
+		try {
+			window.location.href = 'paypal';
+    	} catch (error) {
+      	// Errors when calling the service; such as network error,
+      	// service offline, etc
+		  console.log(error);
+      		showError("There is a problem adding this book, please try again later. " + error);
 
-    } // error
-  });
+    	} // error
+  	});
 
 
 	
