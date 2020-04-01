@@ -5,6 +5,10 @@ app = Flask(__name__)
 def about():
     return render_template("about.html")
 
+@app.route("/create_account")
+def create_account():
+    return render_template("create_account.html")
+
 @app.route("/manage")
 def manage_booking(): 
     return render_template("manage_booking.html")
