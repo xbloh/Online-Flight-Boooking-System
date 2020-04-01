@@ -30,6 +30,8 @@
 </div>
     <label id="error" class="text-danger"></label>
 </body>
+
+{% block scripts %}
 <script>
     // Helper function to display error message
     function showError(message) {
@@ -73,7 +75,7 @@
                 sessionStorage.setItem('pid', pid);
                 // document.location.href="../flight_search_results.html?pid="+pid;
                 
-                window.location.href = './search_flights.html';
+                window.location.href = './search_flights';
                 // console.log("hihi");
                 // relocate to home page
                 // window.location.replace(homeURL);
@@ -91,5 +93,6 @@
         } // error
     });
 </script>
-
 {% endblock %}
+
+{% endblock %} 

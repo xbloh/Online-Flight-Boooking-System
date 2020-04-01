@@ -21,5 +21,9 @@ def login():
 def search_flights():
     return render_template("/search_flights.html")
 
+@app.route("/admin_search")
+def admin_search_flights():
+    return render_template("/admin_search.html")
+
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
