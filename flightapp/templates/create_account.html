@@ -48,12 +48,23 @@
 
 	<div class="container-contact100">
 		<div class="wrap-contact100">
-			<form class="contact100-form validate-form">
+			<form class="contact100-form validate-form" id="create_accountForm">
 				<span class="contact100-form-title">
 					Create Account
 				</span>
+					<div class="form-field">
+	              					<!-- <div class="icon"><span class="icon-my_location"></span></div> -->
+                                    First Name<input type="text" id = "firstName" class="form-control" placeholder="Enter your First name or Given name"> &nbsp;
+                                    Last Name <input type="text" id = "lastName" class="form-control" placeholder="Enter your Last Name"> &nbsp;
+                                    Email<input type="text" id = "email" class="form-control" placeholder="Email"> &nbsp;
+                                    Password<input type="password" id = "password" class="form-control" placeholder="Password"> &nbsp;
+                                    Username<input type="text" id = "pid" class="form-control" placeholder = "Please enter a unique username"> &nbsp;
+                                    Date of Birth<input type="text" id = "dateOfBirth" class="form-control" placeholder="Enter your date of birth in yyyy-mm-dd format, eg. 1976-12-12"> &nbsp;
+                                    Contact Number<input type="text" id = "contactNo" class="form-control" placeholder="Enter your mobile number eg. 99330292"> &nbsp;
+                                    <button type="submit" value="Login" class="form-control btn btn-primary" >Create account now!</button>
+                                </div>
 
-				<div class="wrap-input100 validate-input" data-validate="First name is required">
+				<!-- <div class="wrap-input100 validate-input" data-validate="First name is required">
 					<span class="label-input100">First Name</span>
 					<input class="input100" type="text" name="firstname">
 					<span class="focus-input100"></span>
@@ -105,7 +116,7 @@
 							</span>
 						</button>
 					</div>
-				</div>
+				</div> -->
 			</form>
 		</div>
 	</div>
