@@ -25,5 +25,9 @@ def search_flights():
 def admin_search_flights():
     return render_template("/admin_search.html")
 
+@app.route("/cart")
+def cart():
+    return render_template("/cart.html")
+
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
