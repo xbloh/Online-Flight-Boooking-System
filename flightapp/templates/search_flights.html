@@ -148,7 +148,7 @@
     // Display an error under the the predefined label with error as the id
     $('#error').text(message);
   }
-  
+
   pid = sessionStorage.getItem('pid');
   departDest = sessionStorage.getItem('departDest');
   arrivalDest = sessionStorage.getItem('arrivalDest');
@@ -233,6 +233,7 @@
         }
         $('#outFlightsTable tbody').empty();
         $('#outFlightsTable').append(rows);
+        
       } else {
         showError(data_dep.message);
       }
@@ -244,6 +245,133 @@
 
     }
 
+  });
+
+  $("#createBookingForm").submit(async (event) => {
+    event.preventDefault();
+    // var pid = window.location.hash.substring(pid).substring(1);
+    //Prevents screen from refreshing when submitting
+
+
+    var bookingURL = "http://127.0.0.1:5000/booking/create";
+    var pricingURL = "http://127.0.0.1:5003/pricing/getbaggage/";
+    var flightURL = "http://127.0.0.1:5001/flight/";
+
+    //Get form data
+
+    var outbound_flightNo = $(".outbound_flight").val();
+    // var inbound_flightNo = $(".inbound_flight").val();
+    var class_type = $('#class_name').val();
+    var flight_length = $('#flight_length').val();
+    var meal_desc = $('#meal_desc').val();
+    var baggage_desc = $('#baggage').val();
+    // var class_type = flight_length + '_' + class_name
+    var today = new Date();
+    var departDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    // var baggage_desc = flight_length + '_' + baggage;
+
+
+    // localStorage.setItem('outbound_flightNo', outbound_flightNo);
+    // localStorage.setItem('class_name', class_name);
+    // localStorage.setItem('meal_desc', meal_desc);
+    // localStorage.setItem('baggage', baggage);
+    // localStorage.setItem('class_type', class_type);
+    // localStorage.setItem('departDate', departDate);
+    // localStorage.setItem('baggage_desc', baggage_desc);
+
+    // window.location.href = './cart.html';
+
+
+    // create booking
+
+
+    // pid=localStorage.getItem('pid');
+    pricingURL += baggage_desc;
+    flightURL += outbound_flightNo;
+    // console.log(flightURL);
+
+    try {
+
+      // get flight base price
+      const flightbaseprice_response =
+        await fetch(
+          flightURL, {
+            method: 'GET'
+          });
+      const flightbaseprice_data = await flightbaseprice_response.json();
+      if (flightbaseprice_response.ok) {
+        var flightbaseprice = flightbaseprice_data.flight['basePrice'];
+        localStorage.setItem('flightbaseprice', flightbaseprice);
+
+      } else {
+        showError(flightbaseprice_data.message);
+      }
+      // get baggage id
+      const baggageid_response =
+        await fetch(
+          pricingURL, {
+            method: 'GET'
+          });
+      const baggageid_data = await baggageid_response.json();
+      if (baggageid_response.ok) {
+        var baggageid = baggageid_data.baggage_id;
+        // localStorage.setItem('baggageid', baggageid);
+        // console.log(baggageid);
+      } else {
+        showError(baggageid_data.message);
+      }
+      // console.log('hihi')
+      // console.log(pid);
+      // console.log(outbound_flightNo);
+      // console.log(flightbaseprice);
+      // console.log(departDate);
+      // console.log(class_type);
+      // console.log(baggageid);
+      // console.log(meal_desc);
+
+
+      const response_booking =
+        await fetch(
+          bookingURL, {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+              pid: pid,
+              flightNo: outbound_flightNo,
+              base_price: flightbaseprice,
+              departDate: departDate,
+              class_type: class_type,
+              baggage: baggageid,
+              meal: meal_desc
+            })
+          });
+
+
+      const data_booking = await response_booking.json();
+
+      if (response_booking.ok) {
+
+        refCode = data_booking.refCode;
+        sessionStorage.setItem('refCode', refCode);
+
+
+        window.location.href = 'cart';
+        // console.log(data_booking);
+
+        // // relocate to home page
+        // window.location.replace(homeURL);
+
+      } else {
+
+        showError(data_booking.message);
+      }
+    } catch (error) {
+      // Errors when calling the service; such as network error,
+      // service offline, etc
+      showError
+      ("There is a problem adding this book, please try again later. " + error);
+
+    } // error
   });
 
 </script>

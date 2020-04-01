@@ -127,6 +127,12 @@ def receive_choice():
 def getAllFlightCode():
     return jsonify([flightCode.json() for flightCode in FlightCode.query.all()]), 200
 
+
+@app.route("/getFlightCodeDict")
+def getAllFlightCodeDict():
+    return jsonify({flightCode.code:flightCode.name for flightCode in FlightCode.query.all()}), 200
+
+
 #input is depart/arrive Dest in the form of "KUL"/"SIN"
 @app.route("/getcodename/<string:code>")
 def getdestname(dest):

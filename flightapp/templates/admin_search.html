@@ -83,253 +83,237 @@
           <th>Seat Num</th>
           </thead>
           <tbody>
-          <!-- <tr>
-        <td>cell</td>
-        <td>cell</td>
-        <td>cell</td>
-        <td>cell</td>
-        <td>cell</td>
-        <td>cell</td>
-        <td>cell</td>
-        <td>cell</td>
-      </tr> -->
+            <!-- <tr>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+            </tr> -->
           </tbody>
         </table>
-
-        <!--          <table class='table table-striped' id="inFlightsTable">-->
-        <!--            <thead>-->
-        <!--            <th>Inbound Flights</th>-->
-        <!--            </thead>-->
-        <!--          </table>-->
-
-
       </div>
     </div>
-
-
   </div>
-  </div>
-  </div>
-  </footer>
-
-
-  <!-- loader -->
-  <div class="show fullscreen" id="ftco-loader">
-    <svg class="circular" height="48px" width="48px">
-      <circle class="path-bg" cx="24" cy="24" fill="none" r="22" stroke="#eeeeee" stroke-width="4"/>
-      <circle class="path" cx="24" cy="24" fill="none" r="22" stroke="#F96D00" stroke-miterlimit="10"
-              stroke-width="4"/>
-    </svg>
-  </div>
-
-  <form>
-    <input class='btn btn-primary' id='assignSeatBtn1' type='button' value='Assign Seats'/>
-  </form>
-
-
-  <script>
-    function dateToYMD(date) {
-      let d = date.getDate();
-      let m = date.getMonth() + 1; //Month from 0 to 11
-      let y = date.getFullYear();
-      return '' + y + '-' + (m <= 9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
-    }
-
-    async function displayFlightDownMenu() {
-      let flightURL = "http://localhost:5001/getFlightNo";
-
-      try {
-        // get flight details of departure flight
-        const response_flight =
-          await fetch(
-            flightURL, {method: 'GET'}
-          );
-        const all_flight_no = await response_flight.json();
-        let flight_no_list = all_flight_no.all_flight_no;
-        console.log(flight_no_list);
-
-        if (response_flight.ok) {
-          var rows = "";
-          for (const flightNo of flight_no_list) {
-            eachRow = "<option value='" + flightNo + "'>" + flightNo + "</option>";
-            rows += eachRow;
-          }
-          $('#flightCodeDDL').empty();
-          $('#flightCodeDDL').append(rows);
-          // $('#flightCodeDDL').append("<option value='foo'>FOOOOO</option>");
-
-        } else {
-          // showError(data_dep.message);
-        }
-      } catch (error) {
-        // Errors when calling the service; such as network error,
-        // service offline, etc
-        // showError
-        console.log('There is a problem retrieving books data, please try again later.<br />' + error);
-      }
-    }
-
-    displayFlightDownMenu();
-    <!-- Get flight details with arrival and departure destination -->
-    // Helper function to display error message
-    function showError(message) {
-      // Display an error under the the predefined label with error as the id
-      $('#error').text(message);
-    }
-
-    // $("#searchFlightForm").submit(async (event) =>
-    async function displayBooking() {
-
-      //Prevents screen from refreshing when submitting
-      // event.preventDefault();
-
-      var flightURL = "http://127.0.0.1:5000/booking";
-
-      try {
-        // get flight details of departure flight
-        const response_dep =
-          await fetch(
-            flightURL, {
-              method: 'GET'
-            });
-        const booking_data = await response_dep.json();
-        console.log(booking_data);
-
-        var out_flights = booking_data.bookings;
-        if (response_dep.ok) {
-          var rows = "";
-          for (const flight of out_flights) {
-
-            var departDate = dateToYMD(new Date(flight.departDate));
-            // console.log(departDate);
-            seatNumber = flight.seatNumber;
-            if (!seatNumber) {
-              seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
-            }
-            eachRow =
-              "<td>" + flight.refCode + "</td>" +
-              "<td>" + flight.pid + "</td>" +
-              "<td>" + flight.flightNo + "</td>" +
-              // "<td>" + dateToYMD(flight.departDate) + "</td>" +
-              "<td>" + departDate + "</td>" +
-              "<td>" + flight.price + "</td>" +
-              "<td>" + flight.class_type + "</td>" +
-              "<td>" + flight.baggage + "</td>" +
-              "<td>" + flight.meal + "</td>" +
-              `<td id="td${flight.refCode}">` + seatNumber + "</td>";
-            rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-          }
-          // $('#outFlightsTable tbody').empty();
-          $('#outFlightsTable').append(rows);
-        } else {
-          showError(response_dep.message);
-        }
-      } catch (error) {
-        // Errors when calling the service; such as network error,
-        // service offline, etc
-        // showError
-        console.log('There is a problem retrieving books data, please try again later.<br />' + error);
-      }
-    }
-
-    displayBooking();
-
-    // document.getElementById("dateDDL").value = "2020-03-15";
-    document.getElementById("dateDDL").valueAsDate = new Date();
-    // console.log(new Date());
-
-    $("#searchFlightForm").submit(async (event) => {
-      event.preventDefault();
-
-      let flightCode = document.getElementById("flightCodeDDL").value;
-
-      let dateDDL = document.getElementById("dateDDL").value;
-      let date = dateToYMD(new Date(dateDDL));
-      console.log(`search by flightCode(${flightCode}) and date(${date})`)
-
-      try {
-        let flightURL = `http://127.0.0.1:5000/booking/filter`;
-        // ?q={"flightCode": "${flightCode}", "date": "${date}"}
-
-        const response_dep =
-          await fetch(flightURL, {
-            method: 'POST'
-            , headers: {"Content-Type": "application/json"}
-            , body: JSON.stringify({
-              "flightCode": flightCode,
-              "date": date
-            })
-          });
-        const booking_data = await response_dep.json();
-        console.log(booking_data);
-
-        if (response_dep.ok) {
-
-          let rows = "";
-          for (const flight of booking_data) {
-
-            let departDate = dateToYMD(new Date(flight.departDate));
-            // console.log(departDate);
-            // console.log("seat_number null : "+ !flight.seatNumber);
-            let seatNumber = flight.seatNumber;
-            if (!seatNumber) {
-              seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
-            }
-            let eachRow =
-              "<td>" + flight.refCode + "</td>" +
-              "<td>" + flight.pid + "</td>" +
-              "<td>" + flight.flightNo + "</td>" +
-              "<td>" + departDate + "</td>" +
-              "<td>" + flight.price + "</td>" +
-              "<td>" + flight.class_type + "</td>" +
-              "<td>" + flight.baggage + "</td>" +
-              "<td>" + flight.meal + "</td>" +
-              "<td>" + seatNumber + "</td>";
-            rows += "<tr>" + eachRow + "</tr>";
-          }
-          $('#outFlightsTable tbody').empty();
-          $('#outFlightsTable').append(rows);
-        } else {
-          // showError(data_dep.message);
-        }
-      } catch (error) {
-        // Errors when calling the service; such as network error, service offline, etc
-        // console.log('There is a problem retrieving books data, please try again later.' + error);
-      }
-    });
-
-    async function assignSeats(refCode) {
-
-      event.preventDefault(); //Prevents screen from refreshing when submitting
-      console.log('assign (refCode): ' + refCode);
-      let flightURL = `http://127.0.0.1:5000/booking/assignSeat/${refCode}`;
-      try {
-        // get flight details of departure flight
-        const response_dep =
-          await fetch(
-            flightURL, {
-              method: 'GET'
-              // ,mode: 'no-cors'
-            });
-        const booking_data = await response_dep.json();
-        if (response_dep.ok) {
-          console.log(booking_data);
-          var element = document.getElementById(`td${refCode}`);
-          element.innerHTML = booking_data.seatNumber;
-        }
-      } catch (error) {
-        // Errors when calling the service; such as network error,
-        // service offline, etc
-        // showError
-        console.log('There is a problem retrieving books data, please try again later.<br />' + error);
-      }
-    }
-
-  </script>
-
 </section>
 
-<!--{% block scripts %}-->
-<!--{% endblock %}-->
+<!-- loader-->
+<!--<div class="show fullscreen" id="ftco-loader">-->
+<!--  <svg class="circular" height="48px" width="48px">-->
+<!--    <circle class="path-bg" cx="24" cy="24" fill="none" r="22" stroke="#eeeeee" stroke-width="4"/>-->
+<!--    <circle class="path" cx="24" cy="24" fill="none" r="22" stroke="#F96D00" stroke-miterlimit="10"-->
+<!--            stroke-width="4"/>-->
+<!--  </svg>-->
+<!--</div>-->
+
+<form>
+  <input class='btn btn-primary' id='assignSeatBtn1' type='button' value='Assign Seats'/>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function dateToYMD(date) {
+    let d = date.getDate();
+    let m = date.getMonth() + 1; //Month from 0 to 11
+    let y = date.getFullYear();
+    return '' + y + '-' + (m <= 9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
+  }
+
+  async function displayFlightDownMenu() {
+    let flightURL = "http://localhost:5001/getFlightNo";
+
+    try {
+      // get flight details of departure flight
+      const response_flight =
+        await fetch(
+          flightURL, {method: 'GET'}
+        );
+      const all_flight_no = await response_flight.json();
+      let flight_no_list = all_flight_no.all_flight_no;
+      console.log(flight_no_list);
+
+      if (response_flight.ok) {
+        var rows = "";
+        for (const flightNo of flight_no_list) {
+          eachRow = "<option value='" + flightNo + "'>" + flightNo + "</option>";
+          rows += eachRow;
+        }
+        $('#flightCodeDDL').empty();
+        $('#flightCodeDDL').append(rows);
+        // $('#flightCodeDDL').append("<option value='foo'>FOOOOO</option>");
+
+      } else {
+        // showError(data_dep.message);
+      }
+    } catch (error) {
+      // Errors when calling the service; such as network error,
+      // service offline, etc
+      // showError
+      console.log('There is a problem retrieving books data, please try again later.<br />' + error);
+    }
+  }
+
+  displayFlightDownMenu();
+  <!-- Get flight details with arrival and departure destination -->
+  // Helper function to display error message
+  function showError(message) {
+    // Display an error under the the predefined label with error as the id
+    $('#error').text(message);
+  }
+
+  // $("#searchFlightForm").submit(async (event) =>
+  async function displayBooking() {
+
+    //Prevents screen from refreshing when submitting
+    // event.preventDefault();
+
+    var flightURL = "http://127.0.0.1:5000/booking";
+
+    try {
+      // get flight details of departure flight
+      const response_dep =
+        await fetch(
+          flightURL, {
+            method: 'GET'
+          });
+      const booking_data = await response_dep.json();
+      console.log(booking_data);
+
+      var out_flights = booking_data.bookings;
+      if (response_dep.ok) {
+        var rows = "";
+        for (const flight of out_flights) {
+
+          var departDate = dateToYMD(new Date(flight.departDate));
+          // console.log(departDate);
+          seatNumber = flight.seatNumber;
+          if (!seatNumber) {
+            seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
+          }
+          eachRow =
+            "<td>" + flight.refCode + "</td>" +
+            "<td>" + flight.pid + "</td>" +
+            "<td>" + flight.flightNo + "</td>" +
+            // "<td>" + dateToYMD(flight.departDate) + "</td>" +
+            "<td>" + departDate + "</td>" +
+            "<td>" + flight.price + "</td>" +
+            "<td>" + flight.class_type + "</td>" +
+            "<td>" + flight.baggage + "</td>" +
+            "<td>" + flight.meal + "</td>" +
+            `<td id="td${flight.refCode}">` + seatNumber + "</td>";
+          rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+        }
+        // $('#outFlightsTable tbody').empty();
+        $('#outFlightsTable').append(rows);
+      } else {
+        showError(response_dep.message);
+      }
+    } catch (error) {
+      // Errors when calling the service; such as network error,
+      // service offline, etc
+      // showError
+      console.log('There is a problem retrieving books data, please try again later.<br />' + error);
+    }
+  }
+
+  displayBooking();
+
+  // document.getElementById("dateDDL").value = "2020-03-15";
+  document.getElementById("dateDDL").valueAsDate = new Date();
+  // console.log(new Date());
+
+  $("#searchFlightForm").submit(async (event) => {
+    event.preventDefault();
+
+    let flightCode = document.getElementById("flightCodeDDL").value;
+
+    let dateDDL = document.getElementById("dateDDL").value;
+    let date = dateToYMD(new Date(dateDDL));
+    console.log(`search by flightCode(${flightCode}) and date(${date})`)
+
+    try {
+      let flightURL = `http://127.0.0.1:5000/booking/filter`;
+      // ?q={"flightCode": "${flightCode}", "date": "${date}"}
+
+      const response_dep =
+        await fetch(flightURL, {
+          method: 'POST'
+          , headers: {"Content-Type": "application/json"}
+          , body: JSON.stringify({
+            "flightCode": flightCode,
+            "date": date
+          })
+        });
+      const booking_data = await response_dep.json();
+      console.log(booking_data);
+
+      if (response_dep.ok) {
+
+        let rows = "";
+        for (const flight of booking_data) {
+
+          let departDate = dateToYMD(new Date(flight.departDate));
+          // console.log(departDate);
+          // console.log("seat_number null : "+ !flight.seatNumber);
+          let seatNumber = flight.seatNumber;
+          if (!seatNumber) {
+            seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
+          }
+          let eachRow =
+            "<td>" + flight.refCode + "</td>" +
+            "<td>" + flight.pid + "</td>" +
+            "<td>" + flight.flightNo + "</td>" +
+            "<td>" + departDate + "</td>" +
+            "<td>" + flight.price + "</td>" +
+            "<td>" + flight.class_type + "</td>" +
+            "<td>" + flight.baggage + "</td>" +
+            "<td>" + flight.meal + "</td>" +
+            "<td>" + seatNumber + "</td>";
+          rows += "<tr>" + eachRow + "</tr>";
+        }
+        $('#outFlightsTable tbody').empty();
+        $('#outFlightsTable').append(rows);
+      } else {
+        // showError(data_dep.message);
+      }
+    } catch (error) {
+      // Errors when calling the service; such as network error, service offline, etc
+      // console.log('There is a problem retrieving books data, please try again later.' + error);
+    }
+  });
+
+  async function assignSeats(refCode) {
+
+    event.preventDefault(); //Prevents screen from refreshing when submitting
+    console.log('assign (refCode): ' + refCode);
+    let flightURL = `http://127.0.0.1:5000/booking/assignSeat/${refCode}`;
+    try {
+      // get flight details of departure flight
+      const response_dep =
+        await fetch(
+          flightURL, {
+            method: 'GET'
+            // ,mode: 'no-cors'
+          });
+      const booking_data = await response_dep.json();
+      if (response_dep.ok) {
+        console.log(booking_data);
+        var element = document.getElementById(`td${refCode}`);
+        element.innerHTML = booking_data.seatNumber;
+      }
+    } catch (error) {
+      // Errors when calling the service; such as network error,
+      // service offline, etc
+      // showError
+      console.log('There is a problem retrieving books data, please try again later.<br />' + error);
+    }
+  }
+
+</script>
 
 {% endblock %}
