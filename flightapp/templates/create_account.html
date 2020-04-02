@@ -1,144 +1,185 @@
 {% extends "layout.html" %}
 {% block title %}Create Account{% endblock %}
 {% block content %}
-    
-    <div class="hero-wrap js-fullheight" style="background-image: url('/static/images/bg_1.jpg');">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-9 ftco-animate mb-5 pb-5 text-center text-md-left" data-scrollax=" properties: { translateY: '70%' }">
-            <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Create Account</h1>
-            <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Book flights to travel around the world</p>
-		</div>
-        </div>
+
+<div class="hero-wrap js-fullheight" style="background-image: url('/static/images/bg_1.jpg');">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start"
+         data-scrollax-parent="true">
+      <div class="col-md-9 ftco-animate mb-5 pb-5 text-center text-md-left"
+           data-scrollax=" properties: { translateY: '70%' }">
+        <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Create Account</h1>
+        <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Book flights to travel around the world</p>
       </div>
     </div>
+  </div>
+</div>
 <section class="ftco-section ftco-degree-bg">
-	<div class="container">
-		<h1 class="display-4" style="text-align: center;">Create Account</h1>
-		<form id='create_accountForm' style="margin-left: auto ;display: block; margin-right: auto;  " >
+  <div class="container">
+    <h1 class="display-4" style="text-align: center;">Create Account</h1>
+		<!-- for testing - AND DUNNID TO TYPE EVERYTIME -->
+		<form id='create_accountForm' style="margin-left: auto ;display: block; margin-right: auto;  ">
 			<div class="form-group">
 				<label>First Name</label>
-				<input type="text" class="form-control" id="firstName" placeholder="Enter First Name">
+				<input class="form-control" id="firstName" placeholder="Enter First Name" type="text" value="Jason">
 			</div>
 			<div class="form-group">
 				<label for="password">Last Name</label>
-				<input type="text" class="form-control" id="lastName" placeholder="Enter Last Name">
+				<input class="form-control" id="lastName" placeholder="Enter Last Name" type="text" value="Liew">
 			</div>
 			<div class="form-group">
 				<label for="email">Email</label>
-				<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"
-									>
+				<input aria-describedby="emailHelp" class="form-control" id="email" placeholder="Enter email" type="email" value="jasonliew@gmail.com"
+				>
 			</div>
 			<div class="form-group">
 				<label for="password">Password</label>
-				<input type="password" class="form-control" id="password" placeholder="Enter Password">
+				<input class="form-control" id="password" placeholder="Enter Password" type="password" value="1234">
 			</div>
 			<div class="form-group">
 				<label for="password">Userame</label>
-				<input type="text" class="form-control" id="pid" placeholder="Enter a username">
+				<input class="form-control" id="pid" placeholder="Enter a username" type="text" value="jason_liew">
 			</div>
 			<div class="form-group">
 				<label for="password">Date of Birth</label>
-				<input type="date" class="form-control" id="dateOfBirth" placeholder="Enter date of birth">
+				<input class="form-control" id="dateOfBirth" placeholder="Enter date of birth" type="date" value="1996-10-10">
 			</div>
 			<div class="form-group">
 				<label for="password">Contact Number</label>
-				<input type="test" class="form-control" id="contactNo" placeholder="Enter your contact number">
+				<input class="form-control" id="contactNo" placeholder="Enter your contact number" type="test" value="62353535">
 			</div>
-					
-					
-			<button type="submit" class="btn btn-primary py-3">Create Account</button>
+			<button class="btn btn-primary py-3" type="submit">Create Account</button>
 		</form>
-		Already have an account? Click 
-		<a href="login">here</a>!
-	</div>
-				
+
+<!--		ORIGINAL FORM BELOW-->
+<!--    <form id='create_accountForm' style="margin-left: auto ;display: block; margin-right: auto;  ">-->
+<!--      <div class="form-group">-->
+<!--        <label>First Name</label>-->
+<!--        <input class="form-control" id="firstName" placeholder="Enter First Name" type="text">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="password">Last Name</label>-->
+<!--        <input class="form-control" id="lastName" placeholder="Enter Last Name" type="text">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="email">Email</label>-->
+<!--        <input aria-describedby="emailHelp" class="form-control" id="email" placeholder="Enter email" type="email"-->
+<!--        >-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="password">Password</label>-->
+<!--        <input class="form-control" id="password" placeholder="Enter Password" type="password">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="password">Userame</label>-->
+<!--        <input class="form-control" id="pid" placeholder="Enter a username" type="text">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="password">Date of Birth</label>-->
+<!--        <input class="form-control" id="dateOfBirth" placeholder="Enter date of birth" type="date">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="password">Contact Number</label>-->
+<!--        <input class="form-control" id="contactNo" placeholder="Enter your contact number" type="test">-->
+<!--      </div>-->
+
+
+<!--      <button class="btn btn-primary py-3" type="submit">Create Account</button>-->
+<!--    </form>-->
+    Already have an account? Click
+    <a href="login">here</a>!
+  </div>
+
 </section>
-    <label id="error" class="text-danger"></label>
+<label class="text-danger" id="error"></label>
 </body>
 
-    			{% endblock %}
-                    
-					{% block scripts %}
-                          <script>
-                            // Helper function to display error message
-                            function showError(message) {
-                              // Display an error under the the predefined label with error as the id
-                              $('#error').text(message);
-                            }
-                          
-                            $("#create_accountForm").submit(async (event) => {
-                              //Prevents screen from refreshing when submitting
-                              event.preventDefault();
-                          
-                              var serviceURL = "http://127.0.0.1:5002/passenger/register/";
-                              // var homeURL = "http://127.0.0.1/bookstore/";
-                              var getpidURL = "http://127.0.0.1:5002/getpassengerpid/";
+{% endblock %}
 
-                              //Get form data
-                              var email = $('#email').val();
-                              var password = $('#password').val();
-                              var firstName = $('#firstName').val();
-                              var lastName = $('#lastName').val();
-                              var dateOfBirth = $('#dateOfBirth').val();
-                              var contactNo = $('#contactNo').val();
-                              var pid = $('#pid').val();
-                          
-                              serviceURL += email;
-                              var getpidURL = getpidURL + email;
-                              try {
-                                const response =
-                                  await fetch(
-                                    serviceURL, {
-                                      method: 'POST',
-                                      headers: {"Content-Type": "application/json"},
-                                      body: JSON.stringify({
-                                        pid: pid,
-                                        password: password,
-                                        email: email,
-                                        firstName: firstName,
-                                        lastName: lastName,
-                                        dateOfBirth: dateOfBirth,
-                                        contactNo: contactNo
-                                      })
-                                    });
-                                const data = await response.json();
-                                const pid_response =
-                                    await fetch(
-                                        getpidURL, {
-                                        method: 'GET'  });
-                                const pid_data = await pid_response.json();
-                                
-                                if (response.ok) {
-                                  
-                                  // document.location.href = "about";
-                          
-                                  // // relocate to home page
-                                  // window.location.replace(homeURL);
-                                  if (pid_response.ok) {
-                                    pid = pid_data;
-                                    // localStorage.setItem('pid', pid);
-                                    sessionStorage.setItem('pid', pid);
-                                    document.location.href = "about";
+{% block scripts %}
+<script>
+  // Helper function to display error message
+  function showError(message) {
+    // Display an error under the the predefined label with error as the id
+    $('#error').text(message);
+  }
 
-                                  return false;
-                                }} else {
-                                  console.log(data);
-                                  showError(data.message);
-                                }
-                              } catch (error) {
-                                // Errors when calling the service; such as network error,
-                                // service offline, etc
-                                showError
-                                ("A problem occurred when creating your account, please try again later. " + error);
-                          
-                              } // error
-                            });
-                          </script>
-                          {% endblock %}
+  $("#create_accountForm").submit(async (event) => {
+    //Prevents screen from refreshing when submitting
+    event.preventDefault();
 
-              
-						
-  </body>
+    let serviceURL = "http://127.0.0.1:5002/passenger/register/";
+    let getpidURL = "http://127.0.0.1:5002/getpassengerpid/";
+
+    //Get form data
+    let email = $('#email').val();
+    let password = $('#password').val();
+    let firstName = $('#firstName').val();
+    let lastName = $('#lastName').val();
+    let dateOfBirth = $('#dateOfBirth').val();
+    let contactNo = $('#contactNo').val();
+    let pid = $('#pid').val();
+
+    serviceURL += email;
+    getpidURL = getpidURL + email;
+    try {
+      const response =
+        await fetch(
+          serviceURL, {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+              pid: pid,
+              password: password,
+              email: email,
+              firstName: firstName,
+              lastName: lastName,
+              dateOfBirth: dateOfBirth,
+              contactNo: contactNo
+            })
+          });
+      const data = await response.json();
+			console.log(data);
+
+      const pid_response =
+        await fetch(
+          getpidURL, {
+            method: 'GET'
+          });
+      const pid_data = await pid_response.json();
+
+      if (response.ok) {
+
+        // document.location.href = "about";
+
+        // // relocate to home page
+        // window.location.replace(homeURL);
+        if (pid_response.ok) {
+          pid = pid_data;
+          // localStorage.setItem('pid', pid);
+          sessionStorage.setItem('pid', pid);
+          console.log(pid);
+          // console.log(sessionStorage.getItem('pid'));
+          // throw new Error("Stop script");
+
+          document.location.href = "about";
+          return false;
+        }
+      } else {
+        console.log(data);
+        showError(data.message);
+      }
+    } catch (error) {
+      // Errors when calling the service; such as network error,
+      // service offline, etc
+      showError
+      ("A problem occurred when creating your account, please try again later. " + error);
+    } // error
+  });
+</script>
+{% endblock %}
+
+
+</body>
 </html>
