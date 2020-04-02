@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Admin Portal{% endblock %}
-{% block loggedin %} 
+{% block loggedin %}
 
 <li class="nav-item"><a class="nav-link" href="http://localhost:8000/admin_search">Search Flights</a></li>
 
@@ -13,7 +13,7 @@
   <section class="ftco-section ftco-degree-bg">
     <div class="container">
       <div class="row">
-        <div class="col-lg-3 sidebar"  style="background-color:beige; opacity:0.95; padding: 20px">
+        <div class="col-lg-3 sidebar" style="background-color:beige; opacity:0.95; padding: 20px">
           <div class="sidebar-wrap ftco-animate">
             <h3 class="heading mb-4">Find Flight</h3>
             <form action="#" id='searchFlightForm'>
@@ -21,11 +21,11 @@
                 <!-- <div class="form-group">
                 <input class="form-control" id='arrivalDest' placeholder="From" type="text">
               </div> -->
-  
+
                 <!-- <div class="form-group">
                 <input class="form-control" id='departDest' placeholder="To" type="text">
               </div> -->
-  
+
                 <div class="form-group">
                   <!-- <input class="form-control" id='departDate' placeholder="departDate" type="text"> -->
                   <span class="form-label">Flight Code:</span>
@@ -39,7 +39,7 @@
                   <!-- required -->
                   <!-- </div> -->
                 </div>
-  
+
                 <div class="form-group">
                   <!-- <form id="searchForm"> -->
                   <input class="btn btn-primary py-3" id="searchButton" type="submit" value="Search Bookings">
@@ -52,11 +52,11 @@
   
         </div> -->
         </div>
-  
-  
+
+
         <div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
           <!-- <h4 class="mb-5">Flight Details</h4> -->
-          <table class='table table-striped' id="outFlightsTable"  style="background-color:aliceblue; opacity:0.95">
+          <table class='table table-striped' id="outFlightsTable" style="background-color:aliceblue; opacity:0.95">
             <thead>
             <!-- <th>refCode</th>
             <th>Passenger ID</th>
@@ -69,23 +69,23 @@
             <th>Seat Num</th> -->
             </thead>
             <tbody>
-              <!-- <tr>
-                <td>cell</td>
-                <td>cell</td>
-                <td>cell</td>
-                <td>cell</td>
-                <td>cell</td>
-                <td>cell</td>
-                <td>cell</td>
-                <td>cell</td>
-              </tr> -->
+            <!-- <tr>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+              <td>cell</td>
+            </tr> -->
             </tbody>
           </table>
         </div>
       </div>
     </div>
   </section>
-  
+
   <!-- loader-->
   <!--<div class="show fullscreen" id="ftco-loader">-->
   <!--  <svg class="circular" height="48px" width="48px">-->
@@ -94,7 +94,7 @@
   <!--            stroke-width="4"/>-->
   <!--  </svg>-->
   <!--</div>-->
-  
+
   <!-- <form>
     <input class='btn btn-primary' id='assignSeatBtn1' type='button' value='Assign Seats'/>
   </form> -->
@@ -125,7 +125,7 @@
       console.log(flight_no_list);
 
       if (response_flight.ok) {
-        var rows = "";
+        let rows = "";
         for (const flightNo of flight_no_list) {
           eachRow = "<option value='" + flightNo + "'>" + flightNo + "</option>";
           rows += eachRow;
@@ -153,67 +153,121 @@
     $('#error').text(message);
   }
 
-  // $("#searchFlightForm").submit(async (event) =>
-  async function displayBooking() {
-
-    //Prevents screen from refreshing when submitting
-    // event.preventDefault();
-
-    var flightURL = "http://127.0.0.1:5000/booking";
-
+  async function getBaggageInfos() {
+    let baggageURL = "http://localhost:5003/getbaggage";
     try {
       // get flight details of departure flight
       const response_dep =
         await fetch(
-          flightURL, {
-            method: 'GET'
-          });
-      const booking_data = await response_dep.json();
-      console.log(booking_data);
-
-      var out_flights = booking_data.bookings;
+          baggageURL, {method: 'GET'}
+        );
+      const baggage_details = await response_dep.json();
+      // console.log(baggage_details);
       if (response_dep.ok) {
-        var rows = "";
-        for (const flight of out_flights) {
-
-          var departDate = dateToYMD(new Date(flight.departDate));
-          // console.log(departDate);
-          seatNumber = flight.seatNumber;
-          if (!seatNumber) {
-            seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
-          }
-          eachRow =
-            "<td>" + flight.refCode + "</td>" +
-            "<td>" + flight.pid + "</td>" +
-            "<td>" + flight.flightNo + "</td>" +
-            // "<td>" + dateToYMD(flight.departDate) + "</td>" +
-            "<td>" + departDate + "</td>" +
-            "<td>" + flight.price + "</td>" +
-            "<td>" + flight.class_type + "</td>" +
-            "<td>" + flight.baggage + "</td>" +
-            "<td>" + flight.meal + "</td>" +
-            `<td id="td${flight.refCode}">` + seatNumber + "</td>";
-          rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+        let baggage_dict = {}
+        for (const index in baggage_details) {
+          // console.log(index);
+          //thao's codes start
+          // let baggage_code = baggage_details[baggage_dict].baggage_id
+          // baggage_dict[baggage_code] = baggage_details[baggage_dict].baggage_desc;
+          //thao's codes end
+          let baggage_code = baggage_details[index].baggage_id;
+          baggage_dict[baggage_code] = baggage_details[index].baggage_desc;
         }
-        // $('#outFlightsTable tbody').empty();
-        $('#outFlightsTable').append(rows);
-      } else {
-        showError(response_dep.message);
+        return baggage_dict;
       }
-    } catch (error) {
-      // Errors when calling the service; such as network error,
-      // service offline, etc
-      // showError
-      console.log('There is a problem retrieving books data, please try again later.<br />' + error);
+    } catch (e) {
+      console.log(e)
     }
   }
+
+  async function getMealInfos() {
+    let mealURL = "http://localhost:5003/getMeal";
+    try {
+      // get flight details of departure flight
+      const response_dep =
+        await fetch(
+          mealURL, {method: 'GET'}
+        );
+
+      const meal_details = await response_dep.json();
+      if (response_dep.ok) {
+        let baggage_dict = {}
+        for (const id in meal_details) {
+          let meal_id = meal_details[id].meal_id;
+          baggage_dict[meal_id] = meal_details[meal_id].meal_desc;
+        }
+        return baggage_dict;
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  // $("#searchFlightForm").submit(async (event) =>
+  // async function displayBooking() {
+  //
+  //   //Prevents screen from refreshing when submitting
+  //   // event.preventDefault();
+  //   let flightURL = "http://localhost:5000/booking";
+  //   try {
+  //     // get flight details of departure flight
+  //     const response_dep =
+  //       await fetch(
+  //         flightURL, {
+  //           method: 'GET'
+  //         });
+  //     const booking_data = await response_dep.json();
+  //     console.log(booking_data);
+  //     let out_flights = booking_data.bookings;
+  //
+  //     if (response_dep.ok) {
+  //       let rows = "";
+  //       for (const flight of out_flights) {
+  //
+  //         let departDate = dateToYMD(new Date(flight.departDate));
+  //         // console.log(departDate);
+  //         let seatNumber = flight.seatNumber;
+  //         if (!seatNumber) {
+  //           seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
+  //         }
+  //         let baggage_desc = baggage_dict[flight.baggage];
+  //         console.log(baggage_desc);
+  //         let eachRow =
+  //           "<td>" + flight.refCode + "</td>" +
+  //           "<td>" + flight.pid + "</td>" +
+  //           "<td>" + flight.flightNo + "</td>" +
+  //           // "<td>" + dateToYMD(flight.departDate) + "</td>" +
+  //           "<td>" + departDate + "</td>" +
+  //           "<td>" + flight.price + "</td>" +
+  //           "<td>" + flight.class_type + "</td>" +
+  //           "<td>" + baggage_desc + "</td>" +
+  //           "<td>" + flight.meal + "</td>" +
+  //           `<td id="td${flight.refCode}">` + seatNumber + "</td>";
+  //         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+  //       }
+  //       // $('#outFlightsTable tbody').empty();
+  //       $('#outFlightsTable').append(rows);
+  //     } else {
+  //       showError(response_dep.message);
+  //     }
+  //   } catch (error) {
+  //     // Errors when calling the service; such as network error,
+  //     // service offline, etc
+  //     // showError
+  //     console.log('There is a problem retrieving books data, please try again later.<br />' + error);
+  //   }
+  // }
 
   // displayBooking();
 
   // document.getElementById("dateDDL").value = "2020-03-15";
   document.getElementById("dateDDL").valueAsDate = new Date();
+
   // console.log(new Date());
 
+  function searchFlightForm() {
+  } // dummy function to locate this form codes
   $("#searchFlightForm").submit(async (event) => {
     event.preventDefault();
 
@@ -239,33 +293,43 @@
       const booking_data = await response_dep.json();
       console.log(booking_data);
 
+      let baggage_dict = await getBaggageInfos();
+      console.log(baggage_dict);
+
+      let meal_dict = await getMealInfos();
+      console.log(meal_dict);
+
       if (response_dep.ok) {
 
         let rows = "";
-        head = "<th>refCode</th>" + "<th>Passenger ID</th>"  + "<th>Flight No</th>"
-          + "<th>Depart Date</th>" + "<th>Price</th>" + "<th>Class Type</th>" 
+        let head = "<th>RefCode</th>" + "<th>Passenger ID</th>" + "<th>Flight No</th>"
+          + "<th>Depart Date</th>" + "<th>Price</th>" + "<th>Class Type</th>"
           + "<th>Baggage</th>" + "<th>Meal</th>" + "<th>Seat Num</th>";
         $('#outFlightsTable thead').empty();
         $('#outFlightsTable thead').append(head)
-        for (const flight of booking_data) {
+        for (const booking of booking_data) {
 
-          let departDate = dateToYMD(new Date(flight.departDate));
+          let departDate = dateToYMD(new Date(booking.departDate));
           // console.log(departDate);
           // console.log("seat_number null : "+ !flight.seatNumber);
-          let seatNumber = flight.seatNumber;
-          if (!seatNumber) {
-            seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
+          let seatNumber = booking.seatNumber;
+          if (!seatNumber) { // if seatNumber is undefined, show a button to assign it
+            seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${booking.refCode})"/></form>`;
           }
-          id = flight.refCode;
+          let baggage_desc = baggage_dict[booking.baggage];
+          // console.log(`baggage_desc = ${baggage_desc}`);
+          let meal_desc = meal_dict[booking.meal];
+
+          let id = booking.refCode;
           let eachRow =
-            "<td>" + flight.refCode + "</td>" +
-            "<td>" + flight.pid + "</td>" +
-            "<td>" + flight.flightNo + "</td>" +
+            "<td>" + booking.refCode + "</td>" +
+            "<td>" + booking.pid + "</td>" +
+            "<td>" + booking.flightNo + "</td>" +
             "<td>" + departDate + "</td>" +
-            "<td>" + flight.price + "</td>" +
-            "<td>" + flight.class_type + "</td>" +
-            "<td>" + flight.baggage + "</td>" +
-            "<td>" + flight.meal + "</td>" +
+            "<td>" + booking.price + "</td>" +
+            "<td>" + booking.class_type + "</td>" +
+            "<td>" + baggage_desc + "</td>" +
+            "<td>" + meal_desc + "</td>" +
             `<td id=${id}>` + seatNumber + "</td>";
 
           rows += "<tr>" + eachRow + "</tr>";
@@ -295,7 +359,7 @@
           });
       const booking_data = await response_dep.json();
       if (response_dep.ok) {
-        id = refCode;
+        let id = refCode;
         console.log(id)
         document.getElementById(id).innerHTML = booking_data.seatNumber;
       }

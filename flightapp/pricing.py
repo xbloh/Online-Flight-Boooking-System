@@ -117,6 +117,10 @@ def receive_info():
     else:
         return replymessage, 502
 
+@app.route("/getMeal")
+def get_meal():
+    return jsonify([code.json() for code in Meal.query.all()]), 200
+
 @app.route("/pricing/getmeal/<string:meal_id>")
 def get_mealobj_by_meal_id(meal_id):
     meal = Meal.query.filter_by(meal_id=meal_id).first()
@@ -130,6 +134,10 @@ def get_mealobj_by_meal_desc(meal_desc):
     if meal:
         return jsonify(meal.json())
     return jsonify({"message": "Couldn't find meal"}), 404
+
+@app.route("/getbaggage")
+def get_baggage():
+    return jsonify([code.json() for code in Baggage.query.all()]), 200
 
 @app.route("/pricing/getbaggage/<string:baggage_id>")
 def get_baggageobj_by_baggage_id(baggage_id):
