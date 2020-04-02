@@ -31,50 +31,18 @@
           <table class="table" id="myBookingsTable">
             <thead class="thead-primary">
             <tr class="text-center">
-              <th>Flight</th>
-              <!--
-                  <th>Departure Date</th>
-                  <th>Return Date</th>
-              -->
-              <th>Price</th>
-              <!-- <th>Quantity</th> -->
-              <th>Total</th>
+              <th>Flight No</th>
+              <th>Departure</th>
+              <th>Arrival</th>
+              <th>Departure Date</th>
+              <th>Departure Time</th>
+              <th>Arrival Time</th>
               <th>&nbsp;</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="text-center">
-              <td class="product-name">
-                <h3>Singapore to Japan SQ240</h3>
-                <p>Dept. Date: 16 Apr 2020 <br>
-                  Arr. Date: 17 Apr 2020</p>
-              </td>
-              <td class="price">
-                Flight Ticket: $257.50 <br>
-                20kg Baggage: $200 <br>
-                Japanese Cuisine: $20.29 <br>
-              </td>
-              <td class="total">$4.90</td>
-              <td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>Cancel</i> &nbsp;&nbsp;&nbsp;
-                <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Edit</i> &nbsp;&nbsp;&nbsp;
-                <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Check In</i></td>
-            </tr><!-- END TR-->
+            
 
-            <!--            <tr class="text-center">-->
-            <!--              <td class="product-name">-->
-            <!--                <h3>Japan to Singapore SQ240</h3>-->
-            <!--                <p>Dept. Date: 20 Apr 2020 <br>-->
-            <!--                  Arr. Date: 21 Apr 2020</p>-->
-            <!--              </td>-->
-            <!--              <td class="price">-->
-            <!--                Flight Ticket: $257.50 <br>-->
-            <!--                20kg Baggage: $200 <br>-->
-            <!--                Japanese Cuisine: $20.29 <br>-->
-            <!--              </td>-->
-            <!--              <td class="total">$15.70</td>-->
-            <!--              <td><i class='material-icons' onclick='deleteRow(" + rowID + ")'>delete</i> &nbsp;&nbsp;&nbsp;-->
-            <!--                <i class='material-icons' onclick='deleteRow(" + rowID + ")'>edit</i></td>-->
-            <!--            </tr>&lt;!&ndash; END TR&ndash;&gt;-->
             </tbody>
           </table>
         </div>
@@ -82,145 +50,85 @@
     </div>
   </div>
 </section>
-
-<div aria-labelledby="v-pills-performance-tab" class="tab-pane fade" id="v-pills-2" role="tabpanel">
-  <form action="#" class="search-destination">
-    <div class="row">
-      <div class="col-md align-items-end">
-        <div class="form-group">
-          <label for="#">Check In</label>
-          <div class="form-field">
-            <div class="icon"><span class="icon-map-marker"></span></div>
-            <input class="form-control checkin_date" placeholder="Check In" type="text">
-          </div>
-        </div>
-      </div>
-      <div class="col-md align-items-end">
-        <div class="form-group">
-          <label for="#">Check Out</label>
-          <div class="form-field">
-            <div class="icon"><span class="icon-map-marker"></span></div>
-            <input class="form-control checkout_date" placeholder="From" type="text">
-          </div>
-        </div>
-      </div>
-      <div class="col-md align-items-end">
-        <div class="form-group">
-          <label for="#">Guest</label>
-          <div class="form-field">
-            <div class="select-wrap">
-              <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-              <select class="form-control" id="" name="">
-                <option value="">1</option>
-                <option value="">2</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md">
-        <div class="ftco-footer-widget mb-4">
-          <h2 class="ftco-heading-2">Have a Questions?</h2>
-          <div class="block-23 mb-3">
-            <ul>
-              <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span>
-              </li>
-              <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a>
-              </li>
-              <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
 {% endblock %}
 
 {% block scripts %}
 <script>
+  console.log(sessionStorage.getItem('error'))
+   if (sessionStorage.getItem('error') != null){
+    error = sessionStorage.getItem('error')
+    console.log(error)
+    alert(error)
+    sessionStorage.removeItem('error')
+   }
 
   // sessionStorage.setItem('pid', 'pid_0004');
   pid = sessionStorage.getItem('pid');
-  console.log(pid);
 
-  let flightURL = `http://127.0.0.1:5001/getFlightCodeDict`;
-
-  async function getFlightByFlightNo(flightURL) {
+  async function getFlightCode() {
+    flightURL = "http://127.0.0.1:5001/getFlightCode";
     try {
       // get flight details of departure flight
       const response_dep =
-        await fetch(
+         await fetch(
           flightURL, {method: 'GET'}
         );
       const flights = await response_dep.json();
-      console.log(flights);
       if (response_dep.ok) {
-        return flights;
+        flights_details = flights
+        flight_dict = {}
+        for (flight in flights_details){
+          flight_code = flights_details[flight].code
+          flight_dict[flight_code] = flights_details[flight].name;
+        }
+        return flight_dict;
+
       }
     } catch (e) {
-
+        console.log(e)
     }
   }
 
-  airportCodes = getFlightByFlightNo(flightURL);
-  console.log(airportCodes);
-
   let bookingURl = `http://127.0.0.1:5000/booking/${pid}`;
 
-  async function getMyBookingsData(flightURL) {
+  async function getMyBookingsData(bookingURL) {
     try {
       // get flight details of departure flight
       const response_dep =
         await fetch(
-          flightURL, {method: 'GET'}
+          bookingURL, {method: 'GET'}
         );
       const bookings = await response_dep.json();
-      console.log(bookings);
+      codes = await getFlightCode();
       if (response_dep.ok) {
         let rows = "";
         for (const booking of bookings) {
-          let departCountry = airportCodes[booking.flightNo];
-          console.log(booking.flightNo);
-          let v = 'SIN';
-          console.log(airportCodes.v);
-          // let arrivalCountry = airportCodes.`${booking.arrivalDest}`;
-          departCountry = "depart";
-          let arrivalCountry = "arrive";
-          // let checkInDisabled = "";
-          // if (!booking.seat_number) {
-          //   checkInDisabled = "disabled";
-          // }
-          let eachRow = `
-              <tr class="text-center">
-              <td class="product-name">
-                <h3>depart to ${arrivalCountry} ${booking.flightNo}</h3>
-                <p>Dept. Date: ${booking.departDate} <br>
-                  Dept. Time: 18:00 HRS</p>
-              </td>
-              <td class="price">
+          flightNo = booking.flightNo
+          flight_info = await getFlightInfo(flightNo)
 
-                Class Type: <br>${booking.class_type}
-                <br>
-                20kg Baggage: $200 <br>
-                Japanese Cuisine: $20.29 <br>
-              </td>
-              <td class="total">${booking.price}</td>
-              <td><button id="checkIn" onclick="checkIn(${booking.refCode})">Check In</button></td>
-            </tr>`;
-          <!--              checkIn-->
-          // <i class='material-icons' onclick='checkIn(" + rowID + ")'>Check In</i></td>
-          // <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Edit</i> &nbsp;&nbsp;&nbsp;
-          // <i class='material-icons' onclick='deleteRow(" + rowID + ")'>Cancel</i> &nbsp;&nbsp;&nbsp;
+          departCountry = flight_info.departDest
+          departCountry = codes[departCountry]
+          arrivalCountry = flight_info.arrivalDest
+          arrivalCountry = codes[arrivalCountry]
+          var date = new Date(booking.departDate);
+				  var day = date.getDate();
+				  var month = date.getMonth();
+				  var year = date.getFullYear();
+				  var departDate = day + '-' + month + '-' + year
+          // let arrivalCountry = airportCodes.`${booking.arrivalDest}`;
+
+          let eachRow = "<tr style=text-align:center>" 
+                         + "<td>" + flightNo + "</td>"
+                         + "<td>" + departCountry + "</td>"
+                         + "<td>" + arrivalCountry + "</td>"
+                         + "<td>" + departDate + "</td>"
+                         + "<td>" + flight_info.deptTime + "</td>"
+                         + "<td>" + flight_info.arrivalTime + "</td>"
+                         + `<td><button id="checkIn" onclick="checkIn(${booking.refCode})">Check In</button></td>`
+                         + "</tr>";
           rows += eachRow;
         }
         $('#myBookingsTable tbody').empty();
-        console.log('appending');
         $('#myBookingsTable').append(rows);
       } else {
         console.log("error");
@@ -240,10 +148,23 @@
     window.location.href = `http://localhost:5000/booking/checkin/${refCode}`;
   }
 
-  // $('#checkIn').click(() => {
-  //   let refCode = $('#checkIn').val();
-  //   window.location.href = `http://localhost:5000/booking/checkin/${refCode}`;
-  // });
+  async function getFlightInfo(flightNo){
+    flightURL = `http://127.0.0.1:5001/flight/${flightNo}`
+    try {
+      // get flight details of departure flight
+      const response =
+        await fetch(
+          flightURL, {method: 'GET'}
+        );
+      const flight = await response.json();
+      if (response.ok) {
+        flight_details = flight['flight']
+        return flight_details
+      }
+    } catch (e) {
+        console.log(e)
+    }
+  }
 </script>
 
 

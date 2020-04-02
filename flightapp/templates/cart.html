@@ -86,7 +86,8 @@
 				var day = date.getDate();
 				var month = date.getMonth();
 				var year = date.getFullYear();
-				var departDate = day + '-' + month + '-' + year
+				var departDate = sessionStorage.getItem('departDate', departDate)
+
 				sessionStorage.setItem('price', booking.price);
 
 				
