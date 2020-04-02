@@ -9,96 +9,96 @@
 
 {% block content %}
 
-<!-- END nav -->
-
-<section class="ftco-section ftco-degree-bg">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 sidebar">
-        <div class="sidebar-wrap ftco-animate">
-          <h3 class="heading mb-4">Find Flight</h3>
-          <form action="#" id='searchFlightForm'>
-            <div class="fields">
-              <!-- <div class="form-group">
-              <input class="form-control" id='arrivalDest' placeholder="From" type="text">
-            </div> -->
-
-              <!-- <div class="form-group">
-              <input class="form-control" id='departDest' placeholder="To" type="text">
-            </div> -->
-
-              <div class="form-group">
-                <!-- <input class="form-control" id='departDate' placeholder="departDate" type="text"> -->
-                <span class="form-label">Flight Code:</span>
-                <select class="form-control" id="flightCodeDDL">
-                  <option>Select Flight No.</option>
-                </select>
-                <!-- <div class="col-md-6"> -->
-                <!-- <div class="form-group"> -->
-                <span class="form-label">Select Date:</span>
-                <input class="form-control" id="dateDDL" type="date">
-                <!-- required -->
-                <!-- </div> -->
+<div class="hero-wrap" style="background-image: url('/static/images/destination-2-1.jpg'); height:1024px">
+  <section class="ftco-section ftco-degree-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 sidebar"  style="background-color:beige; opacity:0.95; padding: 20px">
+          <div class="sidebar-wrap ftco-animate">
+            <h3 class="heading mb-4">Find Flight</h3>
+            <form action="#" id='searchFlightForm'>
+              <div class="fields">
+                <!-- <div class="form-group">
+                <input class="form-control" id='arrivalDest' placeholder="From" type="text">
+              </div> -->
+  
+                <!-- <div class="form-group">
+                <input class="form-control" id='departDest' placeholder="To" type="text">
+              </div> -->
+  
+                <div class="form-group">
+                  <!-- <input class="form-control" id='departDate' placeholder="departDate" type="text"> -->
+                  <span class="form-label">Flight Code:</span>
+                  <select class="form-control" id="flightCodeDDL">
+                    <option>Select Flight No.</option>
+                  </select>
+                  <!-- <div class="col-md-6"> -->
+                  <!-- <div class="form-group"> -->
+                  <span class="form-label">Select Date:</span>
+                  <input class="form-control" id="dateDDL" type="date">
+                  <!-- required -->
+                  <!-- </div> -->
+                </div>
+  
+                <div class="form-group">
+                  <!-- <form id="searchForm"> -->
+                  <input class="btn btn-primary py-3" id="searchButton" type="submit" value="Search Bookings">
+                  <!-- </form> -->
+                </div>
               </div>
-
-              <div class="form-group">
-                <!-- <form id="searchForm"> -->
-                <input class="btn btn-primary py-3" id="searchButton" type="submit" value="Search Bookings">
-                <!-- </form> -->
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
+          <!-- <div class="sidebar-wrap ftco-animate">
+  
+        </div> -->
         </div>
-        <!-- <div class="sidebar-wrap ftco-animate">
-
-      </div> -->
-      </div>
-
-
-      <div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
-        <!-- <h4 class="mb-5">Flight Details</h4> -->
-        <table class='table table-striped' id="outFlightsTable">
-          <thead>
-          <!-- <th>refCode</th>
-          <th>Passenger ID</th>
-          <th>Flight No</th>
-          <th>Depart Date</th>
-          <th>Price</th>
-          <th>Class Type</th>
-          <th>Baggage</th>
-          <th>Meal</th>
-          <th>Seat Num</th> -->
-          </thead>
-          <tbody>
-            <!-- <tr>
-              <td>cell</td>
-              <td>cell</td>
-              <td>cell</td>
-              <td>cell</td>
-              <td>cell</td>
-              <td>cell</td>
-              <td>cell</td>
-              <td>cell</td>
-            </tr> -->
-          </tbody>
-        </table>
+  
+  
+        <div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
+          <!-- <h4 class="mb-5">Flight Details</h4> -->
+          <table class='table table-striped' id="outFlightsTable"  style="background-color:aliceblue; opacity:0.95">
+            <thead>
+            <!-- <th>refCode</th>
+            <th>Passenger ID</th>
+            <th>Flight No</th>
+            <th>Depart Date</th>
+            <th>Price</th>
+            <th>Class Type</th>
+            <th>Baggage</th>
+            <th>Meal</th>
+            <th>Seat Num</th> -->
+            </thead>
+            <tbody>
+              <!-- <tr>
+                <td>cell</td>
+                <td>cell</td>
+                <td>cell</td>
+                <td>cell</td>
+                <td>cell</td>
+                <td>cell</td>
+                <td>cell</td>
+                <td>cell</td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- loader-->
-<!--<div class="show fullscreen" id="ftco-loader">-->
-<!--  <svg class="circular" height="48px" width="48px">-->
-<!--    <circle class="path-bg" cx="24" cy="24" fill="none" r="22" stroke="#eeeeee" stroke-width="4"/>-->
-<!--    <circle class="path" cx="24" cy="24" fill="none" r="22" stroke="#F96D00" stroke-miterlimit="10"-->
-<!--            stroke-width="4"/>-->
-<!--  </svg>-->
-<!--</div>-->
-
-<!-- <form>
-  <input class='btn btn-primary' id='assignSeatBtn1' type='button' value='Assign Seats'/>
-</form> -->
+  </section>
+  
+  <!-- loader-->
+  <!--<div class="show fullscreen" id="ftco-loader">-->
+  <!--  <svg class="circular" height="48px" width="48px">-->
+  <!--    <circle class="path-bg" cx="24" cy="24" fill="none" r="22" stroke="#eeeeee" stroke-width="4"/>-->
+  <!--    <circle class="path" cx="24" cy="24" fill="none" r="22" stroke="#F96D00" stroke-miterlimit="10"-->
+  <!--            stroke-width="4"/>-->
+  <!--  </svg>-->
+  <!--</div>-->
+  
+  <!-- <form>
+    <input class='btn btn-primary' id='assignSeatBtn1' type='button' value='Assign Seats'/>
+  </form> -->
+</div>
 
 {% endblock %}
 

@@ -2,17 +2,17 @@
 {% block title %}Create Account{% endblock %}
 {% block content %}
     
-<div class="hero-wrap js-fullheight" style="background-image: url('/static/images/background.jpg'); height:1024px">
-	<div class="overlay"></div>
-	<div class="container">
-	  <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-		<div class="col-md-9 ftco-animate mb-5 pb-5 text-center text-md-left" data-scrollax=" properties: { translateY: '70%' }">
-		  <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="color:black">Create Account</h1>
-		  <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="color:black">Create an account to join us!!</p>
+    <div class="hero-wrap js-fullheight" style="background-image: url('/static/images/bg_1.jpg');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
+          <div class="col-md-9 ftco-animate mb-5 pb-5 text-center text-md-left" data-scrollax=" properties: { translateY: '70%' }">
+            <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Create Account</h1>
+            <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Book flights to travel around the world</p>
 		</div>
-	  </div>
-	</div>
-</div>
+        </div>
+      </div>
+    </div>
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
 		<h1 class="display-4" style="text-align: center;">Create Account</h1>
@@ -58,69 +58,87 @@
     <label id="error" class="text-danger"></label>
 </body>
 
-{% block scripts %}
-<script>
-	// Helper function to display error message
-	function showError(message) {
-	  // Display an error under the the predefined label with error as the id
-	  $('#error').text(message);
-	}
-  
-	$("#create_accountForm").submit(async (event) => {
-	  //Prevents screen from refreshing when submitting
-	  event.preventDefault();
-  
-	  var serviceURL = "http://127.0.0.1:5002/passenger/register/";
-	  // var homeURL = "http://127.0.0.1/bookstore/";
-  
-	  //Get form data
-	  var email = $('#email').val();
-	  var password = $('#password').val();
-	  var firstName = $('#firstName').val();
-	  var lastName = $('#lastName').val();
-	  var dateOfBirth = $('#dateOfBirth').val();
-	  var contactNo = $('#contactNo').val();
-	  var pid = $('#pid').val();
-  
-	  serviceURL += email;
-  
-	  try {
-		const response =
-		  await fetch(
-			serviceURL, {
-			  method: 'POST',
-			  headers: {"Content-Type": "application/json"},
-			  body: JSON.stringify({
-				pid: pid,
-				password: password,
-				email: email,
-				firstName: firstName,
-				lastName: lastName,
-				dateOfBirth: dateOfBirth,
-				contactNo: contactNo
-			  })
-			});
-		const data = await response.json();
-  
-		if (response.ok) {
-		  document.location.href = "search_flights";
-  
-		  // // relocate to home page
-		  // window.location.replace(homeURL);
-		  return false;
-		} else {
-		  console.log(data);
-		  showError(data.message);
-		}
-	  } catch (error) {
-		// Errors when calling the service; such as network error,
-		// service offline, etc
-		showError
-		("A problem occurred when creating your account, please try again later. " + error);
-  
-	  } // error
-	});
-  </script>
-{% endblock %}
+    			{% endblock %}
+                    
+					{% block scripts %}
+                          <script>
+                            // Helper function to display error message
+                            function showError(message) {
+                              // Display an error under the the predefined label with error as the id
+                              $('#error').text(message);
+                            }
+                          
+                            $("#create_accountForm").submit(async (event) => {
+                              //Prevents screen from refreshing when submitting
+                              event.preventDefault();
+                          
+                              var serviceURL = "http://127.0.0.1:5002/passenger/register/";
+                              // var homeURL = "http://127.0.0.1/bookstore/";
+                              var getpidURL = "http://127.0.0.1:5002/getpassengerpid/";
 
-{% endblock %} 
+                              //Get form data
+                              var email = $('#email').val();
+                              var password = $('#password').val();
+                              var firstName = $('#firstName').val();
+                              var lastName = $('#lastName').val();
+                              var dateOfBirth = $('#dateOfBirth').val();
+                              var contactNo = $('#contactNo').val();
+                              var pid = $('#pid').val();
+                          
+                              serviceURL += email;
+                              var getpidURL = getpidURL + email;
+                              try {
+                                const response =
+                                  await fetch(
+                                    serviceURL, {
+                                      method: 'POST',
+                                      headers: {"Content-Type": "application/json"},
+                                      body: JSON.stringify({
+                                        pid: pid,
+                                        password: password,
+                                        email: email,
+                                        firstName: firstName,
+                                        lastName: lastName,
+                                        dateOfBirth: dateOfBirth,
+                                        contactNo: contactNo
+                                      })
+                                    });
+                                const data = await response.json();
+                                const pid_response =
+                                    await fetch(
+                                        getpidURL, {
+                                        method: 'GET'  });
+                                const pid_data = await pid_response.json();
+                                
+                                if (response.ok) {
+                                  
+                                  // document.location.href = "about";
+                          
+                                  // // relocate to home page
+                                  // window.location.replace(homeURL);
+                                  if (pid_response.ok) {
+                                    pid = pid_data;
+                                    // localStorage.setItem('pid', pid);
+                                    sessionStorage.setItem('pid', pid);
+                                    document.location.href = "about";
+
+                                  return false;
+                                }} else {
+                                  console.log(data);
+                                  showError(data.message);
+                                }
+                              } catch (error) {
+                                // Errors when calling the service; such as network error,
+                                // service offline, etc
+                                showError
+                                ("A problem occurred when creating your account, please try again later. " + error);
+                          
+                              } // error
+                            });
+                          </script>
+                          {% endblock %}
+
+              
+						
+  </body>
+</html>
