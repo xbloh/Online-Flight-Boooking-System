@@ -38,7 +38,7 @@
               <th>Departure Date</th>
               <th>Departure Time</th>
               <th>Arrival Time</th>
-              <th>&nbsp;</th>
+              <th>Status / Seat Number</th>
             </tr>
             </thead>
             <tbody>
@@ -113,7 +113,7 @@
           if (booking.seat_number == null || booking.seat_number == ""){
             seat_num_row = `<td><button id="checkIn" onclick="checkIn(${booking.refCode})">Check In</button></td>`
           }else{
-            seat_num_row ="<td>Checked in</td>"
+            seat_num_row ="<td>" + booking.seat_number + "</td>"
           }
           let eachRow = "<tr style=text-align:center>" 
                         + "<td>" + booking.refCode + "</td>"
