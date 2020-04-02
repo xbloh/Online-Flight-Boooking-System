@@ -204,61 +204,6 @@
     }
   }
 
-  // used as an initial template for testing
-  // async function displayBooking() {
-  //
-  //   //Prevents screen from refreshing when submitting
-  //   // event.preventDefault();
-  //   let flightURL = "http://localhost:5000/booking";
-  //   try {
-  //     // get flight details of departure flight
-  //     const response_dep =
-  //       await fetch(
-  //         flightURL, {
-  //           method: 'GET'
-  //         });
-  //     const booking_data = await response_dep.json();
-  //     console.log(booking_data);
-  //     let out_flights = booking_data.bookings;
-  //
-  //     if (response_dep.ok) {
-  //       let rows = "";
-  //       for (const flight of out_flights) {
-  //
-  //         let departDate = dateToYMD(new Date(flight.departDate));
-  //         // console.log(departDate);
-  //         let seatNumber = flight.seatNumber;
-  //         if (!seatNumber) {
-  //           seatNumber = `<form><input type='submit' value='Assign Seats' class='btn btn-primary' id='assignSeatBtn' onClick="assignSeats(${flight.refCode})"/></form>`;
-  //         }
-  //         let baggage_desc = baggage_dict[flight.baggage];
-  //         console.log(baggage_desc);
-  //         let eachRow =
-  //           "<td>" + flight.refCode + "</td>" +
-  //           "<td>" + flight.pid + "</td>" +
-  //           "<td>" + flight.flightNo + "</td>" +
-  //           // "<td>" + dateToYMD(flight.departDate) + "</td>" +
-  //           "<td>" + departDate + "</td>" +
-  //           "<td>" + flight.price + "</td>" +
-  //           "<td>" + flight.class_type + "</td>" +
-  //           "<td>" + baggage_desc + "</td>" +
-  //           "<td>" + flight.meal + "</td>" +
-  //           `<td id="td${flight.refCode}">` + seatNumber + "</td>";
-  //         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-  //       }
-  //       // $('#outFlightsTable tbody').empty();
-  //       $('#outFlightsTable').append(rows);
-  //     } else {
-  //       showError(response_dep.message);
-  //     }
-  //   } catch (error) {
-  //     // Errors when calling the service; such as network error,
-  //     // service offline, etc
-  //     // showError
-  //     console.log('There is a problem retrieving books data, please try again later.<br />' + error);
-  //   }
-  // }
-  // displayBooking();
 
   // document.querySelector('#flightCodeDDL [value="' + "MH123" + '"]').selected = true;
   // document.getElementById("dateDDL").value = "2020-04-01";
@@ -358,8 +303,7 @@
       const booking_data = await response_dep.json();
       if (response_dep.ok) {
         let id = refCode;
-        console.log(id)
-        document.getElementById(id).innerHTML = booking_data.seatNumber;
+        document.getElementById(id).innerHTML = booking_data.seat_number;
       }
     } catch (error) {
       // Errors when calling the service; such as network error,
