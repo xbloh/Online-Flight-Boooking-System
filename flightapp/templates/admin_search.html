@@ -204,7 +204,7 @@
     }
   }
 
-  // $("#searchFlightForm").submit(async (event) =>
+  // used as an initial template for testing
   // async function displayBooking() {
   //
   //   //Prevents screen from refreshing when submitting
@@ -258,16 +258,14 @@
   //     console.log('There is a problem retrieving books data, please try again later.<br />' + error);
   //   }
   // }
-
   // displayBooking();
 
-  // document.getElementById("dateDDL").value = "2020-03-15";
+  // document.querySelector('#flightCodeDDL [value="' + "MH123" + '"]').selected = true;
+  // document.getElementById("dateDDL").value = "2020-04-01";
   document.getElementById("dateDDL").valueAsDate = new Date();
-
   // console.log(new Date());
 
-  function searchFlightForm() {
-  } // dummy function to locate this form codes
+  function searchFlightForm() {} // dummy function to locate this form codes
   $("#searchFlightForm").submit(async (event) => {
     event.preventDefault();
 
