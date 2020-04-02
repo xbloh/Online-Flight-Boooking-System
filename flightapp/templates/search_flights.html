@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
 {% block title %}Search Flights{% endblock %}
+
+
+
 {% block loggedin %} 
 
 <li class="nav-item"><a class="nav-link" href="http://localhost:8000/search_flights">Search Flights</a></li>
@@ -28,11 +31,12 @@
                 </div>
 
                 <div class="form-group">
-                  <!--								<input class="form-control" id='arrivalDest' placeholder="From" type="text">-->
                   <select class="form-control" id="arrivalDestCodeDDL">
                     <option disabled selected value="">Please Select - Flying to</option>
                   </select>
                 </div>
+
+
 
                 <div class="form-group">
                   <input class="btn btn-primary py-3 px-5" type="submit" value="Search">
@@ -48,10 +52,24 @@
 
         <form action="#" id='createBookingForm' style="background-color:aliceblue; opacity:0.95">
           <div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
-            <h4 class="mb-5">Step 1: Select your flights</h4>
+            <h4 class="mb-5">Step 1: Select your flights and date</h4>
+
+            <div class="mbsc-grid mbsc-form-grid">
+              <div class="mbsc-row">
+                  <div class="mbsc-col-sm-12 mbsc-col-md-10">
+                      <label>
+                          Date
+                          <input mbsc-input id="departDate" data-input-style="box" placeholder="Select Departure Date" />
+                      </label>
+                  </div>
+              </div>
+            </div>
+          
+
             <table class='table table-striped' id="outFlightsTable">
               <thead>
               <th>Flight Details</th>
+              <p id="error" style="color: red"></p>
 
               <!-- <th>Departure Destination</th>
               <th>Arrival Destination</th>
@@ -147,6 +165,26 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
+
+  mobiscroll.settings = {
+      lang: 'en',                                // Specify language like: lang: 'pl' or omit setting to use default
+      theme: 'ios',                              // Specify theme like: theme: 'ios' or omit setting to use default
+      themeVariant: 'light',                 // More info about themeVariant: https://docs.mobiscroll.com/4-10-3/calendar#opt-themeVariant
+      display: 'inline'                          // Specify display mode like: display: 'bottom' or omit setting to use default
+  };
+  
+  $(function () {
+    today = new Date()
+    $('#departDate').mobiscroll().calendar({
+        display: 'bubble',
+        defaultValue: today,
+        min: today,
+        touchUi: false,
+        returnFormat: 'iso8601'
+    });
+  });
+</script>
 
 <script>
   // Helper function to display error message
@@ -159,7 +197,6 @@
   departDest = sessionStorage.getItem('departDest');
   arrivalDest = sessionStorage.getItem('arrivalDest');
 
-  
   async function displayFlyingFromDDL() {
 
     let flightURL = "http://localhost:5001/getFlightCode";
@@ -186,8 +223,8 @@
         $('#arrivalDestCodeDDL').append(rows);
 
       } else {
-        // showError(data_dep.message);
-        console.log('else');
+        showError(data_dep.message);
+        // console.log('else');
       }
     } catch (error) {
       // Errors when calling the service; such as network error,
@@ -224,6 +261,7 @@
       console.log(data_dep);
       var out_flights = data_dep.flight;
       if (response_dep.ok) {
+        $("#error").hide()
         var rows = "";
         for (const flight of out_flights) {
           eachRow =
@@ -248,7 +286,7 @@
       // Errors when calling the service; such as network error,
       // service offline, etc
       showError
-      ('There is a problem retrieving books data, please try again later.<br />' + error);
+      ("Please select destinations.");
 
     }
 
@@ -273,23 +311,13 @@
     var meal_desc = $('#meal_desc').val();
     var baggage_desc = $('#baggage').val();
     // var class_type = flight_length + '_' + class_name
-    var today = new Date();
-    var departDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    // var today = new Date();
     // var baggage_desc = flight_length + '_' + baggage;
 
-
-    // localStorage.setItem('outbound_flightNo', outbound_flightNo);
-    // localStorage.setItem('class_name', class_name);
-    // localStorage.setItem('meal_desc', meal_desc);
-    // localStorage.setItem('baggage', baggage);
-    // localStorage.setItem('class_type', class_type);
-    // localStorage.setItem('departDate', departDate);
-    // localStorage.setItem('baggage_desc', baggage_desc);
+    var departDate = $('#departDate').mobiscroll('getVal');
 
     // window.location.href = './cart.html';
 
-
-    // create booking
 
 
     // pid=localStorage.getItem('pid');
@@ -360,7 +388,9 @@
 
         refCode = data_booking.refCode;
         sessionStorage.setItem('refCode', refCode);
-        
+
+        returnDate = $('#departDate').mobiscroll('getVal');
+        sessionStorage.setItem('departDate', returnDate);
 
 
         window.location.href = 'cart';
