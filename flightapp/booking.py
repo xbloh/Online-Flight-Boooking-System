@@ -263,16 +263,16 @@ def get_status():
     data = request.get_json()
     status = data['status']
     refCode = data['refCode']
-    
+    print(status)
     if status == "yes":
+        message = create_message(refCode)
+        send_booking(message)
         return jsonify({"message": "Successful payment. Booking confirm!"}), 201
 
     if status == "no":
         Booking.query.filter_by(refCode = refCode).delete()
         db.session.commit()
-    else:
-        message = create_message(refCode)
-        send_booking(message)
+        
     return jsonify({"status": status, "refCode": refCode})
 
 
