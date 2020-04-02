@@ -26,7 +26,7 @@ class Flight(db.Model):
     basePrice = db.Column(db.String(30), nullable=False)
     # type = db.Column(db.String(1), nullable=False)
 
-    def __init__(self, flightNo, departDest, arrivalDest, deptTime, arrivalTime, basePrice, type):
+    def __init__(self, flightNo, departDest, arrivalDest, deptTime, arrivalTime, basePrice):
         self.flightNo = flightNo
         self.departDest = departDest
         self.arrivalDest = arrivalDest
@@ -47,11 +47,15 @@ class Flight(db.Model):
         }
 
 
-class FlightCode(db.Model):
+class Code(db.Model):
     __tablename__ = 'code'
 
     code = db.Column(db.String(3), primary_key=True)
     name = db.Column(db.String(45))  # , nullable=False
+
+    def __init__(self, code, name):
+        self.code = code
+        self.name = name
 
     def json(self):
         return {
@@ -125,12 +129,8 @@ def receive_choice():
 
 @app.route("/getFlightCode")
 def getAllFlightCode():
-    return jsonify([flightCode.json() for flightCode in FlightCode.query.all()]), 200
+    return jsonify([code.json() for code in Code.query.all()]), 200
 
-
-@app.route("/getFlightCodeDict")
-def getAllFlightCodeDict():
-    return jsonify({flightCode.code:flightCode.name for flightCode in FlightCode.query.all()}), 200
 
 
 #input is depart/arrive Dest in the form of "KUL"/"SIN"
