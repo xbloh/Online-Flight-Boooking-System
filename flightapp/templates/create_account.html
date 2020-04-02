@@ -74,7 +74,8 @@
                           
                               var serviceURL = "http://127.0.0.1:5002/passenger/register/";
                               // var homeURL = "http://127.0.0.1/bookstore/";
-                          
+                              var getpidURL = "http://127.0.0.1:5002/getpassengerpid/";
+
                               //Get form data
                               var email = $('#email').val();
                               var password = $('#password').val();
@@ -85,7 +86,7 @@
                               var pid = $('#pid').val();
                           
                               serviceURL += email;
-                          
+                              var getpidURL = getpidURL + email;
                               try {
                                 const response =
                                   await fetch(
@@ -103,14 +104,26 @@
                                       })
                                     });
                                 const data = await response.json();
-                          
+                                const pid_response =
+                                    await fetch(
+                                        getpidURL, {
+                                        method: 'GET'  });
+                                const pid_data = await pid_response.json();
+                                
                                 if (response.ok) {
-                                  document.location.href = "search_flights";
+                                  
+                                  // document.location.href = "about";
                           
                                   // // relocate to home page
                                   // window.location.replace(homeURL);
+                                  if (pid_response.ok) {
+                                    pid = pid_data;
+                                    // localStorage.setItem('pid', pid);
+                                    sessionStorage.setItem('pid', pid);
+                                    document.location.href = "about";
+
                                   return false;
-                                } else {
+                                }} else {
                                   console.log(data);
                                   showError(data.message);
                                 }
