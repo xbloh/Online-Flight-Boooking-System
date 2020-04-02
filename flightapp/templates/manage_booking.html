@@ -97,33 +97,36 @@
       if (response_dep.ok) {
         let rows = "";
         for (const booking of bookings) {
-          if (booking.seat_number == null || booking.seat_number == ""){
-            flightNo = booking.flightNo
-            flight_info = await getFlightInfo(flightNo)
+          flightNo = booking.flightNo
+          flight_info = await getFlightInfo(flightNo)
 
-            departCountry = flight_info.departDest
-            departCountry = codes[departCountry]
-            arrivalCountry = flight_info.arrivalDest
-            arrivalCountry = codes[arrivalCountry]
-            var date = new Date(booking.departDate);
-            var day = date.getDate();
-            var month = date.getMonth();
-            var year = date.getFullYear();
-            var departDate = day + '-' + month + '-' + year
+          departCountry = flight_info.departDest
+          departCountry = codes[departCountry]
+          arrivalCountry = flight_info.arrivalDest
+          arrivalCountry = codes[arrivalCountry]
+          var date = new Date(booking.departDate);
+          var day = date.getDate();
+          var month = date.getMonth();
+          var year = date.getFullYear();
+          var departDate = day + '-' + month + '-' + year
             // let arrivalCountry = airportCodes.`${booking.arrivalDest}`;
-
-            let eachRow = "<tr style=text-align:center>" 
-                          + "<td>" + booking.refCode + "</td>"
-                          + "<td>" + flightNo + "</td>"
-                          + "<td>" + departCountry + "</td>"
-                          + "<td>" + arrivalCountry + "</td>"
-                          + "<td>" + departDate + "</td>"
-                          + "<td>" + flight_info.deptTime + "</td>"
-                          + "<td>" + flight_info.arrivalTime + "</td>"
-                          + `<td><button id="checkIn" onclick="checkIn(${booking.refCode})">Check In</button></td>`
-                          + "</tr>";
-            rows += eachRow;
+          if (booking.seat_number == null || booking.seat_number == ""){
+            seat_num_row = `<td><button id="checkIn" onclick="checkIn(${booking.refCode})">Check In</button></td>`
+          }else{
+            seat_num_row ="<td>Checked in</td>"
           }
+          let eachRow = "<tr style=text-align:center>" 
+                        + "<td>" + booking.refCode + "</td>"
+                        + "<td>" + flightNo + "</td>"
+                        + "<td>" + departCountry + "</td>"
+                        + "<td>" + arrivalCountry + "</td>"
+                        + "<td>" + departDate + "</td>"
+                        + "<td>" + flight_info.deptTime + "</td>"
+                        + "<td>" + flight_info.arrivalTime + "</td>"
+                        + seat_num_row
+                        + "</tr>";
+            rows += eachRow;
+          
         }
         $('#myBookingsTable tbody').empty();
         $('#myBookingsTable').append(rows);
