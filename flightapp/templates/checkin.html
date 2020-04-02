@@ -126,10 +126,9 @@
 
   var status = {{ status|tojson}};
   var refCode = {{refCode|tojson}};
+ 
   if (status == "no"){
-    error = "There are some problems processing your check in request. Please proceed to the counter to find out more."
-    sessionStorage.setItem('error', error);
-    window.location.replace('http://localhost:8000/manage')
+    window.location.href = 'http://localhost:8000/manage'
   }else{     
     var getBookingURL = "http://127.0.0.1:5000/booking/" + refCode;
     getBookingData(getBookingURL);

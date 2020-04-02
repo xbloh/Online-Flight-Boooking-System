@@ -61,7 +61,7 @@ class Booking(db.Model):
             "class_type": self.class_type,
             "baggage": self.baggage,
             "meal": self.meal,
-            "seatNumber": self.seat_number
+            "seat_number": self.seat_number
         }
 
 # booking = {
