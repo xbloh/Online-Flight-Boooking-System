@@ -45,13 +45,13 @@ def send_email(message):
     deptTime = message['deptTime']
     departDate = message['departDate']
     refCode = message['refCode']
-    msg = 'Thank you for choosing our service! Your flight number is ' + flightNo + " will take part on " + departDate + " at " + deptTime + " .Please show your reference code: " + refCode + " upon checking in. Thank you for travelling with us during this period! Stay safe 😊 Warm Regards, Flight Like T6"
+    msg = 'Thank you for choosing our service! Your flight number is ' + flightNo + " will take part on " + departDate + " at " + deptTime + " .Please show your reference code: " + refCode + " upon checking in. Thank you for travelling with us during this period! Stay safe 😊 Warm Regards, Fly Like T6"
     data = {
     'Messages': [
         {
         "From": {
             "Email": "ingsin.bak.2017@sis.smu.edu.sg",
-            "Name": "Flight Like T6"
+            "Name": "Fly Like T6"
         },
         "To": [
             {
@@ -61,7 +61,7 @@ def send_email(message):
         ],
         "Subject": "Booking Confirmation. REF CODE: " + refCode ,
         "TextPart": msg,
-        "HTMLPart": "<img style='display:block;margin-left:auto;margin-right:auto;width:50%;' src='https://i.gifer.com/JFi.gif'><h2 style='text-align:center'>Thank you for choosing our service!</h2> Your flight number is <b>" + flightNo + "</b> will take part on <b>" + departDate + "</b> at <b>" + deptTime + "</b>.<br> Please show your reference code: <b>" + refCode + "</b> upon checking in. <br><br> Thank you for travelling with us during this period! Stay safe 😊 <br><br>Warm Regards, <br> <i>Flight Like T6</i>",
+        "HTMLPart": "<img style='display:block;margin-left:auto;margin-right:auto;width:50%;' src='https://i.gifer.com/JFi.gif'><h2 style='text-align:center'>Thank you for choosing our service!</h2> Your flight number is <b>" + flightNo + "</b> will take part on <b>" + departDate + "</b> at <b>" + deptTime + "</b>.<br> Please show your reference code: <b>" + refCode + "</b> upon checking in. <br><br> Thank you for travelling with us during this period! Stay safe 😊 <br><br>Warm Regards, <br> <i>Fly Like T6</i>",
         "CustomID": "AppGettingStartedTest"
         }
     ]
