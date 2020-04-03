@@ -60,7 +60,7 @@
   pid = sessionStorage.getItem('pid');
 
   async function getFlightCode() {
-    flightURL = "http://127.0.0.1:5001/getFlightCode";
+    flightURL = "http://localhost:5001/getFlightCode";
     try {
       // get flight details of departure flight
       const response_dep =
@@ -83,7 +83,7 @@
     }
   }
 
-  let bookingURl = `http://127.0.0.1:5000/booking/${pid}`;
+  let bookingURl = `http://localhost:5000/booking/${pid}`;
 
   async function getMyBookingsData(bookingURL) {
     try {
@@ -113,7 +113,7 @@
           if (booking.seat_number == null || booking.seat_number == ""){
             seat_num_row = `<td><button id="checkIn" onclick="checkIn(${booking.refCode})">Check In</button></td>`
           }else{
-            seat_num_row ="<td>Checked in</td>"
+            seat_num_row ="<td>" + booking.seat_number + "</td>"
           }
           let eachRow = "<tr style=text-align:center>" 
                         + "<td>" + booking.refCode + "</td>"
@@ -149,7 +149,7 @@
   }
 
   async function getFlightInfo(flightNo){
-    flightURL = `http://127.0.0.1:5001/flight/${flightNo}`
+    flightURL = `http://localhost:5001/flight/${flightNo}`
     try {
       // get flight details of departure flight
       const response =

@@ -1,0 +1,38 @@
+version: "3.2"
+services:
+    flight:
+        image: thaobui/flightapp:flight
+        tty: true
+        ports:
+          - "5001:5001"
+        expose:
+          - "5001"
+
+    passenger:
+        image: thaobui/flightapp:passenger
+        tty: true
+        ports:
+          - "5002:5002"
+        expose:
+          - "5002"
+     
+    pricing:
+        image: thaobui/flightapp:pricing
+
+        tty: true
+        ports:
+          - "5003:5003"
+        expose:
+          - "5003"
+
+    app:
+        image: thaobui/flightapp:app
+
+        tty: true
+        ports:
+          - "8000:8000"
+        expose:
+          - "8000"
+
+      
+

@@ -351,4 +351,4 @@ if __name__ == "__main__":
     # this part i still hardcoded bc need to get passenger id when logged in from frontend but frontend not up yet
     # booking = create_booking_for_notification('pid_0004')
     # send_booking(booking)
-    app.run(port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

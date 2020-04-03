@@ -221,7 +221,7 @@
     console.log(`search by flightCode(${flightCode}) and date(${date})`)
 
     try {
-      let flightURL = `http://127.0.0.1:5000/booking/filter`;
+      let flightURL = `http://localhost:5000/booking/filter`;
       // ?q={"flightCode": "${flightCode}", "date": "${date}"}
 
       const response_dep =
@@ -291,7 +291,7 @@
   async function assignSeats(refCode) {
 
     event.preventDefault(); //Prevents screen from refreshing when submitting
-    let flightURL = `http://127.0.0.1:5000/booking/assignSeat/${refCode}`;
+    let flightURL = `http://localhost:5000/booking/assignSeat/${refCode}`;
     try {
       // get flight details of departure flight
       const response_dep =

@@ -13,7 +13,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://flight_admin:6kK
 # set dbURL=mysql+mysqlconnector://root@localhost:3306/book
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 1800}
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 10,'pool_recycle': 1800}
+
+
 
 db = SQLAlchemy(app)
 CORS(app)
@@ -156,5 +158,5 @@ def get_baggageobj_by_baggage_desc(baggage_desc):
 
 
 if __name__ == "__main__":
-    app.run(port=5003, debug=True)
+    app.run(host='0.0.0.0',port=5003, debug=True)
     

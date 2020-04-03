@@ -1,0 +1,9 @@
+FROM python:3
+WORKDIR /usr/src/app
+COPY requirements.txt ./
+COPY ./static ./static
+COPY ./templates ./templates
+RUN pip install --no-cache-dir -r requirements.txt
+COPY ./passenger.py .
+CMD [ "python", "./passenger.py" ]
+
