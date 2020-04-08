@@ -135,28 +135,34 @@ def assign_seat_for_booking(refCode):
     return jsonify(booking.json()), 200 
 
 
-@app.route("/booking/filter", methods=['POST'])
-def get_booking_by_flightCode_date():
+# @app.route("/booking/filter", methods=['POST'])
+# def get_booking_by_flightCode_date():
     
-    data = request.get_json()
-    print(data)
-    flightCode = data["flightCode"]
-    date = data["date"]
-    # print(f'flightCode: {flightCode}')
-    # print(f'date: {date}')
+#     data = request.get_json()
+#     print(data)
+#     flightCode = data["flightCode"]
+#     date = data["date"]
+#     # print(f'flightCode: {flightCode}')
+#     # print(f'date: {date}')
     
+#     selected_booking = Booking.query.filter_by(flightNo=flightCode, departDate=date).all()
+#     # for b in selected_booking:
+#     #     print(b.departDate)
+#     #     print(type(b.departDate)) # <class 'datetime.date'>
+    
+#     if selected_booking:
+#         return jsonify([booking.json() for booking in selected_booking]), 200
+
+#     return jsonify([]), 201 # return empty list 
+
+#     # return jsonify({"message": "Bookings not found."}), 404
+
+@app.route("/booking/codedate/<string:flightCode>/<string:date>")
+def get_booking_by_flightcode_date(flightCode, date):
     selected_booking = Booking.query.filter_by(flightNo=flightCode, departDate=date).all()
-    # for b in selected_booking:
-    #     print(b.departDate)
-    #     print(type(b.departDate)) # <class 'datetime.date'>
-    
     if selected_booking:
         return jsonify([booking.json() for booking in selected_booking]), 200
-
     return jsonify([]), 201 # return empty list 
-
-    # return jsonify({"message": "Bookings not found."}), 404
-    
 
 @app.route("/booking/create", methods=['POST'])
 def create_booking():
@@ -289,9 +295,9 @@ def create_checkin_status(refCode):
 
     return render_template("checkin.html", refCode = refCode, status = status)
 
-@app.route("/booking/boarding/<string:refCode>", methods=['GET'])
-def get_boarding(refCode):
-    return render_template("boarding.html", refCode = refCode)
+# @app.route("/booking/boarding/<string:refCode>", methods=['GET'])
+# def get_boarding(refCode):
+#     return render_template("boarding.html", refCode = refCode)
 
 # @app.route("/manage")
 # def manage_booking(): 
@@ -306,7 +312,7 @@ COMMUNICATION TECHNOLOGIES AMQP
 '''
 
 # get booking details by booking reference code
-@app.route("/booking/message/<int:refCode>")
+# @app.route("/booking/message/<int:refCode>")
 def create_message(refCode):
     booking = Booking.query.filter_by(refCode=refCode).first()
     if booking:

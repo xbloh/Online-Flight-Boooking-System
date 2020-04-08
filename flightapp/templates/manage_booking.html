@@ -99,14 +99,13 @@
         for (const booking of bookings) {
           flightNo = booking.flightNo
           flight_info = await getFlightInfo(flightNo)
-
           departCountry = flight_info.departDest
           departCountry = codes[departCountry]
           arrivalCountry = flight_info.arrivalDest
           arrivalCountry = codes[arrivalCountry]
           var date = new Date(booking.departDate);
           var day = date.getDate();
-          var month = date.getMonth();
+          var month = date.getMonth() + 1;
           var year = date.getFullYear();
           var departDate = day + '-' + month + '-' + year
             // let arrivalCountry = airportCodes.`${booking.arrivalDest}`;

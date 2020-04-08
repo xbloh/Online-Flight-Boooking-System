@@ -122,7 +122,7 @@
         );
       const all_flight_no = await response_flight.json();
       let flight_no_list = all_flight_no.all_flight_no;
-      console.log(flight_no_list);
+      // console.log(flight_no_list);
 
       if (response_flight.ok) {
         let rows = "";
@@ -217,30 +217,37 @@
     let flightCode = document.getElementById("flightCodeDDL").value;
 
     let dateDDL = document.getElementById("dateDDL").value;
-    let date = dateToYMD(new Date(dateDDL));
+    let date = dateToYMD(new Date(dateDDL)).toString();
     console.log(`search by flightCode(${flightCode}) and date(${date})`)
 
     try {
-      let flightURL = `http://localhost:5000/booking/filter`;
-      // ?q={"flightCode": "${flightCode}", "date": "${date}"}
+      // let flightURL = `http://localhost:5000/booking/filter`;
+      // // ?q={"flightCode": "${flightCode}", "date": "${date}"}
 
+      // const response_dep =
+      //   await fetch(flightURL, {
+      //     method: 'POST'
+      //     , headers: {"Content-Type": "application/json"}
+      //     , body: JSON.stringify({
+      //       "flightCode": flightCode,
+      //       "date": date
+      //     })
+      //   });
+
+      let bookingURL = "http://localhost:5000/booking/codedate/" + flightCode + "/" + date;
       const response_dep =
-        await fetch(flightURL, {
-          method: 'POST'
-          , headers: {"Content-Type": "application/json"}
-          , body: JSON.stringify({
-            "flightCode": flightCode,
-            "date": date
-          })
-        });
+                await fetch(
+                	bookingURL, {
+                    method: 'GET'  });
+
       const booking_data = await response_dep.json();
       console.log(booking_data);
 
       let baggage_dict = await getBaggageInfos();
-      console.log(baggage_dict);
+      // console.log(baggage_dict);
 
       let meal_dict = await getMealInfos();
-      console.log(meal_dict);
+      // console.log(meal_dict);
 
       if (response_dep.ok) {
 
