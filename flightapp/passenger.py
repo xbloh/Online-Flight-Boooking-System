@@ -11,8 +11,8 @@ import requests
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://flight_admin:6kKVm7C2PHtVtgGT@esd-g7t6-rds.cs2kfkrucphj.ap-southeast-1.rds.amazonaws.com:3306/flight_passenger'
-
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://flight_admin:6kKVm7C2PHtVtgGT@esd-g7t6-rds.cs2kfkrucphj.ap-southeast-1.rds.amazonaws.com:3306/flight_passenger'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://flight_admin:6kKVm7C2PHtVtgGT@esd-g7t6.cakxlnvku8py.ap-southeast-1.rds.amazonaws.com:3306/flight_booking'
 # set dbURL=mysql+mysqlconnector://root@localhost:3306/book
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
