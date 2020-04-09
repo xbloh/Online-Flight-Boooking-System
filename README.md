@@ -1,6 +1,5 @@
 # Airline Enterprise Solution
 
-
 Our airline enterprise solution provides flight services that can be accessed through a streamlined online booking system. The microservices under our enterprise solution are Pricing, Billing, Passengers, Flight, App, Booking and Notification.
 
 ## Prerequisites
@@ -10,7 +9,7 @@ We have built requirements.txt that includes the required Python libraries to be
 pip3 install -r requirements.txt
 ```
 
-Also, ensures that MySQL workbench in installed in your local computer.
+Also, ensures that MySQL workbench in installed in the local computer.
 
 ## Access to database
 The databases of microservices are set up with AWS Relational Database Service (RDS). In order to access the databases: 
@@ -34,8 +33,48 @@ The databases of microservices are set up with AWS Relational Database Service (
 
 	![image info](./pictures/MySQLWorkbench3.png)
 
-## Run Microservices with Dockers
-The 6 microservices, including App, Pricing, Flight, Passenger, Booking and Billing are encapsulated in Docker containers. We have built and pushed the 6 docker images on Docker Hub at [here](https://hub.docker.com/r/vptv1310/flightapp). The microservices will be run on the local host. They can be pulled by using this command: 
+The 4 database schemas are flight_booking, flight_name, flight passenger and flight_pricing. 
+
+## Run the Microservices
+
+The microservices will be run on local host. 
+
+To run Flight, run this command in the command prompt windows:
+```
+python flight.py
+```
+
+To run Passenger, run this command in another command prompt windows:
+```
+python passenger.py
+```
+
+To run App, run this command in another command prompt windows:
+```
+python app.py
+```
+
+To run Booking, run this command in another command prompt windows:
+```
+python booking.py
+```
+
+To run Billing, run this command in another command prompt windows:
+```
+python billing.py
+```
+
+To run Notification, run this command in another command prompt windows:
+```
+python notification.py
+```
+
+To run Pricing, run this command in another command prompt windows:
+```
+python pricing.py
+```
+## Run the Microservices with Dockers
+The 6 microservices, including App, Pricing, Flight, Passenger, Booking and Billing, are encapsulated in Docker containers. We have built and pushed the 6 docker images on Docker Hub at [here](https://hub.docker.com/r/vptv1310/flightapp). They can be pulled by using this command: 
 ```
 docker pull vptv1310/flightapp
 ```
@@ -55,15 +94,15 @@ We make use of Jinja, a web template engine, to render the frontend web pages.
 For a complete user process to create and manage bookings, user begins by accessing the [Homepage](http://0.0.0.0:8000/about) where they can create an account or login to access the other services and webpages.
 
 All our frontend webpages can also be accessed via these links:
-* Homepage : http://0.0.0.0:8000/about
+* Homepage (About) : http://0.0.0.0:8000/about
 * Login page: http://0.0.0.0:8000/login
 * Create Account page: http://0.0.0.0:8000/create_account
 * Offline check-in page for flight admins: http://0.0.0.0:8000/admin_search
 * Cart page that shows the booking passenger chose: http://0.0.0.0:8000/cart
-* Manage booking page to view bookings and check-in online: http://0.0.0.0:8000/manage_booking
-* Search flights page to select desired flights, dates and add-ons: http://0.0.0.0:8000/search_flights.html
+* Manage booking page to view bookings and check-in online: http://0.0.0.0:8000/manage
+* Search flights page to select desired flights, dates and add-ons: http://0.0.0.0:8000/search_flights
 * Payment page via paypal: http://0.0.0.0:8000/paypal
-
+* Logout: http://0.0.0.0:8000/logout
 
 ## Authors
 * Bak Ing Sin @ingsin.bak.2017@sis.smu.edu.sg
