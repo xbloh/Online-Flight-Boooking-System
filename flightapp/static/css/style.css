@@ -1342,7 +1342,7 @@ pre {
 
 .table {
   width: 100%;
-  max-width: 100%;
+  max-width: 150%;
   margin-bottom: 1rem;
   background-color: transparent; }
   .table th,

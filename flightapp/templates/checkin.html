@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 {% block title %}Online Check in{% endblock %}
 {% block loggedin %} 
-
 <li class="nav-item"><a class="nav-link" href="http://localhost:8000/search_flights">Search Flights</a></li>
 <li class="nav-item"><a class="nav-link" href="http://localhost:8000/manage">My Bookings</a></li>
 <li class="nav-item"><a class="nav-link" href="http://localhost:8000/logout">Logout</a></li>
+{% endblock %}
 
-{% endblock %}{% block content %}
+{% block content %}
 
     
 <div class="hero-wrap js-fullheight" style="background-image: url('/static/images/image_5.jpg');">
@@ -60,11 +60,6 @@
 
 <script>
 
-
-    //     include table for boarding pass and qr code
-
-    //     replace hardcode refCode here
-
   async function getBookingData(getBookingURL) {
     try {
       var booking_response = await fetch (
@@ -81,7 +76,7 @@
         var day = date.getDate();
         var month = date.getMonth();
         var year = date.getFullYear();
-        var departDate = day + '-' + month + '-' + year;
+        var departDate = day + '.' + month + '.' + year;
         console.log(booking);
         var table_title = "<th colspan = 7> Boarding Pass</th>";
         $('#title').append(table_title);

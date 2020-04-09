@@ -1,7 +1,15 @@
 version: "3.2"
 services:
+    # booking:
+    #   image: vptv1310/flightapp:booking
+    #   tty: true
+    #   ports:
+    #     - "5000:5000"
+    #   expose:
+    #     - "5000"
+
     flight:
-        image: thaobui/flightapp:flight
+        image: vptv1310/flightapp:flight
         tty: true
         ports:
           - "5001:5001"
@@ -9,7 +17,7 @@ services:
           - "5001"
 
     passenger:
-        image: thaobui/flightapp:passenger
+        image: vptv1310/flightapp:passenger
         tty: true
         ports:
           - "5002:5002"
@@ -17,22 +25,26 @@ services:
           - "5002"
      
     pricing:
-        image: thaobui/flightapp:pricing
-
+        image: vptv1310/flightapp:pricing
         tty: true
         ports:
           - "5003:5003"
         expose:
           - "5003"
 
-    app:
-        image: thaobui/flightapp:app
+    # billing:
+    #   image: vptv1310/flightapp:billing
+    #   tty: true
+    #   ports:
+    #     - "5004:5004"
+    #   expose:
+    #     - "5004"
 
+    app:
+        image: vptv1310/flightapp:app
         tty: true
         ports:
           - "8000:8000"
         expose:
           - "8000"
-
-      
 
