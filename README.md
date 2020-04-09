@@ -116,7 +116,8 @@ Sandbox credentials (for testing purposes)
 ```
 Email: sb-axjhj1232700@personal.example.com
 Password: customer
-
+```
+```
 Email: sb-l75ic1243151@personal.example.com
 Password: customer
 ```
