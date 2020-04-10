@@ -133,8 +133,7 @@ Password: business
 ## Course and Team Information
 IS213 Enterprise Solution Development <br/>
 AY2019-2020, Term 2 <br/>
-Section 7<br/>
-Team 6
+Section 7, Team 6
 
 
 ## Authors
