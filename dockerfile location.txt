@@ -1,0 +1,1 @@
+docker file is in flightapp\Dockerfile as the microservices are there.
