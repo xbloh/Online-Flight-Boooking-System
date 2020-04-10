@@ -97,6 +97,8 @@ We have built the docker-compose.yml file. In comand prompt, navigate to the fli
 ```bash
 docker-compose up
 ```
+Flight, Passenger, Pricing and App microservices will be deployed as docker containers.
+The other microservices will still need be run on local host with the commands mentioned in the previous section.
 
 ## Access to Frontend UI
 We make use of Jinja, a web template engine, to render the frontend web pages. 
