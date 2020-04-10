@@ -23,6 +23,8 @@
             <form action="#" id='searchFlightForm'>
               <div class="fields">
                 <div class="form-group">
+                  <!--                  Previously a text field-->
+                  <!--								<input class="form-control" id='departDest' placeholder="To" type="text">-->
                   <select class="form-control" id="departDestCodeDDL">
                     <option disabled selected value="">Please Select - Flying from</option>
                   </select>
@@ -68,8 +70,20 @@
               <thead>
               <th>Flight Details</th>
               <p id="error" style="color: red"></p>
+
+              <!-- <th>Departure Destination</th>
+              <th>Arrival Destination</th>
+              <th>Departure Time</th>
+              <th>Arrival Time</th>
+              <th>Base Price</th>
+              <th>Flight Type</th> -->
               </thead>
             </table>
+            <!-- <table id="inFlightsTable" class='table table-striped'>
+              <thead>
+                <th>Inbound Flights</th>
+              </thead>
+            </table> -->
             <div class="fields">
               <h4>
                 <class
@@ -114,6 +128,12 @@
                   <div class="form-group">
                     <div class="select-wrap one-third">
                       <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                      <!-- <select class="form-control" id="baggage" name="" placeholder="Baggage">
+                        <option value="no baggage">No Baggage</option>
+                        <option value="standard">Standard (15kg)</option>
+                        <option value="add30">30kg</option>
+                        <option value="add50">50kg</option>
+                      </select> -->
 
                       <select class="form-control" id="baggageDDL">
                         <option disabled selected value="">Please Select - Baggage</option>
@@ -174,12 +194,16 @@
 
     let flightURL = "http://localhost:5001/getFlightCode";
     try {
+      console.log('try');
+      // get flight details of departure flight
       const flight =
         await fetch(
           flightURL, {method: 'GET',
+            // mode: 'same-origin'
           }
         );
       const flight_code_list = await flight.json();
+      console.log(flight_code_list);
 
       if (flight.ok) {
         let rows = "";
@@ -187,24 +211,26 @@
           eachRow = "<option value='" + flightCode.code + "'>" + flightCode.name + "</option>";
           rows += eachRow;
         }
+        // $('#departDestCodeDDL').empty();
         $('#departDestCodeDDL').append(rows);
         $('#arrivalDestCodeDDL').append(rows);
 
       } else {
-        showError(flight_code_list.message);
+        showError(data_dep.message);
+        // console.log('else');
       }
     } catch (error) {
       // Errors when calling the service; such as network error,
       // service offline, etc
       // alert('There is no internet connection, please try again later.<br />');
-      showError(error)
+      console.log("catch error");
     }
   }
   displayFlyingFromDDL();
 
 
-// Get classes, meal and baggage data for drop down list
-async function displayDDL() {
+// Get available classes and display classes as drop down list
+async function displayClassDDL() {
     let pricingURL = "http://localhost:5003/pricing";
       try {
         const price_response =
@@ -214,29 +240,15 @@ async function displayDDL() {
           );
         const price_data = await price_response.json();
         var classes = price_data.classes;
-        var meals = price_data.meals;
-        var baggages = price_data.baggages;
 
         if (price_response.ok) {
-          let rows1 = "";
+          let rows = "";
           for (const class_name of classes) {
             eachRow = "<option value='" + class_name.class_name + "'>" + class_name.class_name + "</option>";
-            rows1 += eachRow;
+            rows += eachRow;
           }
-          $('#classDDL').append(rows1);
-          let rows2 = "";
-          for (const baggage of baggages) {
-            eachRow = "<option value='" + baggage.baggage_id + "'>" + baggage.baggage_desc + "</option>";
-            rows2 += eachRow;
-          }
-          $('#baggageDDL').append(rows2);
-          let rows3 = "";
-          for (const meal of meals) {
-            eachRow = "<option value='" + meal.meal_id + "'>" + meal.meal_desc + "</option>";
-            rows3 += eachRow;
-          }
-          $('#mealDDL').append(rows3);
-
+          // $('#departDestCodeDDL').empty();
+          $('#classDDL').append(rows);
 
         } else {
           showError(price_data.message);
@@ -248,8 +260,76 @@ async function displayDDL() {
         showError(error)
       }
     }
-displayDDL();
+displayClassDDL();
 
+
+// Get available meals and display meals as drop down list
+async function displayMealDDL() {
+    let pricingURL = "http://localhost:5003/pricing";
+      try {
+        const price_response =
+          await fetch(
+            pricingURL, {method: 'GET',
+            }
+          );
+        const price_data = await price_response.json();
+        var meals = price_data.meals;
+        console.log(price_data);
+
+        if (price_response.ok) {
+          let rows = "";
+          for (const meal of meals) {
+            eachRow = "<option value='" + meal.meal_id + "'>" + meal.meal_desc + "</option>";
+            rows += eachRow;
+          }
+          // $('#departDestCodeDDL').empty();
+          $('#mealDDL').append(rows);
+
+        } else {
+          showError(price_data.message);
+        }
+      } catch (error) {
+        // Errors when calling the service; such as network error,
+        // service offline, etc
+        // alert('There is no internet connection, please try again later.<br />');
+        showError(error)
+      }
+    }
+displayMealDDL();
+
+
+// Get available meals and display meals as drop down list
+async function displayBaggageDDL() {
+    let pricingURL = "http://localhost:5003/pricing";
+      try {
+        const price_response =
+          await fetch(
+            pricingURL, {method: 'GET',
+            }
+          );
+        const price_data = await price_response.json();
+        var baggages = price_data.baggages;
+        // console.log(price_data);
+
+        if (price_response.ok) {
+          let rows = "";
+          for (const baggage of baggages) {
+            eachRow = "<option value='" + baggage.baggage_id + "'>" + baggage.baggage_desc + "</option>";
+            rows += eachRow;
+          }
+          $('#baggageDDL').append(rows);
+
+        } else {
+          showError(price_data.message);
+        }
+      } catch (error) {
+        // Errors when calling the service; such as network error,
+        // service offline, etc
+        // alert('There is no internet connection, please try again later.<br />');
+        showError(error)
+      }
+    }
+displayBaggageDDL();
 
 // search for available flights according to depart and arrival date 
 $("#searchFlightForm").submit(async (event) => {
@@ -262,9 +342,11 @@ $("#searchFlightForm").submit(async (event) => {
     //Get form data
     let departDest = document.getElementById("departDestCodeDDL").value;
     let arrivalDest = document.getElementById("arrivalDestCodeDDL").value;
+    // console.log(arrivalDest + ' --- ' + departDest);
+    // return;
 
     flightURL_dep = flightURL + departDest + '/' + arrivalDest;
-
+    // flightURL_ret = flightURL + arrivalDest + '/' + departDest;
 
     try {
       // get flight details of departure flight
@@ -310,6 +392,9 @@ $("#searchFlightForm").submit(async (event) => {
 // create booking 
   $("#createBookingForm").submit(async (event) => {
     event.preventDefault();
+    // var pid = window.location.hash.substring(pid).substring(1);
+    //Prevents screen from refreshing when submitting
+
 
     var bookingURL = "http://localhost:5000/booking/create";
     var flightURL = "http://localhost:5001/flight/";
@@ -317,16 +402,29 @@ $("#searchFlightForm").submit(async (event) => {
     //Get form data
 
     var outbound_flightNo = $(".outbound_flight").val();
-
+    // var inbound_flightNo = $(".inbound_flight").val();
+    // var class_name = $('#class_name').val();
+    // var flight_length = $('#flight_length').val();
+    // var meal_desc = $('#meal_desc').val();
     let baggageid = document.getElementById("baggageDDL").value;
     let meal_desc = document.getElementById("mealDDL").value;
     let class_type = document.getElementById("classDDL").value;
-
+    // console.log(meal_desc);
+    // console.log(baggageid);
+    // var class_type = flight_length + '_' + class_name
+    // var today = new Date();
+    // var baggage_desc = flight_length + '_' + baggage;
 
     var departDate = $('#departDate').mobiscroll('getVal');
 
-    flightURL += outbound_flightNo;
+    // window.location.href = './cart.html';
 
+
+
+    // pid=localStorage.getItem('pid');
+    // pricingURL += baggage_desc;
+    flightURL += outbound_flightNo;
+    // console.log(flightURL);
 
     try {
 
@@ -344,6 +442,29 @@ $("#searchFlightForm").submit(async (event) => {
       } else {
         showError(flightbaseprice_data.message);
       }
+      // get baggage id
+      // const baggageid_response =
+      //   await fetch(
+      //     pricingURL, {
+      //       method: 'GET'
+      //     });
+      // const baggageid_data = await baggageid_response.json();
+      // if (baggageid_response.ok) {
+      //   var baggageid = baggageid_data.baggage_id;
+      //   // localStorage.setItem('baggageid', baggageid);
+      //   // console.log(baggageid);
+      // } else {
+      //   showError(baggageid_data.message);
+      // }
+      // console.log('hihi')
+      // console.log(pid);
+      // console.log(outbound_flightNo);
+      // console.log(flightbaseprice);
+      // console.log(departDate);
+      // console.log(class_type);
+      // console.log(baggageid);
+      // console.log(meal_desc);
+
 
       const response_booking =
         await fetch(
@@ -375,7 +496,10 @@ $("#searchFlightForm").submit(async (event) => {
 
 
         window.location.href = 'cart';
+        // console.log(data_booking);
 
+        // // relocate to home page
+        // window.location.replace(homeURL);
 
       } else {
 

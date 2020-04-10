@@ -128,12 +128,6 @@ Email: sb-ln9xd1233508@business.example.com
 Password: business
 ```
 
-## Course and Team Information
-IS213 Enterprise Solution Development <br/>
-AY2019-2020, Term 2 <br/>
-Section 7<br/>
-Team 6
-
 
 ## Authors
 * Bak Ing Sin @ingsin.bak.2017@sis.smu.edu.sg
