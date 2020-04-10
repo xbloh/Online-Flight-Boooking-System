@@ -1,4 +1,8 @@
-'''
+Please kindly refer to our GitHub repository at this link to view a better visualisation of the README markdown file:
+https://github.com/esd-g7t6/esd_g7t6
+
+
+
 
 # Airline Enterprise Solution
 
@@ -133,7 +137,8 @@ Password: business
 ## Course and Team Information
 IS213 Enterprise Solution Development <br/>
 AY2019-2020, Term 2 <br/>
-Section 7, Team 6
+Section 7<br/>
+Team 6
 
 
 ## Authors
